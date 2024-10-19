@@ -8,6 +8,7 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\Usercontroller;
 use App\Http\Controllers\Admin\RolePermissionController;
+use App\Http\Controllers\Admin\SettingsController;
 
 Route::get('/', [PublicController::class, "index"])->name("home");
 
@@ -24,4 +25,7 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     
     Route::get('permissions', [RolePermissionController::class, 'index'])->name('permissions.index');
     Route::post('permissions', [RolePermissionController::class, 'update'])->name('permissions.update');
+
+    Route::get("settings", [SettingsController::class, "index"])->name("settings.index");
+    Route::post("settings", [SettingsController::class, "update"])->name("settings.update");
 });

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Setting;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -20,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $settings = Setting::all();
+        view()->share('settings', $settings);
+
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Superadmin') ? true : null;
         });

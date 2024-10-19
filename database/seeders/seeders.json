@@ -1,1 +1,1 @@
-["RoleSeeder","UserSeeder","PermissionSeeder"]
+["RoleSeeder","UserSeeder","PermissionSeeder","SettingSeeder","SiteModeSeeder"]

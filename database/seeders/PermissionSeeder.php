@@ -23,6 +23,7 @@ class PermissionSeeder extends Seeder
             "role_edit" => "Szerepkör szerkesztése",
             "role_delete" => "Szerepkör törlése",
             "role_permission" => "Szerepkörök - jogosultságok összerendelése",
+            "settings" => "Weboldal beállítások"
         ];
 
         foreach ($permissions as $name => $readable) {

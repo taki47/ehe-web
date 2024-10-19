@@ -54,36 +54,59 @@
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>Karbantartás</h3>
-                <ul class="nav side-menu">
-                  @if ( Auth::user()->can("user_index") )
-                    <li>
-                      <a href="{{ route("users.index") }}">
-                        <i class="fa-solid fa-user"></i> Felhasználók
-                      </a>
-                    </li>
-                  @endif
+				@php
+					// Ellenőrizzük a jogosultságokat
+					$canAccessUsers = Auth::user()->can("user_index") || Auth::user()->can("role_index") || Auth::user()->can("role_permission");
+					$canAccessSettings = Auth::user()->can("settings");
+				@endphp
 
-                  @if ( Auth::user()->can("role_index") )
-                    <li>
-                      <a href="{{ route("roles.index") }}">
-                        <i class="fa-solid fa-section"></i> Szerepkörök
-                      </a>
-                    </li>
-                  @endif
-                  
-                  @if ( Auth::user()->can("role_permission") )
-                    <li>
-                      <a href="{{ route("permissions.index") }}">
-                        <i class="fa-solid fa-link"></i> Jogosultságok-Szerepkörök
-                      </a>
-                    </li>
-                  @endif
-                </ul>
-              </div>
-            </div>
-            <!-- /sidebar menu -->
+				@if ($canAccessUsers)
+					<div class="menu_section">
+						<h3>Felhasználók</h3>
+						<ul class="nav side-menu">
+						@if ( Auth::user()->can("user_index") )
+							<li>
+							<a href="{{ route("users.index") }}">
+								<i class="fa-solid fa-user"></i> Felhasználók
+							</a>
+							</li>
+						@endif
+
+						@if ( Auth::user()->can("role_index") )
+							<li>
+							<a href="{{ route("roles.index") }}">
+								<i class="fa-solid fa-section"></i> Szerepkörök
+							</a>
+							</li>
+						@endif
+						
+						@if ( Auth::user()->can("role_permission") )
+							<li>
+							<a href="{{ route("permissions.index") }}">
+								<i class="fa-solid fa-link"></i> Jogosultságok-Szerepkörök
+							</a>
+							</li>
+						@endif
+						</ul>
+					</div>
+				@endif
+
+				@if ($canAccessSettings)
+					<div class="menu_section">
+						<h3>Karbantartás</h3>
+						<ul class="nav side-menu">
+						@if ( Auth::user()->can("settings") )
+							<li>
+							<a href="{{ route("settings.index") }}">
+								<i class="fa-solid fa-globe"></i> Weboldal beállítások
+							</a>
+							</li>
+						@endif
+						</ul>
+					</div>
+				@endif
+			</div>
+      		<!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">

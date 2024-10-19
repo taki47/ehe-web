@@ -84,145 +84,147 @@
 		<!-- / logo, login -->
 
 		<!-- slider -->
-		<section id="slider" class="slider-element revslider-wrap h-auto">
-			<div class="rev_slider_wrapper" style="width: 100%;margin: 0 auto; background:#000;padding:0px;margin-top:0px;margin-bottom:0px;">
+		@if ( $settings[3]->value=="1" )
+			<section id="slider" class="slider-element revslider-wrap h-auto">
+				<div class="rev_slider_wrapper" style="width: 100%;margin: 0 auto; background:#000;padding:0px;margin-top:0px;margin-bottom:0px;">
 
-				<div id="bannerSlider" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.1">
-					<ul>
-						<li>
-							<img src="/images/banners/banner1.jpg" alt="Image">
+					<div id="bannerSlider" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.1">
+						<ul>
+							<li>
+								<img src="/images/banners/banner1.jpg" alt="Image">
 
-							<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
-								data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
-								data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
-								data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-								data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-								data-paddingleft="[0,0,0,0]"
-								style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
-								
-								Emlékek - 70 pillanat
-							</a>
+								<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
+									data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
+									data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
+									data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
+									data-paddingleft="[0,0,0,0]"
+									style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
+									
+									Emlékek - 70 pillanat
+								</a>
 
-							<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
-								data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
-								data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
-								data-type="text" data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-								data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-								data-paddingleft="[0,0,0,0]"
-								style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
-								Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
-							</div>
+								<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
+									data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
+									data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
+									data-type="text" data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
+									data-paddingleft="[0,0,0,0]"
+									style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
+									Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
+								</div>
 
-							<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
-								data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
-								data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']"
-								style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
-								Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
-							</div>
-						</li>
+								<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
+									data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
+									data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']"
+									style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
+									Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
+								</div>
+							</li>
 
-						<li>
-							<img src="/images/banners/banner2.jpg" alt="Image">
+							<li>
+								<img src="/images/banners/banner2.jpg" alt="Image">
 
-							<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
-								data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
-								data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
-								data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-								data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-								data-paddingleft="[0,0,0,0]"
-								style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
-								Emlékek - 70 pillanat
-							</a>
+								<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
+									data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
+									data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
+									data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
+									data-paddingleft="[0,0,0,0]"
+									style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
+									Emlékek - 70 pillanat
+								</a>
 
-							<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
-								data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
-								data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
-								data-type="text" data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-								data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-								data-paddingleft="[0,0,0,0]"
-								style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
-								Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
-							</div>
+								<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
+									data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
+									data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
+									data-type="text" data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
+									data-paddingleft="[0,0,0,0]"
+									style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
+									Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
+								</div>
 
-							<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
-								data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
-								data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']"
-								style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
-								Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
-							</div>
-						</li>
+								<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
+									data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
+									data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']"
+									style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
+									Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
+								</div>
+							</li>
 
-						<li>
-							<img src="/images/banners/banner3.jpg" alt="Image">
+							<li>
+								<img src="/images/banners/banner3.jpg" alt="Image">
 
-							<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
-								data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
-								data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
-								data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-								data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-								data-paddingleft="[0,0,0,0]"
-								style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
-								Emlékek - 70 pillanat
-							</a>
+								<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
+									data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
+									data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
+									data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
+									data-paddingleft="[0,0,0,0]"
+									style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
+									Emlékek - 70 pillanat
+								</a>
 
-							<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
-								data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
-								data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
-								data-type="text" data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-								data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-								data-paddingleft="[0,0,0,0]"
-								style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
-								Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
-							</div>
+								<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
+									data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
+									data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
+									data-type="text" data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
+									data-paddingleft="[0,0,0,0]"
+									style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
+									Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
+								</div>
 
-							<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
-								data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-								data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
-								data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
-								data-basealign="slide" data-responsive_offset="on"
-								data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-								data-textAlign="['left','left','left','left']"
-								style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
-								Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
-							</div>
-						</li>
-					</ul>
-					<div class="tp-bannertimer" style="height: 8px; background: rgba(255,255,255,0.25);"></div>
+								<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
+									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
+									data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
+									data-basealign="slide" data-responsive_offset="on"
+									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+									data-textAlign="['left','left','left','left']"
+									style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
+									Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
+								</div>
+							</li>
+						</ul>
+						<div class="tp-bannertimer" style="height: 8px; background: rgba(255,255,255,0.25);"></div>
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		@endif
 		<!-- / slider -->
 
 		<!-- tiles -->
@@ -853,202 +855,204 @@
 
 
 					<!-- külföldi hírek -->
-					<div class="row clearfix">
-						<div class="col-lg-12">
-							<nav class="navbar navbar-expand-lg navbar-light p-0">
-								<h4 class="mb-0 pe-2 ls1 text-uppercase fw-bold">Külföldi hírek</h4>
-								<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#foreignNewsCategories" aria-controls="foreignNewsCategories" aria-expanded="false" aria-label="Toggle navigation">
-									<i class="icon-line-menu"></i>
-								</button>
+					@if ( $settings[1]->value=="1" )
+						<div class="row clearfix">
+							<div class="col-lg-12">
+								<nav class="navbar navbar-expand-lg navbar-light p-0">
+									<h4 class="mb-0 pe-2 ls1 text-uppercase fw-bold">Külföldi hírek</h4>
+									<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#foreignNewsCategories" aria-controls="foreignNewsCategories" aria-expanded="false" aria-label="Toggle navigation">
+										<i class="icon-line-menu"></i>
+									</button>
 
-								<div class="collapse navbar-collapse justify-content-between" id="foreignNewsCategories">
-									<div></div>
-									<ul class="nav nav-sm navbar-nav me-md-auto me-lg-0 mt-2 mt-lg-0 align-self-end"
-										role="tablist">
-										<li class="nav-item">
-											<a class="nav-link bg-color-travel active" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="true">Kategória 1</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link bg-color-food" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 2</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link bg-color-sports" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 3</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link bg-color-fashion" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 4</a>
-										</li>
-									</ul>
-								</div>
-							</nav>
-							<div class="line line-xs line-home"></div>
+									<div class="collapse navbar-collapse justify-content-between" id="foreignNewsCategories">
+										<div></div>
+										<ul class="nav nav-sm navbar-nav me-md-auto me-lg-0 mt-2 mt-lg-0 align-self-end"
+											role="tablist">
+											<li class="nav-item">
+												<a class="nav-link bg-color-travel active" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="true">Kategória 1</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link bg-color-food" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 2</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link bg-color-sports" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 3</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link bg-color-fashion" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 4</a>
+											</li>
+										</ul>
+									</div>
+								</nav>
+								<div class="line line-xs line-home"></div>
 
-							<div class="tab-content" id="nav-tabContent">
-								<div class="tab-pane fade show active" id="nav-kategoria" role="tabpanel" aria-labelledby="nav-outdoor-tab">
-									<div class="row col-mb-30 mb-0">
-										<div class="col-lg-6">
-											<div class="posts-md">
-												<div class="entry">
-													<div class="entry-image">
-														<a href="/">
-															<img src="/images/news/travel/3.jpg" alt="Image 3"></a>
-														<div class="entry-categories">
-															<a href="demo-news-category.html" class="bg-travel">Kategória</a></div>
-													</div>
-													<div class="entry-title nott">
-														<h3 class="mb-2">
+								<div class="tab-content" id="nav-tabContent">
+									<div class="tab-pane fade show active" id="nav-kategoria" role="tabpanel" aria-labelledby="nav-outdoor-tab">
+										<div class="row col-mb-30 mb-0">
+											<div class="col-lg-6">
+												<div class="posts-md">
+													<div class="entry">
+														<div class="entry-image">
 															<a href="/">
-																Lorem Ipsum
-															</a>
-														</h3>
-													</div>
-													<div class="entry-meta">
-														<ul>
-															<li><a href="#">Bajkó Róbert</a></li>
-															<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-														</ul>
-													</div>
-													<div class="entry-content clearfix">
-														<p>
-															Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum elementum dui eget gravida. Curabitur erat augue, aliquet hendrerit nulla et, luctus ultricies elit.
-														</p>
+																<img src="/images/news/travel/3.jpg" alt="Image 3"></a>
+															<div class="entry-categories">
+																<a href="demo-news-category.html" class="bg-travel">Kategória</a></div>
+														</div>
+														<div class="entry-title nott">
+															<h3 class="mb-2">
+																<a href="/">
+																	Lorem Ipsum
+																</a>
+															</h3>
+														</div>
+														<div class="entry-meta">
+															<ul>
+																<li><a href="#">Bajkó Róbert</a></li>
+																<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
+															</ul>
+														</div>
+														<div class="entry-content clearfix">
+															<p>
+																Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum elementum dui eget gravida. Curabitur erat augue, aliquet hendrerit nulla et, luctus ultricies elit.
+															</p>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-lg-6">
-											<div class="posts-sm row col-mb-30">
-												<div class="entry col-12">
-													<div class="grid-inner row align-items-center g-0">
-														<div class="col-auto">
-															<div class="entry-image">
-																<a href="/">
-																	<img src="/images/news/travel/small/1.jpg" alt="Image">
-																</a>
-															</div>
-														</div>
-														<div class="col ps-3">
-															<div class="entry-title">
-																<h4>
+											<div class="col-lg-6">
+												<div class="posts-sm row col-mb-30">
+													<div class="entry col-12">
+														<div class="grid-inner row align-items-center g-0">
+															<div class="col-auto">
+																<div class="entry-image">
 																	<a href="/">
-																		Lorem ipsum
+																		<img src="/images/news/travel/small/1.jpg" alt="Image">
 																	</a>
-																</h4>
+																</div>
 															</div>
-															<div class="entry-meta">
-																<ul>
-																	<li><a href="/">Bajkó Róbert</a></li>
-																	<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-																</ul>
+															<div class="col ps-3">
+																<div class="entry-title">
+																	<h4>
+																		<a href="/">
+																			Lorem ipsum
+																		</a>
+																	</h4>
+																</div>
+																<div class="entry-meta">
+																	<ul>
+																		<li><a href="/">Bajkó Róbert</a></li>
+																		<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
+																	</ul>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												<div class="entry col-12">
-													<div class="grid-inner row align-items-center g-0">
-														<div class="col-auto">
-															<div class="entry-image">
-																<a href="/">
-																	<img src="/images/news/travel/small/2.jpg" alt="Image">
-																</a>
-															</div>
-														</div>
-														<div class="col ps-3">
-															<div class="entry-title">
-																<h4>
+													<div class="entry col-12">
+														<div class="grid-inner row align-items-center g-0">
+															<div class="col-auto">
+																<div class="entry-image">
 																	<a href="/">
-																		Lorem ipsum
+																		<img src="/images/news/travel/small/2.jpg" alt="Image">
 																	</a>
-																</h4>
+																</div>
 															</div>
-															<div class="entry-meta">
-																<ul>
-																	<li><a href="/">Bajkó Róbert</a></li>
-																	<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-																</ul>
+															<div class="col ps-3">
+																<div class="entry-title">
+																	<h4>
+																		<a href="/">
+																			Lorem ipsum
+																		</a>
+																	</h4>
+																</div>
+																<div class="entry-meta">
+																	<ul>
+																		<li><a href="/">Bajkó Róbert</a></li>
+																		<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
+																	</ul>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												<div class="entry col-12">
-													<div class="grid-inner row align-items-center g-0">
-														<div class="col-auto">
-															<div class="entry-image">
-																<a href="/">
-																	<img src="/images/news/travel/small/3.jpg" alt="Image">
-																</a>
-															</div>
-														</div>
-														<div class="col ps-3">
-															<div class="entry-title">
-																<h4>
+													<div class="entry col-12">
+														<div class="grid-inner row align-items-center g-0">
+															<div class="col-auto">
+																<div class="entry-image">
 																	<a href="/">
-																		Lorem ipsum
+																		<img src="/images/news/travel/small/3.jpg" alt="Image">
 																	</a>
-																</h4>
+																</div>
 															</div>
-															<div class="entry-meta">
-																<ul>
-																	<li><a href="/">Bajkó Róbert</a></li>
-																	<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-																</ul>
+															<div class="col ps-3">
+																<div class="entry-title">
+																	<h4>
+																		<a href="/">
+																			Lorem ipsum
+																		</a>
+																	</h4>
+																</div>
+																<div class="entry-meta">
+																	<ul>
+																		<li><a href="/">Bajkó Róbert</a></li>
+																		<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
+																	</ul>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												<div class="entry col-12">
-													<div class="grid-inner row align-items-center g-0">
-														<div class="col-auto">
-															<div class="entry-image">
-																<a href="/">
-																	<img src="/images/news/travel/small/4.jpg" alt="Image">
-																</a>
-															</div>
-														</div>
-														<div class="col ps-3">
-															<div class="entry-title">
-																<h4>
+													<div class="entry col-12">
+														<div class="grid-inner row align-items-center g-0">
+															<div class="col-auto">
+																<div class="entry-image">
 																	<a href="/">
-																		Lorem ipsum
+																		<img src="/images/news/travel/small/4.jpg" alt="Image">
 																	</a>
-																</h4>
+																</div>
 															</div>
-															<div class="entry-meta">
-																<ul>
-																	<li><a href="/">Bajkó Róbert</a></li>
-																	<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-																</ul>
+															<div class="col ps-3">
+																<div class="entry-title">
+																	<h4>
+																		<a href="/">
+																			Lorem ipsum
+																		</a>
+																	</h4>
+																</div>
+																<div class="entry-meta">
+																	<ul>
+																		<li><a href="/">Bajkó Róbert</a></li>
+																		<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
+																	</ul>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												<div class="entry col-12">
-													<div class="grid-inner row align-items-center g-0">
-														<div class="col-auto">
-															<div class="entry-image">
-																<a href="/">
-																	<img src="/images/news/market/small/3.jpg" alt="Image">
-																</a>
-															</div>
-														</div>
-														<div class="col ps-3">
-															<div class="entry-title">
-																<h4>
+													<div class="entry col-12">
+														<div class="grid-inner row align-items-center g-0">
+															<div class="col-auto">
+																<div class="entry-image">
 																	<a href="/">
-																		Lorem ipsum
+																		<img src="/images/news/market/small/3.jpg" alt="Image">
 																	</a>
-																</h4>
+																</div>
 															</div>
-															<div class="entry-meta">
-																<ul>
-																	<li><a href="/">Bajkó Róbert</a></li>
-																	<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-																</ul>
+															<div class="col ps-3">
+																<div class="entry-title">
+																	<h4>
+																		<a href="/">
+																			Lorem ipsum
+																		</a>
+																	</h4>
+																</div>
+																<div class="entry-meta">
+																	<ul>
+																		<li><a href="/">Bajkó Róbert</a></li>
+																		<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
+																	</ul>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												<div class="entry col-12">
-													<a href="/" class="btn btn-secondary">További külföldi hírek >></a>
+													<div class="entry col-12">
+														<a href="/" class="btn btn-secondary">További külföldi hírek >></a>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -1056,7 +1060,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					@endif
 					<!-- / külföldi hírek -->
 
 					<!-- támogatóink -->
@@ -1116,59 +1120,61 @@
 					<!-- / támogatóink -->
 
 					<!-- partnereink -->
-					<div class="row clearfix">
-						<div class="col-lg-12">
-							<nav class="navbar navbar-expand-lg navbar-light p-0">
-								<h4 class="mb-0 pe-2 ls1 text-uppercase fw-bold">Partnereink</h4>
-							</nav>
-							<div class="line line-xs line-lifestyle"></div>
+					@if ( $settings[2]->value=="1" )
+						<div class="row clearfix">
+							<div class="col-lg-12">
+								<nav class="navbar navbar-expand-lg navbar-light p-0">
+									<h4 class="mb-0 pe-2 ls1 text-uppercase fw-bold">Partnereink</h4>
+								</nav>
+								<div class="line line-xs line-lifestyle"></div>
 
-							<div class="tab-content" id="nav-tabContent">
-								<div class="tab-pane fade show active" id="nav-kategoria" role="tabpanel" aria-labelledby="nav-outdoor-tab">
-									<div class="row col-mb-30 mb-0">
-										<div class="col-12 partners">
-											<div class="partner">
-												<img src="/images/partners/debreceni-egyetem.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/gwp.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/icid.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/mate.png" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/mht.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/mta.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/debreceni-egyetem.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/gwp.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/icid.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/mate.png" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/mht.jpg" class="img-fluid">
-											</div>
-											<div class="partner">
-												<img src="/images/partners/mta.jpg" class="img-fluid">
+								<div class="tab-content" id="nav-tabContent">
+									<div class="tab-pane fade show active" id="nav-kategoria" role="tabpanel" aria-labelledby="nav-outdoor-tab">
+										<div class="row col-mb-30 mb-0">
+											<div class="col-12 partners">
+												<div class="partner">
+													<img src="/images/partners/debreceni-egyetem.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/gwp.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/icid.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/mate.png" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/mht.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/mta.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/debreceni-egyetem.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/gwp.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/icid.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/mate.png" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/mht.jpg" class="img-fluid">
+												</div>
+												<div class="partner">
+													<img src="/images/partners/mta.jpg" class="img-fluid">
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					@endif
 					<!-- / partnereink -->
 				</div>
 			</div>

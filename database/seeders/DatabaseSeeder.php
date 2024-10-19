@@ -28,7 +28,10 @@ class DatabaseSeeder extends Seeder
         $this->disableForeignKeys();
 
         $this->truncateTables([
-            'users'
+            'users',
+            'permissions',
+            'roles',
+            'settings'
         ]);
 
         $seeders = json_decode(File::get("database/seeders/seeders.json"));
