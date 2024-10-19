@@ -57,16 +57,29 @@
               <div class="menu_section">
                 <h3>Karbantartás</h3>
                 <ul class="nav side-menu">
-                  <li>
-                    <a href="{{ route("users.index") }}">
-                      <i class="fa-solid fa-user"></i> Felhasználók
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{{ route("roles.index") }}">
-                      <i class="fa-solid fa-section"></i> Szerepkörök
-                    </a>
-                  </li>
+                  @if ( Auth::user()->can("user_index") )
+                    <li>
+                      <a href="{{ route("users.index") }}">
+                        <i class="fa-solid fa-user"></i> Felhasználók
+                      </a>
+                    </li>
+                  @endif
+
+                  @if ( Auth::user()->can("role_index") )
+                    <li>
+                      <a href="{{ route("roles.index") }}">
+                        <i class="fa-solid fa-section"></i> Szerepkörök
+                      </a>
+                    </li>
+                  @endif
+                  
+                  @if ( Auth::user()->can("role_permission") )
+                    <li>
+                      <a href="{{ route("permissions.index") }}">
+                        <i class="fa-solid fa-link"></i> Jogosultságok-Szerepkörök
+                      </a>
+                    </li>
+                  @endif
                 </ul>
               </div>
             </div>

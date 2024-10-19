@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
 class Usercontroller extends Controller
@@ -20,6 +21,9 @@ class Usercontroller extends Controller
      */
     public function index()
     {
+        if ( !Auth::user()->can("user_index") )
+            abort(403);
+        
         $users = User::all();
 
         return view("Admin.Users.index")
@@ -31,7 +35,10 @@ class Usercontroller extends Controller
      */
     public function create()
     {
-        $roles = Role::orderBy("name")->get();
+        if ( !Auth::user()->can("user_create") )
+            abort(403);
+
+        $roles = Role::orderBy("id")->get();
 
         return view("Admin.Users.create")
             ->with("roles", $roles);
@@ -78,8 +85,11 @@ class Usercontroller extends Controller
      */
     public function edit(string $id)
     {
+        if ( !Auth::user()->can("user_edit") )
+            abort(403);
+
         $user = User::findOrFail($id);
-        $roles = Role::orderBy("name")->get();
+        $roles = Role::orderBy("id")->get();
 
         return view("Admin.Users.edit")
             ->with("user", $user)
@@ -144,7 +154,15 @@ class Usercontroller extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if ( !Auth::user()->can("user_delete") )
+            abort(403);
+
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        Helper::log("User", "DELETE", $id, "Törlés");
+
+        return redirect()->route("users.index")->with("success", "A felhasználó törlése sikerült!");
     }
 
     function show() {

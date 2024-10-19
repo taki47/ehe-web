@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RoleSeeder extends Seeder
@@ -19,7 +19,7 @@ class RoleSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'name' => 'Adminisztrátor',
+                'name' => 'Superadmin',
                 'guard_name' => 'web',
                 'created_at' => '2024-06-03 0:00:00',
                 'updated_at' => '2024-06-03 0:00:00',
@@ -27,6 +27,14 @@ class RoleSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
+                'name' => 'Adminisztrátor',
+                'guard_name' => 'web',
+                'created_at' => '2024-06-03 0:00:00',
+                'updated_at' => '2024-06-03 0:00:00',
+            ),
+            2 => 
+            array (
+                'id' => 3,
                 'name' => 'Kezelő',
                 'guard_name' => 'web',
                 'created_at' => '2024-06-03 0:00:00',

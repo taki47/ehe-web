@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 
@@ -18,7 +19,10 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderBy("name")->get();
+        if ( !Auth::user()->can("role_index") )
+            abort(403);
+        
+        $roles = Role::where("id", ">", 1)->orderBy("id")->get();
 
         return view("Admin.Roles.index")
             ->with("roles", $roles);
@@ -29,6 +33,9 @@ class RoleController extends Controller
      */
     public function create()
     {
+        if ( !Auth::user()->can("role_create") )
+            abort(403);
+        
         return view("Admin.Roles.create");
     }
 
@@ -77,6 +84,9 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
+        if ( !Auth::user()->can("role_edit") )
+            abort(403);
+
         $role = Role::findOrFail($id);
 
         return view("Admin.Roles.edit")

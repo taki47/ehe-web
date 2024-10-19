@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\Usercontroller;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\Usercontroller;
+use App\Http\Controllers\Admin\RolePermissionController;
 
 Route::get('/', [PublicController::class, "index"])->name("home");
 
@@ -20,4 +21,7 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
 
     Route::resource("users", Usercontroller::class);
     Route::resource("roles", RoleController::class);
+    
+    Route::get('permissions', [RolePermissionController::class, 'index'])->name('permissions.index');
+    Route::post('permissions', [RolePermissionController::class, 'update'])->name('permissions.update');
 });

@@ -11,6 +11,8 @@ use App\Models\ModelHasRole;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Models\Role as ModelsRole;
 
 /**
  * Class Role
@@ -26,9 +28,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @package App\Models
  */
-class Role extends Model
+class Role extends ModelsRole
 {
-	use HasFactory;
+	use HasFactory, SoftDeletes;
 	
 	protected $table = 'roles';
 
@@ -40,10 +42,5 @@ class Role extends Model
 	public function model_has_roles()
 	{
 		return $this->hasMany(ModelHasRole::class);
-	}
-
-	public function permissions()
-	{
-		return $this->belongsToMany(Permission::class, 'role_has_permissions');
 	}
 }
