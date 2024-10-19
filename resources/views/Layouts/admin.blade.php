@@ -62,6 +62,11 @@
                       <i class="fa-solid fa-user"></i> Felhasználók
                     </a>
                   </li>
+                  <li>
+                    <a href="{{ route("roles.index") }}">
+                      <i class="fa-solid fa-section"></i> Szerepkörök
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>

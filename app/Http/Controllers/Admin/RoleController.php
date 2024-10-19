@@ -3,27 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helper;
-use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserRequest;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
 
-class Usercontroller extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::all();
+        $roles = Role::orderBy("name")->get();
 
-        return view("Admin.Users.index")
-            ->with("users", $users);
+        return view("Admin.Roles.index")
+            ->with("roles", $roles);
     }
 
     /**
@@ -31,33 +29,26 @@ class Usercontroller extends Controller
      */
     public function create()
     {
-        $roles = Role::orderBy("name")->get();
-
-        return view("Admin.Users.create")
-            ->with("roles", $roles);
+        return view("Admin.Roles.create");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreRoleRequest $request)
     {
         try {
             // Begin a database transaction
             DB::beginTransaction();
 
             // Insert data into the resources table
-            $userId = DB::table('users')->insertGetId([
+            $roleId = DB::table('roles')->insertGetId([
                 'name' => $request->name,
-                'password' => Hash::make($request->password)
+                'guard_name' => "web"
             ]);
 
-            // role
-            $user = User::find($userId);
-            $user->syncRoles($request->role);
-
             // Log the creation of the resource
-            Helper::log("User", "CREATE", $userId, "Létrehozás");
+            Helper::log("Role", "CREATE", $roleId, "Létrehozás");
 
             // Commit the transaction if everything is successful
             DB::commit();
@@ -70,7 +61,15 @@ class Usercontroller extends Controller
             return back()->withErrors('Hiba történt adatbázis művelet során! Részletek a laravel.log fájlban')->withInput();
         }
 
-        return redirect()->route("users.index")->with("success", "A felhasználó létrehozása sikerült!");
+        return redirect()->route("roles.index")->with("success", "A szerepkör létrehozása sikerült!");
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
     }
 
     /**
@@ -78,20 +77,18 @@ class Usercontroller extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
-        $roles = Role::orderBy("name")->get();
+        $role = Role::findOrFail($id);
 
-        return view("Admin.Users.edit")
-            ->with("user", $user)
-            ->with("roles", $roles);
+        return view("Admin.Roles.edit")
+            ->with("role", $role);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, string $id)
+    public function update(UpdateRoleRequest $request, string $id)
     {
-        $user = User::findOrFail($id);
+        $role = Role::findOrFail($id);
         $log = [];
         $updateData = [];
 
@@ -99,29 +96,15 @@ class Usercontroller extends Controller
             // Begin a database transaction
             DB::beginTransaction();
 
-            if ( $user->name != $request->name ) {
-                $log[] = "Név: ".$user->name." -> ".$request->name;
+            if ( $role->name != $request->name ) {
+                $log[] = "Név: ".$role->name." -> ".$request->name;
                 $updateData["name"] = $request->name;
             }
 
-            if ( $request->password!="" ) {
-                $log[] = "Jelszó változtatás";
-                $updateData["password"] = Hash::make($request->password);
-            }
+            if ( !empty($updateData) ) {
+                DB::table('roles')->where('id', $id)->update($updateData);
             
-            // roles
-            $currentRoles = $user->getRoleNames();
-            $user->syncRoles($request->role);
-            $newRoles = $request->role;
-            if ($currentRoles != $newRoles)
-                $log[] = "Szerepkör módosítás";
-
-
-            if ( !empty($updateData) )
-                DB::table('users')->where('id', $id)->update($updateData);
-            
-            if ( !empty($log) ) {
-                Helper::log("User", "MODIFY", $id, json_encode($log));
+                Helper::log("Role", "MODIFY", $id, json_encode($log));
                 Helper::flushPermissionCache();
             }
 
@@ -136,7 +119,7 @@ class Usercontroller extends Controller
             return back()->withErrors('Hiba történt adatbázis művelet során! Részletek a laravel.log fájlban')->withInput();
         }
 
-        return redirect()->route("users.index")->with("success", "A felhasználó módosítása sikerült!");
+        return redirect()->route("roles.index")->with("success", "A szerepkör módosítása sikerült!");
     }
 
     /**
@@ -145,9 +128,5 @@ class Usercontroller extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    function show() {
-        
     }
 }
