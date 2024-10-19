@@ -13,7 +13,7 @@
     <!-- Bootstrap -->
     <link href="/assets/admin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="/assets/admin/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/fontawesome/css/all.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="/assets/admin/vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
@@ -55,14 +55,12 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>General</h3>
+                <h3>Karbantartás</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="index.html">Dashboard</a></li>
-                      <li><a href="index2.html">Dashboard2</a></li>
-                      <li><a href="index3.html">Dashboard3</a></li>
-                    </ul>
+                  <li>
+                    <a href="{{ route("users.index") }}">
+                      <i class="fa-solid fa-user"></i> Felhasználók
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -80,7 +78,7 @@
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route("logout") }}">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -101,7 +99,7 @@
                     {{ Auth::user()->name }}
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item"  href="">
+                      <a class="dropdown-item"  href="{{ route("logout") }}">
                         <span>Kijelentkezés</span>
                       </a>
                   </div>
@@ -174,7 +172,8 @@
     <!-- bootstrap-daterangepicker -->
     <script src="/assets/admin/vendors/moment/min/moment.min.js"></script>
     <script src="/assets/admin/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+    <!-- fontawesome -->
+    <script src="/assets/fontawesome/js/all.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/assets/admin/js/custom.min.js"></script>
 	

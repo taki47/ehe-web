@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Usercontroller;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
@@ -15,4 +16,6 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     Route::get('/logout', [AuthController::class, "logout"])->name("logout");
 
     Route::get('/', [AdminController::class, "dashboard"])->name("admin.dashboard");
+
+    Route::resource("users", Usercontroller::class);
 });
