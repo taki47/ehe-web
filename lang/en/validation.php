@@ -141,8 +141,10 @@ return [
     */
 
     'attributes' => [
-        'name'     => 'név',
-        'password' => 'jelszó',
-        'role' => "Szerepkör"
+        'name'     => 'Név',
+        'password' => 'Jelszó',
+        'role' => 'Szerepkör',
+        'flag' => 'Zászló',
+        'lang_code' => 'Nyelv kód',
     ],
 ];

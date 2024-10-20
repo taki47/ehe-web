@@ -23,7 +23,11 @@ class PermissionSeeder extends Seeder
             "role_edit" => "Szerepkör szerkesztése",
             "role_delete" => "Szerepkör törlése",
             "role_permission" => "Szerepkörök - jogosultságok összerendelése",
-            "settings" => "Weboldal beállítások"
+            "settings" => "Weboldal beállítások",
+            "language_index" => "Nyelvek listázása",
+            "language_create" => "Nyelvek létrehozása",
+            "language_edit" => "Nyelvek szerkesztése",
+            "language_delete" => "Nyelvek törlése",
         ];
 
         foreach ($permissions as $name => $readable) {

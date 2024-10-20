@@ -58,6 +58,7 @@
 					// Ellenőrizzük a jogosultságokat
 					$canAccessUsers = Auth::user()->can("user_index") || Auth::user()->can("role_index") || Auth::user()->can("role_permission");
 					$canAccessSettings = Auth::user()->can("settings");
+					$canAccessLanguages = Auth::user()->can("language_index");
 				@endphp
 
 				@if ($canAccessUsers)
@@ -91,17 +92,25 @@
 					</div>
 				@endif
 
-				@if ($canAccessSettings)
+				@if ($canAccessSettings || $canAccessLanguages)
 					<div class="menu_section">
 						<h3>Karbantartás</h3>
 						<ul class="nav side-menu">
-						@if ( Auth::user()->can("settings") )
-							<li>
-							<a href="{{ route("settings.index") }}">
-								<i class="fa-solid fa-globe"></i> Weboldal beállítások
-							</a>
-							</li>
-						@endif
+              @if ( Auth::user()->can("language_index") )
+                <li>
+                  <a href="{{ route("languages.index") }}">
+                    <i class="fa-solid fa-flag"></i> Nyelvek
+                  </a>
+                </li>
+						  @endif
+              
+              @if ( Auth::user()->can("settings") )
+                <li>
+                  <a href="{{ route("settings.index") }}">
+                    <i class="fa-solid fa-globe"></i> Weboldal beállítások
+                  </a>
+                </li>
+              @endif
 						</ul>
 					</div>
 				@endif

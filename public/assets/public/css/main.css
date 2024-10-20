@@ -106,11 +106,6 @@
     cursor: pointer;
 }
 
-.dropbtn img, .dropdown-content img {
-    height:20px;
-    width: 50px;
-}
-
 .dropdown-content {
     display: none;
     position: absolute;
@@ -132,7 +127,7 @@
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
+    display: flex; flex-direction: column; align-items: flex-start;
 }
 
 .events-row .card {

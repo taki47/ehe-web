@@ -18,21 +18,21 @@ class UserSeeder extends Seeder
         DB::table('users')->delete();
 
         $user = new User();
-        $user->name = "admin";
+        $user->name = "Taki";
         $user->password = Hash::make("1");
+        $user->save();
+        $user->assignRole("Superadmin");
+
+        $user = new User();
+        $user->name = "admin";
+        $user->password = Hash::make("2");
         $user->save();
         $user->assignRole("Adminisztrátor");
 
         $user = new User();
         $user->name = "kezelő";
-        $user->password = Hash::make("1");
+        $user->password = Hash::make("3");
         $user->save();
         $user->assignRole("Kezelő");
-
-        $user = new User();
-        $user->name = "Taki";
-        $user->password = Hash::make("2");
-        $user->save();
-        $user->assignRole("Superadmin");
     }
 }

@@ -1,12 +1,8 @@
 <?php
 
 namespace App;
-use Carbon\Carbon;
 use App\Models\Log;
-use Illuminate\Support\Str;
-use App\Http\Resources\LogResource;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\AttributeResource;
 
 class Helper {
     public static function checkPermission($permissionName) {

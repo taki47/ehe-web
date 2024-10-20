@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckMaintenanceMode;
+use App\Http\Middleware\LocaleMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,7 +17,12 @@ return Application::configure(basePath: dirname(__DIR__))
             "checkUser" => \App\Http\Middleware\checkUser::class
         ]);
 
-        $middleware->append(CheckMaintenanceMode::class);
+        $middleware->appendToGroup("web",
+            [
+                CheckMaintenanceMode::class,
+                LocaleMiddleware::class,
+            ]
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

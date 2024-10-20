@@ -65,12 +65,15 @@
 									<div class="col-12 col-md-4 lang">
 										<div class="dropdown">
 											<button class="dropbtn">
-												<img src="/images/flags/hu.png" class="img-fluid">
+												@php
+													$currentLanguage = $languages->firstWhere('lang_code', app()->getLocale());
+												@endphp
+												<img src="/images/flags/{{ $currentLanguage->flag }}">
 											</button>
 											<div class="dropdown-content">
-												<a href="/"><img src="/images/flags/hu.png" class="img-fluid"> Magyar</a>
-												<a href="/"><img src="/images/flags/en.png" class="img-fluid"> English</a>
-												<a href="/"><img src="/images/flags/de.png" class="img-fluid"> Deutch</a>
+												@foreach ($languages as $language)
+													<a href="{{ route('locale', $language->lang_code) }}"><img src="/images/flags/{{ $language->flag }}" class="img-fluid"> {{ $language->name }}</a>
+												@endforeach
 											</div>
 										</div>
 									</div>
