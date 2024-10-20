@@ -1,5 +1,3 @@
-@extends('errors::minimal')
+@extends('Layouts.admin')
 
-@section('title', __('Forbidden'))
-@section('code', '403')
-@section('message', __($exception->getMessage() ?: 'Forbidden'))
+@section('title') Sajnáljuk, nincs hozzáférése ehhez az oldalhoz! @endsection

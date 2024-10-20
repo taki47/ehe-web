@@ -14,10 +14,7 @@ use App\Http\Controllers\Helper;
 class AuthController extends Controller
 {
     function login() : View {
-        $roles = Role::get();
-
-        return view("Auth/login")
-            ->with("roles", $roles);
+        return view("Auth/login");
     }
 
     function loginAttempt(Request $request) {
@@ -27,11 +24,9 @@ class AuthController extends Controller
                 ->withErrors("Captcha hiba!")
                 ->withInput();
         
-        
-        $role     = $request->role;
         $password = $request->password;
 
-        $users = User::role($role)->get();
+        $users = User::all();
         foreach ($users as $user) {
             if ( Hash::check($password, $user->password) ) {
                 Auth::login($user);

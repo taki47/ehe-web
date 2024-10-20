@@ -15,13 +15,6 @@
         
         <h1>Bejelentkezés</h1>
         <div class="form-group">
-            <select name="role" class="form-control">
-                @foreach ($roles as $role)
-                    <option value="{{ $role->name }}" {{ old() && old("role")==$role->name ? "selected" : "" }}>{{ $role->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
             <input type="password" name="password" class="form-control" placeholder="Jelszó" required autofocus />
         </div>
         
