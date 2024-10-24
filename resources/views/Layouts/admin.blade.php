@@ -59,7 +59,41 @@
 					$canAccessUsers = Auth::user()->can("user_index") || Auth::user()->can("role_index") || Auth::user()->can("role_permission");
 					$canAccessSettings = Auth::user()->can("settings");
 					$canAccessLanguages = Auth::user()->can("language_index");
+          $canAccessImageGallery = Auth::user()->can("media_image_index");
+          $canAccessVideoGallery = Auth::user()->can("media_video_index");
+          $canAccessAudioGallery = Auth::user()->can("media_audio_index");
 				@endphp
+
+        @if ($canAccessImageGallery || $canAccessVideoGallery || $canAccessAudioGallery)
+        <div class="menu_section">
+          <h3>Média</h3>
+          <ul class="nav side-menu">
+            @if ( Auth::user()->can("media_image_index") )
+              <li>
+                <a href="{{ route("media.index", "image") }}">
+                  <i class="fa-solid fa-image"></i> Képtár
+                </a>
+              </li>
+            @endif
+
+            @if ( Auth::user()->can("media_video_index") )
+              <li>
+                <a href="{{ route("media.index", "video") }}">
+                  <i class="fa-solid fa-video"></i> Videótár
+                </a>
+              </li>
+            @endif
+            
+            @if ( Auth::user()->can("media_audio_index") )
+              <li>
+                <a href="{{ route("media.index", "audio") }}">
+                  <i class="fa-solid fa-music"></i> Hangtár
+                </a>
+              </li>
+            @endif
+          </ul>
+        </div>
+        @endif
 
 				@if ($canAccessUsers)
 					<div class="menu_section">

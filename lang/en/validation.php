@@ -147,5 +147,6 @@ return [
         'flag' => 'Zászló',
         'lang_code' => 'Nyelv kód',
         'status' => 'Státusz',
+        'file' => 'Fájl',
     ],
 ];

@@ -18,7 +18,7 @@ class LanguageController extends Controller
 
     function __construct()
     {
-        $this->imagePath = public_path("/images/flags/");
+        $this->imagePath = "/images/flags/";
     }
 
     /**
@@ -53,7 +53,7 @@ class LanguageController extends Controller
     {
         // kép feltöltése
         $imageHelper = new ImageHelper($request->file("flag"), $this->imagePath);
-        $uploaded = $imageHelper->UploadImage("new");
+        $uploaded = $imageHelper->UploadImage("new", true, [50,25]);
         
         // adatbázisba rögzítés
         $language = new Language();
@@ -101,7 +101,8 @@ class LanguageController extends Controller
         // ha van zászló, feltöltjük
         if ( $request->flag ) {
             $imageHelper = new ImageHelper($request->file("flag"), $this->imagePath);
-            $uploaded = $imageHelper->UploadImage("update", $language->flag);
+            
+            $uploaded = $imageHelper->UploadImage("update", true, [50,25], $language->flag);
 
             $log[] = "Kép módosítás: ".$language->flag." -> ".$uploaded;
             $language->flag = $uploaded;

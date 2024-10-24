@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Support\Str;
-use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ImageHelper {
 
@@ -39,32 +41,45 @@ class ImageHelper {
         return "";
     }
 
-
     /**
      * METHOD:
-     * new: csak feltölti a képet,
-     * update: törli és feltölti a képet
+     * new: csak feltölti a fájlt,
+     * update: törli és feltölti a fájlt
      */
-    public function UploadImage($method, $oldImage=null)
+    public function UploadImage($method, $resize = false, $resizeDimensions = [], $oldImage = null)
     {
         $image = $this->image;
+        $fullPath = public_path($this->imagePath);
 
+        // Get the image file info
         $imageInfo = pathinfo($image->getClientOriginalName());
-        $imageName = Str::slug($imageInfo["filename"]).".webp";
+        // Create a slugged name for the image file
+        $imageName = Str::slug($imageInfo["filename"]) . ".webp";
         
-        if ( file_exists($this->imagePath.$imageName) )
-            $imageName = \Carbon\Carbon::now()->format("U").$imageName;
-        
-        if ( $method=="update" ) {
-            //régi törlése
-            Self::DeleteImage($oldImage);
+        // Check if a file with the same name exists
+        if (File::exists($fullPath . '/' . $imageName)) {
+            $imageName = \Carbon\Carbon::now()->format("U") . $imageName; // Prevent overwrite
         }
         
+        // Handle image deletion if updating
+        if ($method == "update" && $oldImage) {
+            $this->DeleteImage($oldImage);
+        }
+        
+        // Create an instance of the ImageManager
         $manager = new ImageManager(Driver::class);
         $img = $manager->read($image->path());
-        $img->resize(50, 25);
+        
+        if ( $resize )
+            $img->resize($resizeDimensions[0], $resizeDimensions[1]);
 
-        $img->toWebp()->save($this->imagePath.$imageName);
+        // Check and create the directory if it does not exist
+        if (!File::exists($fullPath)) {
+            File::makeDirectory($fullPath, 0755, true); // Rekurzív létrehozás
+        }
+
+        // Save the image to the storage
+        $img->toWebp()->save($fullPath."/".$imageName);
 
         return $imageName;
     }
@@ -72,7 +87,7 @@ class ImageHelper {
     public function DeleteImage($image)
     {
         if ( $image!="" ) {
-            $image = $this->imagePath.$image;
+            $image = public_path().$this->imagePath.$image;
             if ( file_exists($image) )
                     unlink($image);
         }

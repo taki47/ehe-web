@@ -1,12 +1,12 @@
 <?php
 
 use App\Models\Language;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\Usercontroller;
 use App\Http\Controllers\Admin\LanguageController;
@@ -45,4 +45,12 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
 
     Route::get("settings", [SettingsController::class, "index"])->name("settings.index");
     Route::post("settings", [SettingsController::class, "update"])->name("settings.update");
+
+    // media
+    Route::get('media/{type}', [MediaController::class, "index"])->name("media.index");
+    Route::post('media/{type}', [MediaController::class, "store"])->name("media.store");
+    Route::get('media/{type}/create', [MediaController::class, "create"])->name("media.create");
+    Route::get('media/{type}/{id}', [MediaController::class, "edit"])->name("media.edit");
+    Route::put('media/{type}/{id}', [MediaController::class, "update"])->name("media.update");
+    Route::delete('media/{type}/{id}', [MediaController::class, "destroy"])->name("media.destroy");
 });
