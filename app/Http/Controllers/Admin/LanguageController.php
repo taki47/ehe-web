@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Helper;
 use App\ImageHelper;
 use App\Models\Language;
+use App\Models\Translation;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreLanguageRequest;
@@ -117,6 +119,12 @@ class LanguageController extends Controller
             $language->lang_code = $request->lang_code;
         }
 
+        // ha változott a status
+        if ( $language->status != $request->status ) {
+            $log[] = "Státusz: ".$language->status." -> ".$request->status;
+            $language->status = $request->status;
+        }
+
         if ( !empty($log) ) {
             $language->save();
             Helper::log("Languages", "MODIFY", $id, json_encode($log));
@@ -146,5 +154,35 @@ class LanguageController extends Controller
         Helper::log("Language", "DELETE", $id, "Törlés");
 
         return redirect()->route("languages.index")->with("success", "A nyelv törlése sikerült!");
+    }
+
+    function translations() {
+        if ( !Auth::user()->can("translation_update") )
+            abort(403);
+
+        $translations = Translation::all()->groupBy('key');
+        $languages = Translation::select('language')->distinct()->pluck('language');
+
+        return view('Admin.Languages.translations', compact('translations', 'languages'));
+    }
+
+    function translationsUpdate(Request $request) {
+        if ( !Auth::user()->can("translation_update") )
+            abort(403);
+        
+        $data = $request->input('translations');
+
+        foreach ($data as $key => $locales) {
+            foreach ($locales as $locale => $value) {
+                Translation::updateOrCreate([
+                        'key' => $key,
+                        'language' => $locale
+                    ],
+                    ['value' => $value]
+                );
+            }
+        }
+
+        return redirect()->back()->with('success', 'Fordítások módosítása sikerült!');
     }
 }

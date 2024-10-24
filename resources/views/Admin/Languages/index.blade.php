@@ -18,6 +18,7 @@
             <th>Név</th>
             <th>Nyelv kód</th>
             <th>Zászló</th>
+            <th>Státusz</th>
         </tr>
         @foreach ($languages as $language)
             <tr style="cursor: pointer;" 
@@ -32,6 +33,7 @@
                 <td>
                     <img src="/images/flags/{{ $language->flag }}" style="max-width:50px;">
                 </td>
+                <td>{{ $language->status ? "Aktív" : "Inaktív" }}</td>
             </tr>
         @endforeach
     </table>

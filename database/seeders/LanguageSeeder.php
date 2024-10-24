@@ -19,11 +19,11 @@ class LanguageSeeder extends Seeder
                 "hu"
             ],
             "English" => [
-                "en.png",
+                "flag-of-the-united-kingdom-3-5svg.webp",
                 "en"
             ],
             "Deutch" => [
-                "de.png",
+                "flag-of-germanysvg.webp",
                 "de"
             ],
         ];

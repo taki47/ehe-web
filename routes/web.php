@@ -35,6 +35,9 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
 
     Route::resource("users", Usercontroller::class);
     Route::resource("roles", RoleController::class);
+
+    Route::get("languages/translations", [LanguageController::class, "translations"])->name("languages.translations");
+    Route::post("languages/translations", [LanguageController::class, "translationsUpdate"])->name("languages.translations.update");
     Route::resource("languages", LanguageController::class);
     
     Route::get('permissions', [RolePermissionController::class, 'index'])->name('permissions.index');

@@ -46,6 +46,18 @@
                 <span class="text-danger">{{ $errors->first('flag') }}</span>
             @endif
         </div>
+
+        <div class="form-group">
+            <label for="lang_code">* Státusz</label>
+            <select name="status" class="form-control">
+                <option value="0" {{ old() && old("status")==0 || !old() && $language->status==0 ? "selected" : "" }}>Inaktív</option>
+                <option value="1" {{ old() && old("status")==1 || !old() && $language->status==1 ? "selected" : "" }}>Aktív</option>
+            </select>
+            
+            @if ($errors->has('status'))
+                <span class="text-danger">{{ $errors->first('status') }}</span>
+            @endif
+        </div>
         
         <button type="submit" class="btn btn-primary">Módosítás</button>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>

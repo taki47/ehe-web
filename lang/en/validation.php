@@ -146,5 +146,6 @@ return [
         'role' => 'Szerepkör',
         'flag' => 'Zászló',
         'lang_code' => 'Nyelv kód',
+        'status' => 'Státusz',
     ],
 ];

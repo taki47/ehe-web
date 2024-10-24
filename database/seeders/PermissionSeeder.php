@@ -28,6 +28,7 @@ class PermissionSeeder extends Seeder
             "language_create" => "Nyelvek létrehozása",
             "language_edit" => "Nyelvek szerkesztése",
             "language_delete" => "Nyelvek törlése",
+            "translation_update" => "Fordítások frissítése"
         ];
 
         foreach ($permissions as $name => $readable) {

@@ -103,6 +103,14 @@
                   </a>
                 </li>
 						  @endif
+
+              @if ( Auth::user()->can("translation_update") )
+                <li>
+                  <a href="{{ route("languages.translations") }}">
+                    <i class="fa-solid fa-flag"></i> Fordítások
+                  </a>
+                </li>
+						  @endif
               
               @if ( Auth::user()->can("settings") )
                 <li>

@@ -34,7 +34,7 @@
 
 	<link rel="stylesheet" href="/assets/public/include/fontawesome/css/all.min.css">
 
-	<title>Erdélyi Hagyományokért Egyesület</title>
+	<title>{{ \App\Models\Translation::getTranslation('site.name') }}</title>
 </head>
 
 <body class="stretched">
@@ -47,10 +47,10 @@
 					<div class="col-12 col-md-8 d-flex justify-content-center">
 						<div class="row text-center">
 							<div class="col-12 col-md-4">
-								<img class="img-fluid" style="max-height:120px;" src="/images/logo.jpg" alt="Erdélyi Hagyományokért Egyesület">
+								<img class="img-fluid" style="max-height:120px;" src="/images/logo.jpg" alt="{{ \App\Models\Translation::getTranslation('site.name') }}">
 							</div>
 							<div class="col-12 col-md-8 m-auto">
-								<p class="fs-4 m-0">Erdélyi Hagyományokért Egyesület</p>
+								<p class="fs-4 m-0">{{ \App\Models\Translation::getTranslation('site.name') }}</p>
 							</div>
 						</div>
 					</div>
@@ -1190,7 +1190,7 @@
 					<div class="col-lg-4 col-sm-6 mb-5 mb-lg-0">
 
 						<div class="widget clearfix">
-							<h4 class="mb-3 mb-sm-4">Erdélyi Hagyományokért Egyesület</h4>
+							<h4 class="mb-3 mb-sm-4">{{ \App\Models\Translation::getTranslation('site.name') }}</h4>
 							<div class="posts-sm row col-mb-15" id="post-list-footer">
 								<div class="entry col-12">
 									<div class="grid-inner row align-items-center g-0">
@@ -1245,16 +1245,16 @@
 					</div>
 
 					<div class="col-lg-3 col-sm-6 mb-5 mb-lg-0">
-						<h4 class="mb-3 mb-sm-4">"Nyelvében él a nemzet"</h4>
+						<h4 class="mb-3 mb-sm-4">"{{ \App\Models\Translation::getTranslation('site.slogan') }}"</h4>
 					</div>
 
 					<div class="col-lg-3 col-sm-6 mb-5 mb-sm-0">
 						<div class="widget widget_links clearfix">
-							<h4 class="mb-3 mb-sm-4">Linkek</h4>
+							<h4 class="mb-3 mb-sm-4">{{ \App\Models\Translation::getTranslation('footer.links.links') }}</h4>
 							<ul>
-								<li><a href="/">Szervezeti kapcsolatok</a></li>
-								<li><a href="/">Beszámolók</a></li>
-								<li><a href="/">Bejelentkezés</a></li>
+								<li><a href="/">{{ \App\Models\Translation::getTranslation('footer.links.contacts') }}</a></li>
+								<li><a href="/">{{ \App\Models\Translation::getTranslation('footer.links.reports') }}</a></li>
+								<li><a href="/">{{ \App\Models\Translation::getTranslation('footer.links.login') }}</a></li>
 							</ul>
 						</div>
 					</div>
@@ -1265,8 +1265,8 @@
 				<div class="container clearfix">
 					<div class="row justify-content-center">
 						<div class="col-md-12 align-self-center">
-							Copyrights &copy; 2024 Erdélyi Hagyományokért Egyesület<br>
-							<div class="copyright-links"><a href="/">Felhasználási feltételek</a> / <a href="/">Adatvédelmi tájékoztató</a>
+							{{ \App\Models\Translation::getTranslation('footer.copyright') }}<br>
+							<div class="copyright-links"><a href="/">{{ \App\Models\Translation::getTranslation('footer.links.term') }}</a> / <a href="/">{{ \App\Models\Translation::getTranslation('footer.links.privacy') }}</a>
 							</div>
 						</div>
 					</div>
