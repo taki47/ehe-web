@@ -78,12 +78,40 @@
                         @endif
                     </a>
                 </th>
-                <th>Leírás</th>
+                <th>
+                    <a href="{{ route('banner.index', ['sort' => 'description', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
+                        Leírás
+                        @if(request('sort') == 'description')
+                            <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
+                        @endif
+                    </a>
+                </th>
                 <th>Média</th>
-                <th>Nyelv</th>
+                <th>
+                    <a href="{{ route('banner.index', ['sort' => 'language_id', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
+                        Nyelv
+                        @if(request('sort') == 'language_id')
+                            <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
+                        @endif
+                    </a>
+                </th>
                 <th>Létrehozta</th>
-                <th>Létrehozva</th>
-                <th>Módosítva</th>
+                <th>
+                    <a href="{{ route('banner.index', ['sort' => 'created_at', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
+                        Létrehozva
+                        @if(request('sort') == 'created_at')
+                            <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
+                        @endif
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ route('banner.index', ['sort' => 'updated_at', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
+                        Módosítva
+                        @if(request('sort') == 'updated_at')
+                            <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
+                        @endif
+                    </a>
+                </th>
                 <th>Módosította</th>
                 <th>
                     <a href="{{ route('banner.index', ['sort' => 'status', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
