@@ -6,29 +6,59 @@ use App\Helper;
 use Carbon\Carbon;
 use App\Models\Media;
 use App\Models\Banner;
+use App\Models\Language;
 use App\Models\MediaUsage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBannerRequest;
 use App\Http\Requests\UpdateBannerRequest;
-use App\Models\Language;
 
 class BannerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         if ( !Auth::user()->can("banner_index") )
             abort(403);
+        
+        $query = Banner::with('mediaUsages', 'language', 'createdUser', 'updatedUser')->where('status', 1);
 
-        $banners = Banner::with("mediaUsages.media")->get();
+        // Keresés a cím és a leírás alapján
+        if ($request->has('search') && $request->input('search') != '') {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+    
+        // Keresés a nyelv szerint
+        if ($request->has('language_id') && $request->input('language_id') != '') {
+            $query->where('language_id', $request->input('language_id'));
+        }
+    
+        // Keresés a státusz szerint
+        if ($request->has('status') && $request->input('status') != '') {
+            $query->where('status', $request->input('status'));
+        }
+    
+        // Rendezés
+        $sortField = $request->input('sort', 'created_at'); // alapértelmezett rendezési mező
+        $sortDirection = $request->input('direction', 'asc'); // alapértelmezett irány
 
-        return view("Admin.Banner.index", compact("banners"));
+        $banners = $query->orderBy($sortField, $sortDirection)->paginate(50);
+        
+        // Lekérdezzük a nyelveket a legördülőhöz
+        $languages = Language::all();
+    
+        return view('Admin.Banner.index', compact('banners', 'languages'));
     }
+
 
     /**
      * Show the form for creating a new resource.
