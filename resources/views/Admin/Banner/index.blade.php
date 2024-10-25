@@ -43,9 +43,32 @@
         </p>
     </div>
 
+    @if ( Auth::user()->can("banner_edit") )
+        <!-- Státusz módosító -->
+        <div class="mb-3">
+            <form action="{{ route('banner.updateStatus') }}" method="POST" id="bulkStatusForm">
+                @csrf
+                <div class="input-group">
+                    <select name="status" class="form-select" required>
+                        <option value="">Tömeges művelet</option>
+                        <option value="1">Aktiválás</option>
+                        <option value="0">Inaktiválás</option>
+                    </select>
+                    <input type="hidden" name="banner_ids" id="selectedBanners" value="">
+                    <button class="btn btn-outline-secondary" type="submit">Művelet végrehajtása</button>
+                </div>
+            </form>
+        </div>    
+    @endif
+    
     <table class="table table-hover table-responsive">
         <thead>
             <tr>
+                @if ( Auth::user()->can("banner_edit") )
+                    <th>
+                        <input type="checkbox" id="select_all" onclick="toggle(this)" />
+                    </th>
+                @endif
                 <th>#</th>
                 <th>
                     <a href="{{ route('banner.index', ['sort' => 'title', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
@@ -55,32 +78,11 @@
                         @endif
                     </a>
                 </th>
-                <th>
-                    <a href="{{ route('banner.index', ['sort' => 'description', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
-                        Leírás
-                        @if(request('sort') == 'description')
-                            <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
-                        @endif
-                    </a>
-                </th>
+                <th>Leírás</th>
                 <th>Média</th>
-                <th>
-                    <a href="{{ route('banner.index', ['sort' => 'language_id', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
-                        Nyelv
-                        @if(request('sort') == 'language_id')
-                            <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
-                        @endif
-                    </a>
-                </th>
+                <th>Nyelv</th>
                 <th>Létrehozta</th>
-                <th>
-                    <a href="{{ route('banner.index', ['sort' => 'created_at', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
-                        Létrehozva
-                        @if(request('sort') == 'created_at')
-                            <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
-                        @endif
-                    </a>
-                </th>
+                <th>Létrehozva</th>
                 <th>Módosítva</th>
                 <th>Módosította</th>
                 <th>
@@ -95,12 +97,12 @@
         </thead>
         <tbody>
             @foreach($banners as $banner)
-                <tr style="cursor: pointer;" 
-                    @if(Auth::user()->can('banner_edit')) 
-                        onClick="document.location.href='{{ route('banner.edit', $banner->id) }}'" 
-                    @else 
-                        style="pointer-events: none; opacity: 0.5;" 
-                    @endif>
+                <tr style="cursor: pointer;" onclick="handleRowClick(event, '{{ route('banner.edit', $banner->id) }}')">
+                    @if ( Auth::user()->can("banner_edit") )
+                        <td>
+                            <input type="checkbox" name="banner_ids[]" value="{{ $banner->id }}" onchange="updateSelectedBanners()" />
+                        </td>
+                    @endif
                     <td>{{ $banner->id }}</td>
                     <td>{{ $banner->title }}</td>
                     <td>{{ $banner->description }}</td>
@@ -120,4 +122,28 @@
     <div class="mt-3">
         {{ $banners->appends(request()->except('page'))->links('vendor.pagination.bootstrap-4') }} <!-- Laravel paginációs linkek -->
     </div>
+
+    <script>
+        function toggle(source) {
+            checkboxes = document.getElementsByName('banner_ids[]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+            updateSelectedBanners();
+        }
+
+        function updateSelectedBanners() {
+            let selected = [];
+            document.querySelectorAll('input[name="banner_ids[]"]:checked').forEach((checkbox) => {
+                selected.push(checkbox.value);
+            });
+            document.getElementById('selectedBanners').value = selected.join(',');
+        }
+
+        function handleRowClick(event, url) {
+            if (!event.target.closest('input[type="checkbox"]')) {
+                document.location.href = url;
+            }
+        }
+    </script>
 @endsection

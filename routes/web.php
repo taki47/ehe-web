@@ -56,4 +56,5 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     Route::delete('media/{type}/{id}', [MediaController::class, "destroy"])->name("media.destroy");
 
     Route::resource("banner", BannerController::class);
+    Route::post('banners/update-status', [BannerController::class, 'updateStatus'])->name('banner.updateStatus');
 });

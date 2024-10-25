@@ -26,7 +26,7 @@ class BannerController extends Controller
         if ( !Auth::user()->can("banner_index") )
             abort(403);
         
-        $query = Banner::with('mediaUsages', 'language', 'createdUser', 'updatedUser')->where('status', 1);
+        $query = Banner::with('mediaUsages', 'language', 'createdUser', 'updatedUser');
 
         // Keresés a cím és a leírás alapján
         if ($request->has('search') && $request->input('search') != '') {
@@ -229,5 +229,34 @@ class BannerController extends Controller
         Helper::log("Banner", "DELETE", $id, "Törlés");
 
         return redirect()->route("banner.index")->with("success", "A banner törlése sikerült!");
+    }
+
+    public function updateStatus(Request $request)
+    {
+        if ( !Auth::user()->can("banner_edit") )
+            abort(403);
+
+        $request->validate([
+            'banner_ids' => 'required',
+            'status' => 'required|in:0,1',
+        ]);
+
+        $banner_ids = explode(",",$request->banner_ids);
+
+        // Státusz frissítése a kiválasztott bannereknek
+        $banners = Banner::whereIn('id', $banner_ids)->get();
+        foreach ($banners as $banner) {
+            $log = [];
+            if ( $banner->status != $request->status ) {
+                $log[] = "Státusz: ".$banner->status." -> ".$request->status;
+                
+                Helper::log("Banner", "MODIFY", $banner->id, json_encode($log));
+
+                $banner->status = $request->status;
+                $banner->save();
+            }
+        }
+
+        return redirect()->route('banner.index')->with('success', 'A bannerek státusza frissítve.');
     }
 }
