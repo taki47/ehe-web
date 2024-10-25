@@ -148,5 +148,9 @@ return [
         'lang_code' => 'Nyelv kód',
         'status' => 'Státusz',
         'file' => 'Fájl',
+        'title' => 'Cím',
+        'description' => 'Leírás',
+        'media' => 'Média',
+        'language' => 'Nyelv',
     ],
 ];

@@ -28,6 +28,8 @@
 
     <!-- Custom Theme Style -->
     <link href="/assets/admin/css/custom.min.css" rel="stylesheet">
+
+    @yield('styles')
   </head>
 
   <body class="nav-md">
@@ -62,7 +64,24 @@
           $canAccessImageGallery = Auth::user()->can("media_image_index");
           $canAccessVideoGallery = Auth::user()->can("media_video_index");
           $canAccessAudioGallery = Auth::user()->can("media_audio_index");
+          $canAccessBanner = Auth::user()->can("banner_index");
 				@endphp
+
+
+        @if ($canAccessBanner)
+        <div class="menu_section">
+          <h3>Oldal kezelése</h3>
+          <ul class="nav side-menu">
+            @if ( Auth::user()->can("banner_index") )
+              <li>
+                <a href="{{ route("banner.index", "image") }}">
+                  <i class="fa-solid fa-image"></i> Banner
+                </a>
+              </li>
+            @endif
+          </ul>
+        </div>
+        @endif
 
         @if ($canAccessImageGallery || $canAccessVideoGallery || $canAccessAudioGallery)
         <div class="menu_section">
@@ -268,6 +287,7 @@
     <script src="/assets/fontawesome/js/all.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/assets/admin/js/custom.min.js"></script>
-	
+    
+    @yield('scripts')
   </body>
 </html>

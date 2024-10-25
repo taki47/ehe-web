@@ -41,6 +41,10 @@ class PermissionSeeder extends Seeder
             "media_video_create" => "Videótár létrehozása",
             "media_video_edit" => "Videótár szerkesztése",
             "media_video_delete" => "Videótár törlése",
+            "banner_index" => "Banner listázása",
+            "banner_create" => "Banner létrehozása",
+            "banner_edit" => "Banner szerkesztése",
+            "banner_delete" => "Banner törlése"
         ];
 
         foreach ($permissions as $name => $readable) {

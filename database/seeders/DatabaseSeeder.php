@@ -47,6 +47,9 @@ class DatabaseSeeder extends Seeder
                 \App\Models\Seeder::create([
                     "name" => $seeder
                 ]);
+                $this->call(MediaTableSeeder::class);
+                $this->call(BannersTableSeeder::class);
+        $this->call(MediaUsagesTableSeeder::class);
     }
         }
 

@@ -93,135 +93,52 @@
 
 					<div id="bannerSlider" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.1">
 						<ul>
-							<li>
-								<img src="/images/banners/banner1.jpg" alt="Image">
+							@foreach ($banners as $banner)
+								<li>
+									<img src="{{ $banner->mediaUsages[0]->media->file_path."/".$banner->mediaUsages[0]->media->file_name }}" alt="{{ $banner->mediaUsages[0]->media->name }}">
 
-								<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
-									data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
-									data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
-									data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-									data-paddingleft="[0,0,0,0]"
-									style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
-									
-									Emlékek - 70 pillanat
-								</a>
+									<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
+										data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+										data-y="['bottom','bottom','bottom','bottom']" data-voffset="['150','120','130','140']"
+										data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
+										data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
+										data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
+										data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+										data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+										data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
+										data-paddingleft="[0,0,0,0]"
+										style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
+										
+										{{ $banner->title }}
+									</a>
 
-								<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
-									data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
-									data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
-									data-type="text" data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-									data-paddingleft="[0,0,0,0]"
-									style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
-									Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
-								</div>
+									<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
+										data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+										data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
+										data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
+										data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
+										data-type="text" data-basealign="slide" data-responsive_offset="on"
+										data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+										data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+										data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
+										data-paddingleft="[0,0,0,0]"
+										style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
+										{{ $banner->description }}
+									</div>
 
-								<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
-									data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
-									data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']"
-									style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
-									Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
-								</div>
-							</li>
+									<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
+										data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
+										data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
+										data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
+										data-basealign="slide" data-responsive_offset="on"
+										data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+										data-textAlign="['left','left','left','left']"
+										style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
+										{{ $banner->createdUser->name }} - <i class="icon-time" style="position: relative; top: 1px;"></i> {{ \Carbon\Carbon::parse($banner->created_at)->locale(App::getLocale())->translatedFormat('Y. F j.') }}
 
-							<li>
-								<img src="/images/banners/banner2.jpg" alt="Image">
-
-								<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
-									data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
-									data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
-									data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-									data-paddingleft="[0,0,0,0]"
-									style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
-									Emlékek - 70 pillanat
-								</a>
-
-								<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
-									data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
-									data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
-									data-type="text" data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-									data-paddingleft="[0,0,0,0]"
-									style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
-									Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
-								</div>
-
-								<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
-									data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
-									data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']"
-									style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
-									Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
-								</div>
-							</li>
-
-							<li>
-								<img src="/images/banners/banner3.jpg" alt="Image">
-
-								<a class="tp-caption font-primary tp-resizeme" href="#" target="_self" id="slide-1-layer-4"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['125','120','130','140']"
-									data-fontsize="['40','35','25','25']" data-lineheight="['40','35','25','24']"
-									data-width="['580','480','340','260']" data-height="none" data-whitespace="normal"
-									data-type="text" data-actions='' data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":200,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-									data-paddingleft="[0,0,0,0]"
-									style="z-index: 6; min-width: 580px; max-width: 580px; white-space: normal; font-size: 40px; line-height: 40px; font-weight: 600; color: rgba(255,255,255,1);text-decoration: none;">
-									Emlékek - 70 pillanat
-								</a>
-
-								<div class="tp-caption   tp-resizeme" id="slide-1-layer-5"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['65','65','48','48']"
-									data-width="['580','480','340','260']" data-fontsize="['18','18','16','14']"
-									data-lineheight="['26','24','24','20']" data-height="none" data-whitespace="normal"
-									data-type="text" data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":400,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-									data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-									data-paddingleft="[0,0,0,0]"
-									style="z-index: 7; min-width: 700px; max-width: 700px; white-space: normal; font-size: 18px; line-height: 26px; font-weight: 400; color: #DDD; font-family: 'Roboto', sans-serif;">
-									Még mindig érkeznek a gyerekek számára varázslatos hét képei. Tar Emese összegyűjtött emlékcsokrát kaptuk ma meg...
-								</div>
-
-								<div class="tp-caption tp-resizeme" id="slide-1-layer-6"
-									data-x="['left','left','left','left']" data-hoffset="['40','40','30','20']"
-									data-y="['bottom','bottom','bottom','bottom']" data-voffset="['28','28','20','20']"
-									data-fontsize="14" data-whitespace="normal" data-type="text" data-actions=''
-									data-basealign="slide" data-responsive_offset="on"
-									data-frames='[{"from":"y:20px;opacity:0;","speed":2000,"to":"o:1;","delay":600,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-									data-textAlign="['left','left','left','left']"
-									style="min-width: 306px; max-width: 306px;z-index: 6; text-shadow: none; color: #DDD !important; font-size: 20px; line-height: 20px; font-weight: 600; font-family: 'Roboto', sans-serif;">
-									Bajkó Róbert - <i class="icon-time" style="position: relative; top: 1px;"></i> 2022.08.10.
-								</div>
-							</li>
+									</div>
+								</li>
+							@endforeach
 						</ul>
 						<div class="tp-bannertimer" style="height: 8px; background: rgba(255,255,255,0.25);"></div>
 					</div>

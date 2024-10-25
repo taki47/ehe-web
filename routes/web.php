@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BannerController;
 use App\Models\Language;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -53,4 +54,6 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     Route::get('media/{type}/{id}', [MediaController::class, "edit"])->name("media.edit");
     Route::put('media/{type}/{id}', [MediaController::class, "update"])->name("media.update");
     Route::delete('media/{type}/{id}', [MediaController::class, "destroy"])->name("media.destroy");
+
+    Route::resource("banner", BannerController::class);
 });
