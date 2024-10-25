@@ -19,4 +19,9 @@ class Media extends Model
     public function updatedUser() {
         return $this->belongsTo(User::class, "updated_by", "id");
     }
+
+    public function mediaUsages()
+    {
+        return $this->hasMany(MediaUsage::class, 'media_id');
+    }
 }

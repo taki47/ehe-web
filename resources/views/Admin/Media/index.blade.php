@@ -36,7 +36,7 @@
                 <tr style="cursor: pointer;" onClick='document.location.href="{{ route("media.edit", [$type, $item->id]) }}"'>
                     <td>{{ $item->id }}</td>
                     <td>{{ $item->name }}</td>
-                    <td></td>
+                    <td>{{ $item->media_usage_count }}</td>
                     <td>{{ $item->created_at }}</td>
                     <td>{{ $item->createdUser->name }}</td>
                     <td>{{ $item->updated_at }}</td>

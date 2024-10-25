@@ -9,6 +9,7 @@ use App\FileUploadHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Models\MediaUsage;
 use Illuminate\Support\Facades\Auth;
 
 class MediaController extends Controller
@@ -46,7 +47,8 @@ class MediaController extends Controller
         if ( $type=="audio" && !Auth::user()->can("media_audio_index") )
             abort(403);
 
-        $media = Media::where("type", $type)->get();
+        $media = Media::where("type", $type)->withCount(['mediaUsages as media_usage_count'])->get();
+
         return view('Admin.Media.index', compact('media', 'type'));
     }
 
