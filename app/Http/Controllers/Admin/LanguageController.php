@@ -162,7 +162,7 @@ class LanguageController extends Controller
             abort(403);
 
         $translations = Translation::all()->groupBy('key');
-        $languages = Translation::select('language')->distinct()->pluck('language');
+        $languages = Language::pluck("lang_code");
 
         return view('Admin.Languages.translations', compact('translations', 'languages'));
     }
@@ -170,17 +170,15 @@ class LanguageController extends Controller
     function translationsUpdate(Request $request) {
         if ( !Auth::user()->can("translation_update") )
             abort(403);
-        
         $data = $request->input('translations');
 
         foreach ($data as $key => $locales) {
             foreach ($locales as $locale => $value) {
                 Translation::updateOrCreate([
                         'key' => $key,
-                        'language' => $locale
-                    ],
-                    ['value' => $value]
-                );
+                        'language' => $locale,
+                        'value' => $value
+                ]);
             }
         }
 
