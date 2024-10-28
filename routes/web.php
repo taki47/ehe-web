@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\Usercontroller;
 use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\RolePermissionController;
 
@@ -37,13 +38,16 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     Route::resource("users", Usercontroller::class);
     Route::resource("roles", RoleController::class);
 
+    // languages
     Route::get("languages/translations", [LanguageController::class, "translations"])->name("languages.translations");
     Route::post("languages/translations", [LanguageController::class, "translationsUpdate"])->name("languages.translations.update");
     Route::resource("languages", LanguageController::class);
     
+    // permissions
     Route::get('permissions', [RolePermissionController::class, 'index'])->name('permissions.index');
     Route::post('permissions', [RolePermissionController::class, 'update'])->name('permissions.update');
 
+    // settings
     Route::get("settings", [SettingsController::class, "index"])->name("settings.index");
     Route::post("settings", [SettingsController::class, "update"])->name("settings.update");
 
@@ -55,6 +59,11 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     Route::put('media/{type}/{id}', [MediaController::class, "update"])->name("media.update");
     Route::delete('media/{type}/{id}', [MediaController::class, "destroy"])->name("media.destroy");
 
+    // banners
     Route::resource("banner", BannerController::class);
     Route::post('banners/update-status', [BannerController::class, 'updateStatus'])->name('banner.updateStatus');
+
+    // menus
+    Route::post("menu/order", [MenuController::class, "updateOrder"])->name("menu.order");
+    Route::resource("menu", MenuController::class);
 });

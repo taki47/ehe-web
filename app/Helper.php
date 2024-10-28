@@ -5,17 +5,13 @@ use App\Models\Log;
 use Illuminate\Support\Facades\Auth;
 
 class Helper {
-    public static function checkPermission($permissionName) {
-        // Check if the user has permission to read attributes
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        if (!$user->can($permissionName)) {
-            // If the user does not have permission, abort with a 403 Forbidden status
-            abort(403, 'Unauthorized');
-        }
+    public static function userCanAccess($wildcard)
+    {
+        return Auth::user()->getAllPermissions()->contains(function ($permission) use ($wildcard) {
+            return str_starts_with($permission->name, $wildcard);
+        });
     }
-
+    
     public static function log($entity_type, $event_type, $entity_id, $event_description)
     {
         if ( Auth::user() )

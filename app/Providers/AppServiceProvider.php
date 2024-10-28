@@ -4,9 +4,7 @@ namespace App\Providers;
 
 use App\Models\Setting;
 use App\Models\Language;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

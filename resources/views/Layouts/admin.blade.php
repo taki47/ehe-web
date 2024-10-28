@@ -65,16 +65,25 @@
           $canAccessVideoGallery = Auth::user()->can("media_video_index");
           $canAccessAudioGallery = Auth::user()->can("media_audio_index");
           $canAccessBanner = Auth::user()->can("banner_index");
+          $canAccessAnyMenu = \App\Helper::userCanAccess('menu_index_') || Auth::user()->can("any_menu_index");
 				@endphp
 
 
-        @if ($canAccessBanner)
+        @if ($canAccessBanner || $canAccessAnyMenu)
         <div class="menu_section">
           <h3>Oldal kezelése</h3>
           <ul class="nav side-menu">
-            @if ( Auth::user()->can("banner_index") )
+            @if ( $canAccessAnyMenu )
               <li>
-                <a href="{{ route("banner.index", "image") }}">
+                <a href="{{ route("menu.index") }}">
+                  <i class="fa-solid fa-bars"></i> Menü kezelése
+                </a>
+              </li>
+            @endif
+
+            @if ( $canAccessBanner )
+              <li>
+                <a href="{{ route("banner.index") }}">
                   <i class="fa-solid fa-image"></i> Banner
                 </a>
               </li>
@@ -180,14 +189,8 @@
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              <a data-toggle="tooltip" data-placement="top" title="Vissza az oldalra" href="/">
+                <i class="fa-solid fa-play"></i>
               </a>
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route("logout") }}">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>

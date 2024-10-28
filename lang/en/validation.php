@@ -150,7 +150,10 @@ return [
         'file' => 'Fájl',
         'title' => 'Cím',
         'description' => 'Leírás',
+        'subdescription' => 'Al-leírás',
         'media' => 'Média',
         'language' => 'Nyelv',
+        'image' => 'Kép',
+        'parent_id' => 'Szülő elem'
     ],
 ];

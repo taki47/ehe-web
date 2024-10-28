@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder
@@ -15,5 +14,6 @@ class TestDataSeeder extends Seeder
         $this->call(MediaTableSeeder::class);
         $this->call(BannersTableSeeder::class);
         $this->call(MediaUsagesTableSeeder::class);
+        $this->call(MenusTableSeeder::class);
     }
 }

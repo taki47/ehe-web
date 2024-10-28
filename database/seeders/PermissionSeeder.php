@@ -44,7 +44,12 @@ class PermissionSeeder extends Seeder
             "banner_index" => "Banner listázása",
             "banner_create" => "Banner létrehozása",
             "banner_edit" => "Banner szerkesztése",
-            "banner_delete" => "Banner törlése"
+            "banner_delete" => "Banner törlése",
+            "any_menu_index" => "Bármely menü listázása",
+            "any_menu_create" => "Bármely menü létrehozása",
+            "any_menu_edit" => "Bármely menü szerkesztése",
+            "any_menu_order" => "Bármely menü sorrendjének módosítása",
+            "any_menu_delete" => "Bármely menü törlése",
         ];
 
         foreach ($permissions as $name => $readable) {
