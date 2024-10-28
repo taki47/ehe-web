@@ -20,10 +20,13 @@
         </div>
     @endif
 
+    <!-- Keresőmező -->
+    <input type="text" id="search" placeholder="Keresés a jogosultságok között" class="form-control mb-3">
+
     <form action="{{ route('permissions.update') }}" method="POST">
         @csrf
 
-        <table class="table table-hover">
+        <table class="table table-hover" id="permissions-table">
             <thead>
                 <tr>
                     <th>Jogosultságok</th>
@@ -49,4 +52,21 @@
 
         <button type="submit" class="btn btn-primary">Jogosultságok frissítése</button>
     </form>
+
+    <script>
+        // Keresés megvalósítása
+        document.getElementById('search').addEventListener('input', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#permissions-table tbody tr');
+
+            rows.forEach(function(row) {
+                let permissionName = row.cells[0].textContent.toLowerCase();
+                if (permissionName.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
 @endsection
