@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use App\Models\Language;
 
 class MenuController extends Controller
 {
@@ -99,7 +100,9 @@ class MenuController extends Controller
             $menus = Menu::whereNull('parent_id')->orderBy('order')->get();
         }
 
-        return view('Admin.Menu.create', compact('menus'));
+        $languages = Language::all();
+
+        return view('Admin.Menu.create', compact('menus', 'languages'));
     }
 
     public function store(StoreMenuRequest $request)
@@ -116,6 +119,7 @@ class MenuController extends Controller
             $menu->image = $uploadedImage;
             $menu->description = $request->description;
             $menu->subdescription = $request->subdescription;
+            $menu->language_id = $request->language_id;
         }
         $menu->save();
 
@@ -123,27 +127,27 @@ class MenuController extends Controller
             // jogosultságok létrehozása
             Permission::create([
                 'name' => 'menu_index_' . $menu->id,
-                'readable' => $menu->name.' menüben elemek listázása',
+                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben elemek listázása',
                 'guard_name' => 'web'
             ]);
             Permission::create([
                 'name' => 'menu_create_' . $menu->id,
-                'readable' => $menu->name.' menüben elemek létrehozása',
+                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben elemek létrehozása',
                 'guard_name' => 'web'
             ]);
             Permission::create([
                 'name' => 'menu_edit_' . $menu->id,
-                'readable' => $menu->name.' menüben elemek szerkesztése',
+                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben elemek szerkesztése',
                 'guard_name' => 'web'
             ]);
             Permission::create([
                 'name' => 'menu_order_' . $menu->id,
-                'readable' => $menu->name.' menüben sorrend módosítása',
+                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben sorrend módosítása',
                 'guard_name' => 'web'
             ]);
             Permission::create([
                 'name' => 'menu_delete_' . $menu->id,
-                'readable' => $menu->name.' menüben elemek törlése',
+                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben elemek törlése',
                 'guard_name' => 'web'
             ]);
 
@@ -171,7 +175,10 @@ class MenuController extends Controller
         } else {
             $menus = Menu::whereNull('parent_id')->orderBy('order')->get();
         }
-        return view("Admin.Menu.edit", compact("editMenu", "menus"));
+
+        $languages = Language::all();
+
+        return view("Admin.Menu.edit", compact("editMenu", "menus", "languages"));
     }
 
     function update($id, UpdateMenuRequest $request)
@@ -213,6 +220,11 @@ class MenuController extends Controller
             if ( $menu->subdescription != $request->subdescription ) {
                 $log[] = "Al-leírás: ".$menu->subdescription." -> ".$request->subdescription;
                 $updateData["subdescription"] = $request->subdescription;
+            }
+
+            if ( $menu->language_id != $request->language_id ) {
+                $log[] = "Nyelv: ".Helper::get_name_from_id(Language::class, $menu->language_id)." -> ".Helper::get_name_from_id(Language::class, $request->language_id);
+                $updateData["language_id"] = $request->language_id;
             }
 
             if ( !empty($updateData) )

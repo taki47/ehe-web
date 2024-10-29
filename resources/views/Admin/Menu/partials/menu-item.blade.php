@@ -1,6 +1,7 @@
 <li data-id='{{ $menu->id }}' class="menu-item">
     @if ( $menu->parent_id=="" )
         <div class="menu-content">
+            <img src="/images/flags/{{ $menu->language->flag }}"><br />
             <img src="{{ asset('/images/tiles/' . $menu->image) }}" alt="{{ $menu->name }}" class="menu-image">
 
             <div class="menu-details">

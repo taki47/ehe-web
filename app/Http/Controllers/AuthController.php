@@ -18,11 +18,13 @@ class AuthController extends Controller
     }
 
     function loginAttempt(Request $request) {
-        $captcha = Helper::CheckCaptcha($request->gRecaptchaResponse);
-        if ( !$captcha )
-            return back()
-                ->withErrors("Captcha hiba!")
-                ->withInput();
+        if ( env("APP_ENV")=="prod" ) {
+            $captcha = Helper::CheckCaptcha($request->gRecaptchaResponse);
+            if ( !$captcha )
+                return back()
+                    ->withErrors("Captcha hiba!")
+                    ->withInput();
+        }
         
         $password = $request->password;
 

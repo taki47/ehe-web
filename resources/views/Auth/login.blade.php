@@ -19,7 +19,11 @@
         </div>
         
         <div class="mt-4">
-            <button type="submit" class="btn btn-secondary g-recaptcha" data-sitekey="{{ env("GCAPTCHA_SITE_KEY") }}" data-callback="sendForm">Bejelentkezés</button>
+            @if ( env("APP_ENV")=="prod" )
+                <button type="submit" class="btn btn-secondary g-recaptcha" data-sitekey="{{ env("GCAPTCHA_SITE_KEY") }}" data-callback="sendForm">Bejelentkezés</button>
+            @else
+                <button type="submit" class="btn btn-secondary">Bejelentkezés</button>
+            @endif
         </div>
     </form>
 @endsection

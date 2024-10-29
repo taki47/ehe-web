@@ -76,6 +76,20 @@
                     <span class="text-danger">{{ $errors->first('subdescription') }}</span>
                 @endif
             </div>
+
+            <div class="form-group {{ $extraFieldClass }}" id="language-field">
+                <label for="language_id">* Nyelv:</label>
+                <select name="language_id" class="form-control">
+                    <option value="">-- Válassz --</option>
+                    @foreach ($languages as $language)
+                        <option value="{{ $language->id }}" {{ old() && old("language_id")==$language->id || !old() && $editMenu->language_id == $language->id ? "selected" : "" }}>{{ $language->name }}</option>
+                    @endforeach
+                </select>
+
+                @if ($errors->has('subdescription'))
+                    <span class="text-danger">{{ $errors->first('subdescription') }}</span>
+                @endif
+            </div>
         @endif
 
         <button type="submit" class="btn btn-primary">Módosítás</button>
@@ -92,10 +106,12 @@
                 $("#image-field").removeClass("d-none");
                 $("#description-field").removeClass("d-none");
                 $("#subdescription-field").removeClass("d-none");
+                $("#language-field").removeClass("d-none");
             } else {
                 $("#image-field").addClass("d-none");
                 $("#description-field").addClass("d-none");
                 $("#subdescription-field").addClass("d-none");
+                $("#language-field").addClass("d-none");
             }
         });
     </script>

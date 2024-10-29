@@ -31,18 +31,25 @@
                 <tr>
                     <th>Jogosultságok</th>
                     @foreach ($roles as $role)
-                        <th>{{ $role->name }}</th>
+                        <th>
+                            {{ $role->name }}
+                            <br>
+                            <!-- Mindent kijelöl és Kijelölés megszüntetése gombok minden szerepkörhöz -->
+                            <button type="button" class="btn btn-link select-all p-0" data-role-id="{{ $role->id }}">Mindent kijelöl</button>
+                            <button type="button" class="btn btn-link deselect-all p-0" data-role-id="{{ $role->id }}" style="display: none;">Kijelölés megszüntetése</button>
+                        </th>
                     @endforeach
                 </tr>
             </thead>
             <tbody>
                 @foreach ($permissions as $permission)
                     <tr>
-                        <td>{{ $permission->readable }}</td> <!-- Olvasható név itt -->
+                        <td>{{ $permission->readable }}</td>
                         @foreach ($roles as $role)
                             <td>
                                 <input type="checkbox" name="permissions[{{ $role->id }}][]" value="{{ $permission->name }}"
-                                       {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                                       {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}
+                                       data-role-id="{{ $role->id }}">
                             </td>
                         @endforeach
                     </tr>
@@ -66,6 +73,41 @@
                 } else {
                     row.style.display = 'none';
                 }
+            });
+        });
+
+        // Mindent kijelöl és Kijelölés megszüntetése gombok működése minden szerepkör számára
+        document.querySelectorAll('.select-all').forEach(function(button) {
+            button.addEventListener('click', function() {
+                let roleId = this.getAttribute('data-role-id');
+                let checkboxes = document.querySelectorAll('input[type="checkbox"][data-role-id="' + roleId + '"]');
+
+                checkboxes.forEach(function(checkbox) {
+                    if (checkbox.closest('tr').style.display !== 'none') {
+                        checkbox.checked = true;
+                    }
+                });
+
+                // "Kijelölés megszüntetése" gomb megjelenítése
+                this.style.display = 'none';
+                document.querySelector('.deselect-all[data-role-id="' + roleId + '"]').style.display = 'inline';
+            });
+        });
+
+        document.querySelectorAll('.deselect-all').forEach(function(button) {
+            button.addEventListener('click', function() {
+                let roleId = this.getAttribute('data-role-id');
+                let checkboxes = document.querySelectorAll('input[type="checkbox"][data-role-id="' + roleId + '"]');
+
+                checkboxes.forEach(function(checkbox) {
+                    if (checkbox.closest('tr').style.display !== 'none') {
+                        checkbox.checked = false;
+                    }
+                });
+
+                // "Mindent kijelöl" gomb visszaállítása
+                this.style.display = 'none';
+                document.querySelector('.select-all[data-role-id="' + roleId + '"]').style.display = 'inline';
             });
         });
     </script>

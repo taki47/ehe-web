@@ -31,4 +31,8 @@ class Menu extends Model
         }
         return $currentMenu->id;
     }
+
+    function language() {
+        return $this->belongsTo(Language::class);
+    }
 }

@@ -41,6 +41,7 @@ class UpdateMenuRequest extends FormRequest
         if ( $this->parent_id=="" ) {
             $rule['image'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
             $rule['description'] = 'string|max:500';
+            $rule['language_id'] = 'required|exists:languages,id';
         }
 
         return $rule;
