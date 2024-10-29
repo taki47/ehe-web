@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menu;
 use App\Models\Banner;
 use App\Models\Language;
 use Illuminate\Contracts\View\View;
@@ -17,6 +18,12 @@ class PublicController extends Controller
                         ->with("mediaUsages.media")
                         ->get();
 
-        return view("index", compact("banners"));
+        $menus = Menu::whereNull('parent_id')
+                        ->where("language_id", $currentLanguage->id)
+                        ->with('children')
+                        ->orderBy('order')
+                        ->get();
+
+        return view("index", compact("banners", "menus"));
     }
 }

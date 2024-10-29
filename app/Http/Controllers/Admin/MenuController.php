@@ -110,6 +110,7 @@ class MenuController extends Controller
         // Új menüpont létrehozása
         $menu = new Menu();
         $menu->name = $request->name;
+        $menu->link = $request->link;
         $menu->parent_id = $request->parent_id;
 
         if ( $menu->parent_id==null || $menu->parent_id=="" ) {
@@ -195,6 +196,11 @@ class MenuController extends Controller
             if ( $menu->name != $request->name ) {
                 $log[] = "Név: ".$menu->name." -> ".$request->name;
                 $updateData["name"] = $request->name;
+            }
+
+            if ( $menu->link != $request->link ) {
+                $log[] = "Link: ".$menu->link." -> ".$request->link;
+                $updateData["link"] = $request->link;
             }
 
             if ( $menu->parent_id != $request->parent_id ) {

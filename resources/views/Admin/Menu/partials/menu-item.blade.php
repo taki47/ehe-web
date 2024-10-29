@@ -25,7 +25,7 @@
             </div>
         </div>
     @else
-        {{ $menu->name }}
+        <div>{{ $menu->name }}</div>
         <div class="menu-actions">
             @php
                 $topLevelParentId = $menu->getTopLevelParentId();

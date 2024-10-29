@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">    
 
     <style>
-        ul.menu li { padding: 10px; margin: 5px; cursor: move; }
+        ul.menu li { padding: 10px; margin: 5px; cursor: move; display: flex; flex-direction: row; align-items: flex-start; }
         .menu-children { padding-left: 20px; }
 
         .menu-item {

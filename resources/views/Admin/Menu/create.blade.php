@@ -27,6 +27,16 @@
         </div>
 
         <div class="form-group">
+            <label for="link">* Link:</label>
+            <input type="text" id="link" name="link" required class="form-control" value={{ old("link") }}>
+            <small id="linkHelp" class="form-text text-muted">Külső link esetén minden esetben https://-el kell kezdeni</small>
+
+            @if ($errors->has('link'))
+                <span class="text-danger">{{ $errors->first('link') }}</span>
+            @endif
+        </div>
+
+        <div class="form-group">
             <label for="parent_id">* Szülő Menüpont:</label>
             <select id="parent_id" name="parent_id" class="form-control">
                 @if ( Auth::user()->can("any_menu_create") )

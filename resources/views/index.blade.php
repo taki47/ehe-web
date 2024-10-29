@@ -150,220 +150,36 @@
 		<!-- tiles -->
 		<div class="tiles" style="max-width: 100%; max-height: 100px; background: rgb(245, 245, 245);padding: 10px 0px;">
 			<div class="container">
-				<div class="tile selected" menu-toggle="1">
-					<div class="image" style="background: url('/images/tiles/kitti.png')"></div>
-					<div class="text">
-						<p class="title">KITTI Háló</p>
-						<p class="description">Kistérségi és Települési Ifjúsági Hálózat</p>
-						<p class="subdescription">"Nyelvében él a nemzet"</p>
+				@foreach ($menus as $index => $menu)
+					<div class="tile {{ $index==0 ? "selected" : "" }}" menu-toggle="{{ $menu->id }}">
+						<div class="image" style="background: url('/images/tiles/{{ $menu->image }}')"></div>
+						<div class="text">
+							<p class="title">{{ $menu->name }}</p>
+							<p class="description">{{ $menu->description }}</p>
+							<p class='subdescription'>{{ $menu->subdescription }}</p>
+						</div>
 					</div>
-				</div>
-
-				<div class="tile" menu-toggle="2">
-					<div class="image" style="background: url('/images/tiles/ehe.png')"></div>
-					<div class="text">
-						<p class="title">EHE</p>
-						<p class="description">Erdélyi Hagyományokért Egyesület</p>
-					</div>
-				</div>
-
-				<div class="tile" menu-toggle="3">
-					<div class="image" style="background: url('/images/tiles/placeholder.png')"></div>
-					<div class="text">
-						<p class="title">Cím</p>
-						<p class="description">Leírás</p>
-						<p class="subdescription">Alcím</p>
-					</div>
-				</div>
-
-				<div class="tile" menu-toggle="1">
-					<div class="image" style="background: url('/images/tiles/kitti.png')"></div>
-					<div class="text">
-						<p class="title">KITTI Háló</p>
-						<p class="description">Kistérségi és Települési Ifjúsági Hálózat</p>
-						<p class="subdescription">"Nyelvében él a nemzet"</p>
-					</div>
-				</div>
-
-				<div class="tile" menu-toggle="2">
-					<div class="image" style="background: url('/images/tiles/ehe.png')"></div>
-					<div class="text">
-						<p class="title">EHE</p>
-						<p class="description">Erdélyi Hagyományokért Egyesület</p>
-					</div>
-				</div>
-
-				<div class="tile" menu-toggle="3">
-					<div class="image" style="background: url('/images/tiles/placeholder.png')"></div>
-					<div class="text">
-						<p class="title">Cím</p>
-						<p class="description">Leírás</p>
-						<p class="subdescription">Alcím</p>
-					</div>
-				</div>
+				@endforeach
 			</div>
 		</div>
 		<!-- / tiles -->
 
 		<!-- tile menus -->
 		<div id="tile-menus">
-			<nav class="main-nav" role="navigation" id="menu-1">
-				<div class="container">
-					<ul id="main-menu" class="sm sm-mint tile-menu">
-						<li>
-							<a href="/">KITTI Egyesületről</a>
-							<ul>
-								<li><a href="/">Bemutatkozás</a></li>
-								<li><a href="/">Vezetőség</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="/">KITTI Programok</a>
-							<ul>
-								<li><a href="/">Aktuális programok</a></li>
-								<li><a href="/">Lezárt programok</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="/">KITTI Dokumentumtár</a>
-							<ul>
-								<li>
-									<a href="/">Határozatok</a>
-									<ul>
-										<li><a href="">Közgyűlési</a></li>
-										<li><a href="">Elnökségi</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="/">Jelentések</a>
-									<ul>
-										<li><a href="">Közgyűlési beszámoló</a></li>
-										<li><a href="">Elnökségi beszámoló</a></li>
-										<li><a href="">Közhasznúsági jelentések</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="/">Szabályzatok</a>
-									<ul>
-										<li><a href="/">Alapszabály</a></li>
-										<li><a href="/">Stb...</a></li>
-									</ul>
-								</li>
-								<li><a href="/">Rendezvény jelentkezések</a></li>
-							</ul>
-						</li>
-						<li><a href="/">KITTI Médiatár</a></li>
-						<li><a href="/">KITTI Támogatóink</a></li>
-						<li><a href="/">KITTI Tagság és Partnerek</a></li>
-					</ul>
-				</div>
-			</nav>
-
-			<nav class="main-nav d-none" role="navigation" id="menu-2">
-				<div class="container">
-					<ul id="main-menu" class="sm sm-mint tile-menu">
-						<li>
-							<a href="/"> Egyesületről</a>
-							<ul>
-								<li><a href="/">Bemutatkozás</a></li>
-								<li><a href="/">Vezetőség</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="/"> Programok</a>
-							<ul>
-								<li><a href="/">Aktuális programok</a></li>
-								<li><a href="/">Lezárt programok</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="/"> Dokumentumtár</a>
-							<ul>
-								<li>
-									<a href="/">Határozatok</a>
-									<ul>
-										<li><a href="">Közgyűlési</a></li>
-										<li><a href="">Elnökségi</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="/">Jelentések</a>
-									<ul>
-										<li><a href="">Közgyűlési beszámoló</a></li>
-										<li><a href="">Elnökségi beszámoló</a></li>
-										<li><a href="">Közhasznúsági jelentések</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="/">Szabályzatok</a>
-									<ul>
-										<li><a href="/">Alapszabály</a></li>
-										<li><a href="/">Stb...</a></li>
-									</ul>
-								</li>
-								<li><a href="/">Rendezvény jelentkezések</a></li>
-							</ul>
-						</li>
-						<li><a href="/"> Médiatár</a></li>
-						<li><a href="/"> Támogatóink</a></li>
-						<li><a href="/"> Tagság és Partnerek</a></li>
-					</ul>
-				</div>
-			</nav>
-
-			<nav class="main-nav d-none" role="navigation" id="menu-3">
-				<div class="container">
-					<ul id="main-menu" class="sm sm-mint tile-menu">
-						<li>
-							<a href="/">EGYÉB Egyesületről</a>
-							<ul>
-								<li><a href="/">Bemutatkozás</a></li>
-								<li><a href="/">Vezetőség</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="/">EGYÉB Programok</a>
-							<ul>
-								<li><a href="/">Aktuális programok</a></li>
-								<li><a href="/">Lezárt programok</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="/">EGYÉB Dokumentumtár</a>
-							<ul>
-								<li>
-									<a href="/">Határozatok</a>
-									<ul>
-										<li><a href="">Közgyűlési</a></li>
-										<li><a href="">Elnökségi</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="/">Jelentések</a>
-									<ul>
-										<li><a href="">Közgyűlési beszámoló</a></li>
-										<li><a href="">Elnökségi beszámoló</a></li>
-										<li><a href="">Közhasznúsági jelentések</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="/">Szabályzatok</a>
-									<ul>
-										<li><a href="/">Alapszabály</a></li>
-										<li><a href="/">Stb...</a></li>
-									</ul>
-								</li>
-								<li><a href="/">Rendezvény jelentkezések</a></li>
-							</ul>
-						</li>
-						<li><a href="/">EGYÉB Médiatár</a></li>
-						<li><a href="/">EGYÉB Támogatóink</a></li>
-						<li><a href="/">EGYÉB Tagság és Partnerek</a></li>
-					</ul>
-				</div>
-			</nav>
+			@foreach ($menus as $index => $menu)
+				<nav class="main-nav {{ $index == 0 ? '' : 'd-none' }}" role="navigation" id="menu-{{ $menu->id }}">
+					<div class="container">
+						<ul id="main-menu" class="sm sm-mint tile-menu">
+							@foreach ($menu->children as $child)
+								@include('partials.menu-item', ['menu' => $child])
+							@endforeach
+						</ul>
+					</div>
+				</nav>
+			@endforeach
 		</div>
 		<!-- / tile menus -->
+
 
 		<section id="content">
 			<div class="content-wrap">
