@@ -16,4 +16,25 @@ class Log extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    function getEntityName($entityType, $entityId) {
+        // Dinamikusan létrehozzuk a modell osztály nevét
+        $modelClass = "\App\Models\\" . $entityType;
+
+        // Ellenőrizzük, hogy a modell létezik-e
+        if (!class_exists($modelClass)) {
+            throw new \InvalidArgumentException("Invalid entity type: " . $entityType);
+        }
+
+        // Lekérdezzük az entitást az ID alapján
+        $entity = $modelClass::withTrashed()->find($entityId);
+
+        // Ellenőrizzük, hogy az entitás létezik-e
+        if (!$entity) {
+            return null; // Vagy dobhatunk kivételt, ha szükséges
+        }
+
+        // Visszaadjuk az entitás nevét
+        return $entity->name; // Feltételezve, hogy az entitásnak van 'name' mezője
+    }
 }

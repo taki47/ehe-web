@@ -50,6 +50,7 @@ class PermissionSeeder extends Seeder
             "any_menu_edit" => "Bármely menü szerkesztése",
             "any_menu_order" => "Bármely menü sorrendjének módosítása",
             "any_menu_delete" => "Bármely menü törlése",
+            "log" => "Napló megtekintése",
         ];
 
         foreach ($permissions as $name => $readable) {

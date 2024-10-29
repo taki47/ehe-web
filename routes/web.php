@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\Usercontroller;
 use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\RolePermissionController;
@@ -66,4 +67,7 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     // menus
     Route::post("menu/order", [MenuController::class, "updateOrder"])->name("menu.order");
     Route::resource("menu", MenuController::class);
+
+    // napló
+     Route::get("/log", [LogController::class, "index"])->name("log.index");
 });

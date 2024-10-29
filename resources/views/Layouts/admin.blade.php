@@ -66,6 +66,7 @@
           $canAccessAudioGallery = Auth::user()->can("media_audio_index");
           $canAccessBanner = Auth::user()->can("banner_index");
           $canAccessAnyMenu = \App\Helper::userCanAccess('menu_index_') || Auth::user()->can("any_menu_index");
+          $canAccessLog = Auth::user()->can("log");
 				@endphp
 
 
@@ -154,7 +155,7 @@
 					</div>
 				@endif
 
-				@if ($canAccessSettings || $canAccessLanguages)
+				@if ($canAccessSettings || $canAccessLanguages || $canAccessLog)
 					<div class="menu_section">
 						<h3>Karbantartás</h3>
 						<ul class="nav side-menu">
@@ -178,6 +179,14 @@
                 <li>
                   <a href="{{ route("settings.index") }}">
                     <i class="fa-solid fa-globe"></i> Weboldal beállítások
+                  </a>
+                </li>
+              @endif
+
+              @if ( $canAccessLog )
+                <li>
+                  <a href="{{ route("log.index") }}">
+                    <i class="fa-solid fa-book"></i> Napló megtekintése
                   </a>
                 </li>
               @endif
