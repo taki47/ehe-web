@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\Admin\BannerController;
 use App\Models\Language;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
 use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\PublicController;
-use App\Http\Controllers\Admin\MediaController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\Usercontroller;
-use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\Usercontroller;
+use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\RolePermissionController;
 
@@ -69,5 +70,13 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     Route::resource("menu", MenuController::class);
 
     // napló
-     Route::get("/log", [LogController::class, "index"])->name("log.index");
+     Route::get("log", [LogController::class, "index"])->name("log.index");
+
+     // hírek
+     Route::get("article/{type}", [ArticleController::class, "index"])->name("article.index");
+     Route::get("article/{type}/create", [ArticleController::class, "create"])->name("article.create");
+     Route::post("article/{type}/create", [ArticleController::class, "store"])->name("article.store");
+     Route::get("article/{type}/send-approval/{id}", [ArticleController::class, "approval"])->name("article.sendApproval");
+     Route::get("article/{type}/{operation}/{id}", [ArticleController::class, "edit"])->name("article.editOrApproval");
+     Route::put("article/{type}/edit/{id}", [ArticleController::class, "update"])->name("article.update");
 });

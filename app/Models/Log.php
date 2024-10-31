@@ -18,6 +18,10 @@ class Log extends Model
     }
 
     function getEntityName($entityType, $entityId) {
+        if ( $entityType=="news" ) {
+            $entityType = "Article";
+        }
+        
         // Dinamikusan létrehozzuk a modell osztály nevét
         $modelClass = "\App\Models\\" . $entityType;
 

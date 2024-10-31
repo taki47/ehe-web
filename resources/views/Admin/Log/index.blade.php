@@ -36,6 +36,15 @@
                         @case("DELETE")
                             Törlés
                             @break
+                        @case("APPROVED")
+                            Jóváhagyás
+                            @break
+                        @case("DECLINED")
+                            Elutasítás
+                            @break
+                        @case("ROLLBACK")
+                            Visszavonás
+                            @break
                         @default
                     @endswitch
                 </td>

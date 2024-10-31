@@ -154,6 +154,10 @@ return [
         'media' => 'Média',
         'language' => 'Nyelv',
         'image' => 'Kép',
-        'parent_id' => 'Szülő elem'
+        'parent_id' => 'Szülő elem',
+        'body' => 'Törzs',
+        'cover' => 'Nyitókép',
+        'lead' => 'Leírás',
+        'menu_id' => 'Csoport'
     ],
 ];

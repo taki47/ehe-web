@@ -65,16 +65,27 @@
           $canAccessVideoGallery = Auth::user()->can("media_video_index");
           $canAccessAudioGallery = Auth::user()->can("media_audio_index");
           $canAccessBanner = Auth::user()->can("banner_index");
-          $canAccessAnyMenu = \App\Helper::userCanAccess('menu_index_') || Auth::user()->can("any_menu_index");
+          $canAccessMenu = \App\Helper::userCanAccess('menu_index_') || Auth::user()->can("any_menu_index");
+          $canAccessNews = \App\Helper::userCanAccess('news_index_') || Auth::user()->can("any_news_index");
+          $canAccessEvents = \App\Helper::userCanAccess('events_index_') || Auth::user()->can("any_events_index");
+          $canAccessPages = \App\Helper::userCanAccess('pages_index_') || Auth::user()->can("any_pages_index");
           $canAccessLog = Auth::user()->can("log");
 				@endphp
 
 
-        @if ($canAccessBanner || $canAccessAnyMenu)
+        @if ($canAccessBanner || $canAccessMenu || $canAccessNews || $canAccessEvents || $canAccessPages)
         <div class="menu_section">
           <h3>Oldal kezelése</h3>
           <ul class="nav side-menu">
-            @if ( $canAccessAnyMenu )
+            @if ( $canAccessNews )
+              <li>
+                <a href="{{ route("article.index", "news") }}">
+                  <i class="fa-solid fa-newspaper"></i> Hírek kezelése
+                </a>
+              </li>
+            @endif
+
+            @if ( $canAccessMenu )
               <li>
                 <a href="{{ route("menu.index") }}">
                   <i class="fa-solid fa-bars"></i> Menü kezelése
@@ -97,7 +108,7 @@
         <div class="menu_section">
           <h3>Média</h3>
           <ul class="nav side-menu">
-            @if ( Auth::user()->can("media_image_index") )
+            @if ( $canAccessImageGallery )
               <li>
                 <a href="{{ route("media.index", "image") }}">
                   <i class="fa-solid fa-image"></i> Képtár
@@ -105,7 +116,7 @@
               </li>
             @endif
 
-            @if ( Auth::user()->can("media_video_index") )
+            @if ( $canAccessVideoGallery )
               <li>
                 <a href="{{ route("media.index", "video") }}">
                   <i class="fa-solid fa-video"></i> Videótár
@@ -113,7 +124,7 @@
               </li>
             @endif
             
-            @if ( Auth::user()->can("media_audio_index") )
+            @if ( $canAccessAudioGallery )
               <li>
                 <a href="{{ route("media.index", "audio") }}">
                   <i class="fa-solid fa-music"></i> Hangtár

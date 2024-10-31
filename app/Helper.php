@@ -2,6 +2,7 @@
 
 namespace App;
 use App\Models\Log;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class Helper {
@@ -44,5 +45,18 @@ class Helper {
 
     public static function flushPermissionCache() {
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+    }
+
+    public static function getAccessibleMenusForUser($type, $permissionType)
+    {
+        $menuIds = [];
+
+        foreach (Auth::user()->getAllPermissions() as $permission) {
+            if (Str::startsWith($permission->name, $type.'_'.$permissionType.'_')) {
+                $menuIds[] = (int) str_replace($type.'_'.$permissionType.'_', '', $permission->name);
+            }
+        }
+
+        return $menuIds;
     }
 }

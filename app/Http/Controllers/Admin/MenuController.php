@@ -28,7 +28,7 @@ class MenuController extends Controller
         if (!Helper::userCanAccess('menu_index_') && !Auth::user()->can("any_menu_index"))
             abort(403);
 
-        $menuIds = $this->getMenus("index");
+            $menuIds = Helper::getAccessibleMenusForUser("menu","index");
         
         if ( !empty($menuIds) ) {
             $menus = Menu::whereNull('parent_id')
@@ -92,7 +92,7 @@ class MenuController extends Controller
             abort(403);
         
         // Főmenük lekérdezése a szülő kiválasztáshoz
-        $menuIds = $this->getMenus("create");
+        $menuIds = Helper::getAccessibleMenusForUser("menu", "create");
 
         if ( !empty($menuIds) ) {
             $menus = Menu::whereNull('parent_id')->whereIn("id",$menuIds)->orderBy('order')->get();
@@ -126,31 +126,47 @@ class MenuController extends Controller
 
         if ( $menu->parent_id==null || $menu->parent_id=="" ) {
             // jogosultságok létrehozása
-            Permission::create([
-                'name' => 'menu_index_' . $menu->id,
-                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben elemek listázása',
-                'guard_name' => 'web'
-            ]);
-            Permission::create([
-                'name' => 'menu_create_' . $menu->id,
-                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben elemek létrehozása',
-                'guard_name' => 'web'
-            ]);
-            Permission::create([
-                'name' => 'menu_edit_' . $menu->id,
-                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben elemek szerkesztése',
-                'guard_name' => 'web'
-            ]);
-            Permission::create([
-                'name' => 'menu_order_' . $menu->id,
-                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben sorrend módosítása',
-                'guard_name' => 'web'
-            ]);
-            Permission::create([
-                'name' => 'menu_delete_' . $menu->id,
-                'readable' => $menu->name.' '.$menu->language->lang_code.' menüben elemek törlése',
-                'guard_name' => 'web'
-            ]);
+            $permissions = [
+                "menu" => [
+                    "index" => "menüben elemek listázása",
+                    "create" => "menüben elemek létrehozása",
+                    "edit" => "menüben elemek szerkesztése",
+                    "order" => "menüben sorrend módosítása",
+                    "delete" => "menüben elemek törlése"
+                ],
+                "news" => [
+                    "index" => "hírek listázása",
+                    "create" => "hírek létrehozása",
+                    "edit" => "hírek szerkesztése",
+                    "approval" => "hírek jóváhagyása",
+                    "delete" => "hírek törlése"
+                ],
+                "events" => [
+                    "index" => "események listázása",
+                    "create" => "események létrehozása",
+                    "edit" => "események szerkesztése",
+                    "approval" => "események jóváhagyása",
+                    "delete" => "események törlése"
+                ],
+                "pages" => [
+                    "index" => "oldalak listázása",
+                    "create" => "oldalak létrehozása",
+                    "edit" => "oldalak szerkesztése",
+                    "approval" => "oldalak jóváhagyása",
+                    "delete" => "oldalak törlése"
+                ],
+            ];
+
+            // menü kezelés
+            foreach ($permissions as $key => $permission) {
+                foreach ($permission as $k => $p) {
+                    Permission::create([
+                        'name' => $key.'_'.$k.'_' . $menu->id,
+                        'readable' => $menu->name.' '.$menu->language->lang_code.' '.$p,
+                        'guard_name' => 'web'
+                    ]);
+                }
+            }
 
             Helper::flushPermissionCache();
         }
@@ -169,7 +185,7 @@ class MenuController extends Controller
             abort(403);
 
         // Főmenük lekérdezése a szülő kiválasztáshoz
-        $menuIds = $this->getMenus("create");
+        $menuIds = Helper::getAccessibleMenusForUser("menu", "create");
 
         if ( !empty($menuIds) ) {
             $menus = Menu::whereNull('parent_id')->whereIn("id",$menuIds)->orderBy('order')->get();
@@ -251,19 +267,6 @@ class MenuController extends Controller
         }
 
         return redirect()->route("menu.index")->with("success", "A menü módosítása sikerült!");
-    }
-
-    private function getMenus($permissionType)
-    {
-        $menuIds = [];
-
-        foreach (Auth::user()->getAllPermissions() as $permission) {
-            if (Str::startsWith($permission->name, 'menu_'.$permissionType.'_')) {
-                $menuIds[] = (int) str_replace('menu_'.$permissionType.'_', '', $permission->name);
-            }
-        }
-
-        return $menuIds;
     }
 
     public function destroy($id)
