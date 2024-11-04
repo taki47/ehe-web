@@ -77,6 +77,7 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
      Route::get("article/{type}/create", [ArticleController::class, "create"])->name("article.create");
      Route::post("article/{type}/create", [ArticleController::class, "store"])->name("article.store");
      Route::get("article/{type}/send-approval/{id}", [ArticleController::class, "approval"])->name("article.sendApproval");
-     Route::get("article/{type}/{operation}/{id}", [ArticleController::class, "edit"])->name("article.editOrApproval");
+     Route::post("article/{type}/bulk-action", [ArticleController::class, "bulkAction"])->name("article.bulk-actions");
      Route::put("article/{type}/edit/{id}", [ArticleController::class, "update"])->name("article.update");
+     Route::get("article/{type}/{operation}/{id}", [ArticleController::class, "edit"])->name("article.editOrApproval");
 });

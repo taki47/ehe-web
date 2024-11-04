@@ -3,7 +3,25 @@
 @section('title') Hírek @endsection
 
 @section('content')
-    @if (\App\Helper::userCanAccess('news_create_') || Auth::user()->can("any_news_create"))
+    @php
+        $canApproval = false;
+        if ( \App\Helper::userCanAccess('news_approval_') || Auth::user()->can("any_news_approval") ) {
+            $canApproval = true;
+        }
+
+        $canCreate = false;
+        if ( \App\Helper::userCanAccess('news_create_') || Auth::user()->can("any_news_create") ) {
+            $canCreate = true;
+        }
+
+        $canEdit = false;
+        if ( \App\Helper::userCanAccess('news_edit_') || Auth::user()->can("any_news_edit") ) {
+            $canEdit = true;
+        }
+    @endphp
+    
+
+    @if ( $canCreate )
         <a href="{{ route('article.create', $type) }}" class="btn btn-primary">+ Új hírek hozzáadása</a>
     @endif
     
@@ -44,9 +62,32 @@
         </div>
     </form>
 
+    @if ( $canEdit )
+        <!-- Státusz módosító -->
+        <div class="mb-3">
+            <form action="{{ route('article.bulk-actions', $type) }}" method="POST" id="bulkStatusForm">
+                @csrf
+                <div class="input-group">
+                    <select name="action" class="form-select" required>
+                        <option value="">Tömeges művelet</option>
+                        <option value="0">Archiválás</option>
+                        <option value="1">Újra aktiválás</option>
+                    </select>
+                    <input type="hidden" name="article_ids" id="selectedArticles" value="">
+                    <button class="btn btn-outline-secondary" type="submit">Művelet végrehajtása</button>
+                </div>
+            </form>
+        </div>    
+    @endif
+
     <table class="table table-hover">
         <thead>
             <tr>
+                @if ( $canEdit )
+                    <th>
+                        <input type="checkbox" id="select_all" onclick="toggle(this)" />
+                    </th>
+                @endif
                 <th>#</th>
                 <th>
                     <a href="{{ route('article.index', ['type' => $type, 'sort' => 'title', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
@@ -123,36 +164,41 @@
                 <th>
                     Nyitókép
                 </th>
-                @if ( \App\Helper::userCanAccess('news_approval_') || Auth::user()->can("any_news_approval") )
+                @if ( $canApproval )
                     <th>Műveletek</th>
                 @endif
             </tr>
         </thead>
         <tbody>
-            @foreach($news as $new)
-                <tr style="cursor: pointer;" onClick="{{ (\App\Helper::userCanAccess('news_edit_'.$new->menu->id) || Auth::user()->can("any_news_edit")) && ($new->article_status_id==3 || $new->article_status_id==1 || $new->article_status_id==2) ? "document.location.href='".route("article.editOrApproval", ["type" => $type, "id" => $new->id, "operation" => "edit"])."'" : "" }}">
-                    <td>{{ $new->id }}</td>
-                    <td>{{ $new->title }}</td>
-                    <td>{{ $new->lead }}</td>
-                    <td>{{ $new->language->name }}</td>
-                    <td>{{ $new->menu->name }}</td>
-                    <td>{{ $new->status->name }}</td>
-                    <td>{{ $new->createdUser->name }}</td>
-                    <td>{{ $new->created_at }}</td>
-                    <td>{{ $new->updated_by ? $new->updatedUser->name : "" }}</td>
-                    <td>{{ $new->updated_at }}</td>
+            @foreach($articles as $article)
+                <tr style="cursor: pointer;" onClick="handleRowClick(event, '{{ (\App\Helper::userCanAccess('news_edit_'.$article->menu->id) || Auth::user()->can("any_news_edit")) && ($article->article_status_id==3 || $article->article_status_id==1 || $article->article_status_id==2) ? route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "edit"]) : "" }}')">
+                    @if ( $canEdit )
+                        <td>
+                            <input type="checkbox" name="article_ids[]" value="{{ $article->id }}" onchange="updateSelectedArticles()" />
+                        </td>
+                    @endif
+                    <td>{{ $article->id }}</td>
+                    <td>{{ $article->title }}</td>
+                    <td>{{ $article->lead }}</td>
+                    <td>{{ $article->language->name }}</td>
+                    <td>{{ $article->menu->name }}</td>
+                    <td>{{ $article->status->name }}</td>
+                    <td>{{ $article->createdUser->name }}</td>
+                    <td>{{ $article->created_at }}</td>
+                    <td>{{ $article->updated_by ? $article->updatedUser->name : "" }}</td>
+                    <td>{{ $article->updated_at }}</td>
                     <td>
-                        @if ($new->cover)
-                            <img src="{{ $new->cover_path }}/{{ $new->cover }}" style="max-height:100px;">
+                        @if ($article->cover)
+                            <img src="{{ $article->cover_path }}/{{ $article->cover }}" style="max-height:100px;">
                         @endif
                     </td>
-                    @if ( \App\Helper::userCanAccess('news_approval_'.$new->menu->id) || Auth::user()->can("any_news_approval") )
+                    @if ( \App\Helper::userCanAccess('news_approval_'.$article->menu->id) || Auth::user()->can("any_news_approval") )
                         <td>
-                            @if ( $new->article_status_id==2 )
-                                <a href="{{ route("article.editOrApproval", ["type" => $type, "id" => $new->id, "operation" => "approval"]) }}" class="btn btn-sm btn-primary">Jóváhagyás</a>
+                            @if ( $article->article_status_id==2 )
+                                <a href="{{ route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "approval"]) }}" class="btn btn-sm btn-primary">Jóváhagyás</a>
                             @endif
-                            @if ( $new->article_status_id=="6" )
-                                <a href="{{ route("article.sendApproval", ["type" => $type, "id" => $new->id, "operation" => "rollback", "revision" => false]) }}" class="btn btn-sm btn-primary">Elutasítás visszavonása</a>
+                            @if ( $article->article_status_id=="6" )
+                                <a href="{{ route("article.sendApproval", ["type" => $type, "id" => $article->id, "operation" => "rollback", "revision" => false]) }}" class="btn btn-sm btn-primary">Elutasítás visszavonása</a>
                             @endif
                         </td>
                     @endif
@@ -160,7 +206,7 @@
 
                 <!-- jóváhagyásra váró módosítások lekérése -->
                 @php
-                    $pendingApprovals = $new->pendingApprovals();
+                    $pendingApprovals = $article->pendingApprovals();
                 @endphp
                 @if ( count($pendingApprovals)>0 )
                     <tr>
@@ -200,7 +246,7 @@
                                         <th>
                                             Nyitókép
                                         </th>
-                                        @if ( \App\Helper::userCanAccess('news_approval_'.$new->menu->id) || Auth::user()->can("any_news_approval") )
+                                        @if ( \App\Helper::userCanAccess('news_approval_'.$article->menu->id) || Auth::user()->can("any_news_approval") )
                                             <th>
                                                 Műveletek
                                             </th>
@@ -243,7 +289,7 @@
                                                     <img src="{{ $item->cover_path }}/{{ $item->cover }}" style="max-height:100px;">
                                                 @endif
                                             </td>
-                                            @if ( \App\Helper::userCanAccess('news_approval_'.$new->menu->id) || Auth::user()->can("any_news_approval") )
+                                            @if ( \App\Helper::userCanAccess('news_approval_'.$article->menu->id) || Auth::user()->can("any_news_approval") )
                                                 <td>
                                                     @if ( $item->article_status_id==2 )
                                                         <a href="{{ route("article.editOrApproval", ["type" => $type, "id" => $item->id, "operation" => "approval", "revision" => true]) }}" class="btn btn-sm btn-primary">Jóváhagyás</a>
@@ -266,6 +312,33 @@
 
     <!-- Lapozás -->
     <div class="mt-3">
-        {{ $news->appends(request()->except('page'))->links('vendor.pagination.bootstrap-4') }} <!-- Laravel paginációs linkek -->
+        {{ $articles->appends(request()->except('page'))->links('vendor.pagination.bootstrap-4') }} <!-- Laravel paginációs linkek -->
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        function toggle(source) {
+            checkboxes = document.getElementsByName('article_ids[]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+            updateSelectedArticles();
+        }
+
+        function updateSelectedArticles() {
+            let selected = [];
+            document.querySelectorAll('input[name="article_ids[]"]:checked').forEach((checkbox) => {
+                selected.push(checkbox.value);
+            });
+            document.getElementById('selectedArticles').value = selected.join(',');
+        }
+
+        function handleRowClick(event, url) {
+            console.log(url);
+            if (!event.target.closest('input[type="checkbox"]') && url!="" ) {
+                document.location.href = url;
+            }
+        }
+    </script>
 @endsection

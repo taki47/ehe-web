@@ -29,7 +29,7 @@ class ArticleController extends Controller
      */
     public function index($type, Request $request)
     {
-        if (!Helper::userCanAccess('news_index_') && !Auth::user()->can("any_news_index"))
+        if (!Helper::userCanAccess($type.'_index_') && !Auth::user()->can("any_".$type."_index"))
             abort(403);
 
 
@@ -65,7 +65,7 @@ class ArticleController extends Controller
 
 
         // csoportok listához menük lekérése
-        $menuIds = Helper::getAccessibleMenusForUser("news", "index");
+        $menuIds = Helper::getAccessibleMenusForUser($type, "index");
         
         if ( !empty($menuIds) ) {
             $menus = Menu::whereNull('parent_id')
@@ -93,12 +93,12 @@ class ArticleController extends Controller
                 });
         });
 
-        $news = $query->orderBy($sortField, $sortDirection)->paginate(50);
+        $articles = $query->orderBy($sortField, $sortDirection)->paginate(50);
 
         // státuszok lekérése
         $statuses = ArticleStatus::all();
 
-        return view("Admin.Article.index", compact("news", "statuses", "type", "menus"));
+        return view("Admin.Article.index", compact("articles", "statuses", "type", "menus"));
     }
 
     /**
@@ -109,7 +109,7 @@ class ArticleController extends Controller
         $articleType = ArticleType::where("slug", $type)->first();
 
         // csoportok listához menük lekérése
-        $menuIds = Helper::getAccessibleMenusForUser("news", "create");
+        $menuIds = Helper::getAccessibleMenusForUser($type, "create");
         
         if ( !empty($menuIds) ) {
             $menus = Menu::whereNull('parent_id')
@@ -211,7 +211,7 @@ class ArticleController extends Controller
         $articleType = ArticleType::where("slug", $type)->first();
 
         // csoportok listához menük lekérése
-        $menuIds = Helper::getAccessibleMenusForUser("news", "edit");
+        $menuIds = Helper::getAccessibleMenusForUser($type, "edit");
         
         if ( !empty($menuIds) ) {
             $menus = Menu::whereNull('parent_id')
@@ -564,7 +564,7 @@ class ArticleController extends Controller
 
                     DB::table("articles")->where('id', $article->article_id)->update($updateData);
                     
-                    Helper::log("news", "MODIFY", $article->article_id, json_encode($article->log));
+                    Helper::log($type, "MODIFY", $article->article_id, json_encode($article->log));
 
                     // article_revisions táblában státusz jóváhagyott (5)
                     $article->article_status_id="5";
@@ -595,5 +595,35 @@ class ArticleController extends Controller
 
 
         return redirect()->route("article.index", $type)->with("success", "A jóváhagyás sikerült");
+    }
+
+    function bulkAction(Request $request, $type) {
+        $action = $request->action;
+        $articleIds = explode(",",$request->article_ids);
+        $articleType = ArticleType::where("slug", $type)->first();
+
+        $articles = Article::whereIn('id', $articleIds)->get();
+        foreach ($articles as $article) {
+            $log = [];
+            if ( $action=="0" ) {
+                // archiválás
+                $log[] = "Archiválás";
+                
+                Helper::log($type, "ARCHIVE", $article->id, json_encode($log));
+
+                $article->article_status_id = 4; //archív
+                $article->save();
+            } else if ( $action=="1" ) {
+                // újra aktiválás
+                $log[] = "Újra aktiválás";
+                
+                Helper::log($type, "REACTIV", $article->id, json_encode($log));
+
+                $article->article_status_id = 3; //aktív
+                $article->save();
+            }
+        }
+
+        return redirect()->route('article.index', $type)->with('success', 'A '.$articleType->name.' státusza frissítve.');
     }
 }

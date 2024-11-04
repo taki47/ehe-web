@@ -23,7 +23,7 @@ class ArticleStatusSeeder extends Seeder
             "name" => "Aktív"
         ]);
         ArticleStatus::create([
-            "name" => "Inaktív"
+            "name" => "Archív"
         ]);
         ArticleStatus::create([
             "name" => "Jóváhagyott"

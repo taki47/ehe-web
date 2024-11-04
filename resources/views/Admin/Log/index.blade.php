@@ -45,6 +45,9 @@
                         @case("ROLLBACK")
                             Visszavonás
                             @break
+                        @case("ARCHIVE")
+                            Archiválás
+                            @break
                         @default
                     @endswitch
                 </td>
