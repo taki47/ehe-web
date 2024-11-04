@@ -107,6 +107,15 @@
             </div>
         @endif
 
+        <div class="form-group">
+            <label for="form">Űrlap</label>
+            <input type="text" name="form" id="form" class="form-control" value="{{ old("form") }}">
+
+            @if ($errors->has('form'))
+                <span class="text-danger">{{ $errors->first('form') }}</span>
+            @endif
+        </div>
+
 
         <div class="form-group">
             <label for="language">* Nyelv</label>

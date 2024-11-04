@@ -31,5 +31,8 @@ class ArticleStatusSeeder extends Seeder
         ArticleStatus::create([
             "name" => "Elutasított"
         ]);
+        ArticleStatus::create([
+            "name" => "Jóváhagyott késleltetett megjelenéssel"
+        ]);
     }
 }

@@ -164,6 +164,7 @@ class ArticleController extends Controller
                 'event_start_date' => $request->event_start_date,
                 'event_end_date' => $request->event_end_date,
                 'event_location' => $request->event_location,
+                'form' => $request->form,
                 'article_status_id' => ($request->savetype=="draft" ? 1 : 2),
                 'created_by' => Auth::user()->id,
                 'created_at' => Carbon::now()
@@ -202,7 +203,7 @@ class ArticleController extends Controller
             $mediaContentType = "article_revision";
         }
 
-        if ( $revision ) {
+        if ( $revision=="true" ) {
             $article = ArticleRevision::findOrFail($id);
         } else {
             $article = Article::findOrFail($id);
@@ -260,7 +261,7 @@ class ArticleController extends Controller
         $articleType = ArticleType::where("slug", $type)->first();
         $mediaContentType = "";
         
-        if ( $revision ) {
+        if ( $revision=="true" ) {
             $article = ArticleRevision::findOrFail($id);
             $mediaContentType = "article_revision";
         } else {
@@ -328,6 +329,12 @@ class ArticleController extends Controller
                 $updateData["event_location"] = $request->event_location;
             }
 
+            // form módosítása
+            if ( $request->has("form") && $request->form != $article->form ) {
+                $log[] = "Űrlap: ".$article->form . " -> ".$request->form;
+                $updateData["form"] = $request->form;
+            }
+
             // nyelv módosítása
             if ( $request->language != $article->language_id ) {
                 $log[] = "Nyelv: ".Helper::get_name_from_id(Language::class, $article->language_id) . " -> ".Helper::get_name_from_id(Language::class, $request->language);
@@ -353,7 +360,7 @@ class ArticleController extends Controller
             if ( $request->savetype=="draft" && ($article->article_status_id==1 || $article->article_status_id==2) && !empty($log) ) {
                 $updateData["article_status_id"] = 1;
                 $table = "articles";
-                if ( $revision ) {
+                if ( $revision=="true" ) {
                     $table = "article_revisions";
                     $updateData["log"] = json_decode($article->log);
                     $updateData["log"] = array_merge($updateData["log"], $log);
@@ -372,7 +379,7 @@ class ArticleController extends Controller
             if ( $request->savetype=="save" && ($article->article_status_id==1 || $article->article_status_id==2) ) {
                 $updateData["article_status_id"] = 2;
                 $table = "articles";
-                if ( $revision ) {
+                if ( $revision=="true" ) {
                     $table = "article_revisions";
                     $updateData["log"] = json_decode($article->log);
                     $updateData["log"] = array_merge($updateData["log"], $log);
@@ -404,6 +411,7 @@ class ArticleController extends Controller
                     'event_start_date' => ($request->has("event_start_date") ? $request->event_start_date : null),
                     'event_end_date' => ($request->has("event_end_date") ? $request->event_end_date : null),
                     'event_location' => ($request->has("event_location") ? $request->event_location : null),
+                    'form' => $request->form,
                     'created_by' => Auth::user()->id,
                     'created_at' => Carbon::now(),
                     'article_status_id' => ($request->savetype=="draft" ? 1 : 2),
@@ -512,11 +520,11 @@ class ArticleController extends Controller
     }
 
     function approval(Request $request, $type, $id) {
-        $operation = $request->operation; //accept v. decline v. rollback
-        $revision = $request->revision; //true v. false
+        $operation = $request->input("operation"); //accept v. decline v. rollback
+        $revision = $request->input("revision"); //true v. false
 
         $article = null;
-        if ( $revision ) {
+        if ( $revision=="true" ) {
             $article = ArticleRevision::findOrFail($id);
         } else {
             $article = Article::findOrFail($id);
@@ -527,83 +535,17 @@ class ArticleController extends Controller
 
         // ha új article jóváhagyás, a státuszát átírjuk aktívra(3) vagy Elutasított(6) az articles táblában, logba beírjuk a jóváhagyást
         if ( $operation=="accept" ) {
-            $article->article_status_id = 3;
+            if ( $request->idopont!="" ) {
+                $article->delayed = $request->idopont;
+                $article->article_status_id = 7; // jóváhagyásra vár időzítve
+            } else {
+                $article->article_status_id = 3;
+            }
+
             $article->save();
 
-            /**
-             * ha revision, akkor az article_revisions táblából adatok átmásolása articles táblába, log-ba beírás
-             * media_usages táblában adatok szinkronizálása, ahol content_type==article_revision
-             */
-            if ( $revision ) {
-                try {
-                    // Begin a database transaction
-                    DB::beginTransaction();
-
-                    // media_usages táblában szinkronizálás
-                    $revisionMediaUsages = MediaUsage::where("content_type", "article_revision")->where("content_id", $article->id)->get();
-                    $articleMediaUsages = MediaUsage::where("content_type", "article")->where("content_id", $article->article_id)->get();
-
-                    // Új média hozzáadása
-                    foreach ($revisionMediaUsages as $revisionUsage) {
-                        $exists = $articleMediaUsages->contains(function ($usage) use ($revisionUsage) {
-                            return $usage->media_id === $revisionUsage->media_id;
-                        });
-
-                        if (!$exists) {
-                            MediaUsage::create([
-                                "media_type" => $revisionUsage->media_type,
-                                "media_id" => $revisionUsage->media_id,
-                                "content_type" => "article",
-                                "content_id" => $article->article_id
-                            ]);
-                        }
-                    }
-
-                    // Törölt média kezelés
-                    foreach ($articleMediaUsages as $articleUsage) {
-                        $existsInRevision = $revisionMediaUsages->contains(function ($revisionUsage) use ($articleUsage) {
-                            return $revisionUsage->media_id === $articleUsage->media_id;
-                        });
-
-                        if (!$existsInRevision) {
-                            // Ha a média nem található a revision-ban, töröljük az article-ból
-                            $articleUsage->delete();
-                        }
-                    }
-
-                    // `article_revision` rekordok törlése a szinkronizálás után
-                    MediaUsage::where("content_type", "article_revision")
-                                ->where("content_id", $article->id)
-                                ->delete();
-
-                    $updateData = $article->toArray();
-                    $updateData["updated_by"] = $updateData["created_by"];
-                    $updateData["updated_at"] = Carbon::parse($updateData["created_at"]);
-                    unset($updateData["article_id"]);
-                    unset($updateData["created_by"]);
-                    unset($updateData["created_at"]);
-                    unset($updateData["menu"]);
-                    unset($updateData["log"]);
-                    unset($updateData["id"]);
-
-                    DB::table("articles")->where('id', $article->article_id)->update($updateData);
-                    
-                    Helper::log($type, "MODIFY", $article->article_id, json_encode($article->log));
-
-                    // article_revisions táblában státusz jóváhagyott (5)
-                    $article->article_status_id="5";
-                    $article->save();
-
-                    // Commit the transaction if everything is successful
-                    DB::commit();
-                } catch (\Exception $e) {
-                    // Roll back the transaction in case of an error
-                    DB::rollBack();
-                    Log::error('An error occurred while inserting data: ' . $e->getMessage());
-                    
-                    // Return an error response to the user or perform additional error handling
-                    return back()->withErrors('Hiba történt adatbázis művelet során! Részletek a laravel.log fájlban')->withInput();
-                }
+            if ( $revision=="true" && $request->idopont=="" ) {
+                $this->approveRevision($article, $type);
             }
 
             Helper::log($type, "APPROVED", $id, "Jóváhagyás");
@@ -619,6 +561,84 @@ class ArticleController extends Controller
 
 
         return redirect()->route("article.index", $type)->with("success", "A jóváhagyás sikerült");
+    }
+
+    public function approveRevision($article, $type) {
+        /**
+         * ha revision, akkor az article_revisions táblából adatok átmásolása articles táblába, log-ba beírás
+         * media_usages táblában adatok szinkronizálása, ahol content_type==article_revision
+         */
+        try {
+            // Begin a database transaction
+            DB::beginTransaction();
+
+            // media_usages táblában szinkronizálás
+            $revisionMediaUsages = MediaUsage::where("content_type", "article_revision")->where("content_id", $article->id)->get();
+            $articleMediaUsages = MediaUsage::where("content_type", "article")->where("content_id", $article->article_id)->get();
+
+            // Új média hozzáadása
+            foreach ($revisionMediaUsages as $revisionUsage) {
+                $exists = $articleMediaUsages->contains(function ($usage) use ($revisionUsage) {
+                    return $usage->media_id === $revisionUsage->media_id;
+                });
+
+                if (!$exists) {
+                    MediaUsage::create([
+                        "media_type" => $revisionUsage->media_type,
+                        "media_id" => $revisionUsage->media_id,
+                        "content_type" => "article",
+                        "content_id" => $article->article_id
+                    ]);
+                }
+            }
+
+            // Törölt média kezelés
+            foreach ($articleMediaUsages as $articleUsage) {
+                $existsInRevision = $revisionMediaUsages->contains(function ($revisionUsage) use ($articleUsage) {
+                    return $revisionUsage->media_id === $articleUsage->media_id;
+                });
+
+                if (!$existsInRevision) {
+                    // Ha a média nem található a revision-ban, töröljük az article-ból
+                    $articleUsage->delete();
+                }
+            }
+
+            // `article_revision` rekordok törlése a szinkronizálás után
+            MediaUsage::where("content_type", "article_revision")
+                        ->where("content_id", $article->id)
+                        ->delete();
+
+            $updateData = $article->toArray();
+            $updateData["updated_by"] = $updateData["created_by"];
+            $updateData["updated_at"] = Carbon::parse($updateData["created_at"]);
+            unset($updateData["article_status_id"]);
+            unset($updateData["delayed"]);
+            unset($updateData["article_id"]);
+            unset($updateData["created_by"]);
+            unset($updateData["created_at"]);
+            unset($updateData["menu"]);
+            unset($updateData["log"]);
+            unset($updateData["id"]);
+
+            DB::table("articles")->where('id', $article->article_id)->update($updateData);
+            
+            Helper::log($type, "MODIFY", $article->article_id, json_encode($article->log), $article->created_by);
+
+            // article_revisions táblában státusz jóváhagyott (5)
+            $article->article_status_id="5";
+            $article->save();
+
+            // Commit the transaction if everything is successful
+            DB::commit();
+        } catch (\Exception $e) {
+            // Roll back the transaction in case of an error
+            DB::rollBack();
+            Log::error('An error occurred while inserting data: ' . $e->getMessage());
+            
+            // Return an error response to the user or perform additional error handling
+            return back()->withErrors('Hiba történt adatbázis művelet során! Részletek a laravel.log fájlban')->withInput();
+        }
     }
 
     function bulkAction(Request $request, $type) {

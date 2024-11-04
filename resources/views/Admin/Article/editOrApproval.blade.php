@@ -76,20 +76,38 @@
                     <p class="pl-4">{{ $log }}</p>
                 @endforeach
 
-                <p class="mt-4">
-                    <a href="{{ route("article.sendApproval", ["type" => $type, "id" => "$article->id", "operation" => "accept", "revision"=> true]) }}" class="btn btn-sm btn-success">Jóváhagyás</a>
-                    <a href="{{ route("article.sendApproval", ["type" => $type, "id" => "$article->id", "operation" => "decline", "revision"=> true]) }}" class="btn btn-sm btn-danger">Elutasítás</a>
-                </p>
+                <form method="GET" action="{{ route("article.sendApproval", ["type" => $type, "id" => "$article->id"]) }}">
+                    <br>
+                    <b>Időzített jóváhagyás:</b>
+                    <input type="datetime-local" name="idopont" value="{{ old("idopont") }}" class="form-control">
+                    <input type="hidden" name="operation" value="accept">
+                    <input type="hidden" name="revision" value="true">
+                
+
+                    <p class="mt-4">
+                        <button type="submit" class="btn btn-sm btn-success">Jóváhagyás</button>
+                        <a href="{{ route("article.sendApproval", ["type" => $type, "id" => "$article->id", "operation" => "decline", "revision"=> "true"]) }}" class="btn btn-sm btn-danger">Elutasítás</a>
+                    </p>
+                </form>
             </div>
         @else
             <div class="alert alert-primary">
                 <p>Létrehozta: {{ $article->createdUser->name }}</p>
                 <p>Létrehozva: {{ $article->created_at }}</p>
                 
-                <p class="mt-4">
-                    <a href="{{ route("article.sendApproval", ["type" => $type, "id" => "$article->id", "operation" => "accept", "revision"=> false]) }}" class="btn btn-sm btn-success">Jóváhagyás</a>
-                    <a href="{{ route("article.sendApproval", ["type" => $type, "id" => "$article->id", "operation" => "decline", "revision"=> false]) }}" class="btn btn-sm btn-danger">Elutasítás</a>
-                </p>
+                <form method="GET" action="{{ route("article.sendApproval", ["type" => $type, "id" => "$article->id"]) }}">
+                    <br>
+                    <b>Időzített jóváhagyás:</b>
+                    <input type="datetime-local" name="idopont" value="{{ old("idopont") }}" class="form-control">
+                    <input type="hidden" name="operation" value="accept">
+                    <input type="hidden" name="revision" value="false">
+                
+
+                    <p class="mt-4">
+                        <button type="submit" class="btn btn-sm btn-success">Jóváhagyás</button>
+                        <a href="{{ route("article.sendApproval", ["type" => $type, "id" => "$article->id", "operation" => "decline", "revision"=> "false"]) }}" class="btn btn-sm btn-danger">Elutasítás</a>
+                    </p>
+                </form>
             </div>
         @endif
         
@@ -164,6 +182,15 @@
                 @endif
             </div>
         @endif
+
+        <div class="form-group">
+            <label for="form">Űrlap</label>
+            <input type="text" name="form" id="form" class="form-control" value="{{ old("form", $article->form) }}" {{ $editSettings["approval"] ? "readonly" : "" }}>
+
+            @if ($errors->has('form'))
+                <span class="text-danger">{{ $errors->first('form') }}</span>
+            @endif
+        </div>
 
         <div class="form-group">
             <label for="language">* Nyelv</label>

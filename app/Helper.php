@@ -13,7 +13,7 @@ class Helper {
         });
     }
     
-    public static function log($entity_type, $event_type, $entity_id, $event_description)
+    public static function log($entity_type, $event_type, $entity_id, $event_description, $user = null)
     {
         if ( Auth::user() )
             $user = Auth::user()->id;

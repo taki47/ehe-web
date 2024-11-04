@@ -1133,7 +1133,8 @@
             });
 
 		$(".supporters").slick({
-			speed: 300,
+			autoplay: true,
+			speed: 500,
 			infinite: true,
 			slidesToShow: 6,
 			slidesToScroll: 4,
@@ -1165,6 +1166,7 @@
 		});
 
 		$(".partners").slick({
+			autoplay: true,
 			speed: 300,
 			infinite: true,
 			slidesToShow: 6,

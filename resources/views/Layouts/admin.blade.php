@@ -71,6 +71,7 @@
           $canAccessEvents = \App\Helper::userCanAccess('events_index_') || Auth::user()->can("any_events_index");
           $canAccessPages = \App\Helper::userCanAccess('pages_index_') || Auth::user()->can("any_pages_index");
           $canAccessLog = Auth::user()->can("log");
+          $canAccessStat = Auth::user()->can("statistics");
 				@endphp
 
 
@@ -191,7 +192,7 @@
 					</div>
 				@endif
 
-				@if ($canAccessSettings || $canAccessLanguages || $canAccessLog)
+				@if ($canAccessSettings || $canAccessLanguages || $canAccessLog || $canAccessStat)
 					<div class="menu_section">
 						<h3>Karbantartás</h3>
 						<ul class="nav side-menu">
@@ -223,6 +224,14 @@
                 <li>
                   <a href="{{ route("log.index") }}">
                     <i class="fa-solid fa-book"></i> Napló megtekintése
+                  </a>
+                </li>
+              @endif
+
+              @if ( $canAccessStat )
+                <li>
+                  <a href="https://analytics.google.com" target="_blank">
+                    <i class="fa-solid fa-chart-simple"></i> Statisztika megtekintése
                   </a>
                 </li>
               @endif

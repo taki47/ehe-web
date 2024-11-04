@@ -75,6 +75,7 @@ class PermissionSeeder extends Seeder
             "any_pages_approval" => "Bármely oldalak jóváhagyása",
             "any_pages_delete" => "Bármely oldalak törlése",
             "log" => "Napló megtekintése",
+            "statistics" => "Statisztika megtekintése",
         ];
 
         foreach ($permissions as $name => $readable) {

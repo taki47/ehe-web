@@ -30,6 +30,8 @@ return new class extends Migration
             $table->datetime("event_start_date")->nullable();
             $table->datetime("event_end_date")->nullable();
             $table->string("event_location")->nullable();
+            $table->datetime("delayed")->nullable();
+            $table->string("form")->nullable();
             $table->foreignIdFor(ArticleStatus::class)->default(1);
             $table->foreignIdFor(User::class, 'created_by')->constrained('users')->onDelete('cascade');
             $table->foreignIdFor(User::class, 'updated_by')->nullable()->constrained('users')->onDelete('set null');

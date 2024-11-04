@@ -45,7 +45,7 @@ class Article extends Model
     function pendingApprovals() {
         return ArticleRevision::where("article_id", $this->id) // Először az article_id-t szűrjük
                             ->where(function($query) { // Csoportosítjuk a feltételeket
-                                $query->whereIn("article_status_id", [2, 6])
+                                $query->whereIn("article_status_id", [2, 6, 7])
                                     ->orWhere(function($q) {
                                         $q->where('article_status_id', 1)
                                             ->where('created_by', Auth::user()->id);

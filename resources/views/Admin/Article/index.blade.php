@@ -229,7 +229,12 @@
                     @endif
                     <td>{{ $article->language->name }}</td>
                     <td>{{ $article->menu->name }} {{ $article->menu->language->lang_code }}</td>
-                    <td>{{ $article->status->name }}</td>
+                    <td>
+                        {{ $article->status->name }}
+                        @if ( $article->article_status_id=="7" )
+                            <p>Megjelenik: {{ $article->delayed }}</p>
+                        @endif
+                    </td>
                     <td>{{ $article->createdUser->name }}</td>
                     <td>{{ $article->created_at }}</td>
                     <td>{{ $article->updated_by ? $article->updatedUser->name : "" }}</td>
@@ -245,7 +250,7 @@
                                 <a href="{{ route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "approval"]) }}" class="btn btn-sm btn-primary">Jóváhagyás</a>
                             @endif
                             @if ( $article->article_status_id=="6" )
-                                <a href="{{ route("article.sendApproval", ["type" => $type, "id" => $article->id, "operation" => "rollback", "revision" => false]) }}" class="btn btn-sm btn-primary">Elutasítás visszavonása</a>
+                                <a href="{{ route("article.sendApproval", ["type" => $type, "id" => $article->id, "operation" => "rollback", "revision" => "false"]) }}" class="btn btn-sm btn-primary">Elutasítás visszavonása</a>
                             @endif
                         </td>
                     @endif
@@ -307,7 +312,7 @@
                                     @foreach ($pendingApprovals as $item)
                                     <tr style="cursor: pointer;" 
                                             @if ($item->created_by == Auth::user()->id && ($item->article_status_id==1 || $item->article_status_id==2 ))
-                                                onClick="document.location.href='{{ (\App\Helper::userCanAccess($type.'_edit_'.$article->menu->id) || Auth::user()->can("any_".$type."_edit")) && ($article->article_status_id==3 || $article->article_status_id==1 || $article->article_status_id==2) ? route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "edit", "revision" => true]) : "" }}'"
+                                                onClick="document.location.href='{{ (\App\Helper::userCanAccess($type.'_edit_'.$article->menu->id) || Auth::user()->can("any_".$type."_edit")) && ($article->article_status_id==3 || $article->article_status_id==1 || $article->article_status_id==2) ? route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "edit", "revision" => "true"]) : "" }}'"
                                             @endif
                                         >                                
                                             <td>
@@ -330,6 +335,9 @@
                                             </td>
                                             <td>
                                                 {{ $item->status->name }}
+                                                @if ( $item->article_status_id=="7" )
+                                                    <p>Megjelenik: {{ $item->delayed }}</p>
+                                                @endif
                                             </td>
                                             <td>
                                                 {{ $item->createdUser->name }}
@@ -345,10 +353,10 @@
                                             @if ( \App\Helper::userCanAccess($type.'_approval_'.$article->menu->id) || Auth::user()->can("any_".$type."_approval") )
                                                 <td>
                                                     @if ( $item->article_status_id==2 )
-                                                        <a href="{{ route("article.editOrApproval", ["type" => $type, "id" => $item->id, "operation" => "approval", "revision" => true]) }}" class="btn btn-sm btn-primary">Jóváhagyás</a>
+                                                        <a href="{{ route("article.editOrApproval", ["type" => $type, "id" => $item->id, "operation" => "approval", "revision" => "true"]) }}" class="btn btn-sm btn-primary">Jóváhagyás</a>
                                                     @endif
                                                     @if ( $item->article_status_id=="6" )
-                                                        <a href="{{ route("article.sendApproval", ["type" => $type, "id" => $item->id, "operation" => "rollback", "revision" => true]) }}" class="btn btn-sm btn-primary">Elutasítás visszavonása</a>
+                                                        <a href="{{ route("article.sendApproval", ["type" => $type, "id" => $item->id, "operation" => "rollback", "revision" => "true"]) }}" class="btn btn-sm btn-primary">Elutasítás visszavonása</a>
                                                     @endif
                                                 </td>
                                             @endif

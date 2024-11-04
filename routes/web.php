@@ -72,7 +72,7 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     // napló
      Route::get("log", [LogController::class, "index"])->name("log.index");
 
-     // hírek
+     // articles
      Route::get("article/{type}", [ArticleController::class, "index"])->name("article.index");
      Route::get("article/{type}/create", [ArticleController::class, "create"])->name("article.create");
      Route::post("article/{type}/create", [ArticleController::class, "store"])->name("article.store");
