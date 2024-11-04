@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="description">* Leírás</label>
-            <input type="text" class="form-control" id="description" placeholder="Leírás" name="description" value="{{ old() ? old("description") : "" }}">
+            <input type="text" class="form-control" id="description" placeholder="Leírás" name="description" value="{{ old() ? old("description") : "" }}" maxlength="180">
 
             @if ($errors->has('description'))
                 <span class="text-danger">{{ $errors->first('description') }}</span>

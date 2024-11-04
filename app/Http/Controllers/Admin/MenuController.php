@@ -139,13 +139,23 @@ class MenuController extends Controller
                     "create" => "hírek létrehozása",
                     "edit" => "hírek szerkesztése",
                     "approval" => "hírek jóváhagyása",
+                    "archive" => "hírek archiválása, újraaktiválása",
                     "delete" => "hírek törlése"
+                ],
+                "foreign_news" => [
+                    "index" => "külföldi hírek listázása",
+                    "create" => "külföldi hírek létrehozása",
+                    "edit" => "külföldi hírek szerkesztése",
+                    "approval" => "külföldi hírek jóváhagyása",
+                    "archive" => "külföldi hírek archiválása, újraaktiválása",
+                    "delete" => "külföldi hírek törlése"
                 ],
                 "events" => [
                     "index" => "események listázása",
                     "create" => "események létrehozása",
                     "edit" => "események szerkesztése",
                     "approval" => "események jóváhagyása",
+                    "archive" => "események archiválása, újraaktiválása",
                     "delete" => "események törlése"
                 ],
                 "pages" => [
@@ -153,6 +163,7 @@ class MenuController extends Controller
                     "create" => "oldalak létrehozása",
                     "edit" => "oldalak szerkesztése",
                     "approval" => "oldalak jóváhagyása",
+                    "archive" => "oldalak archiválása, újraaktiválása",
                     "delete" => "oldalak törlése"
                 ],
             ];

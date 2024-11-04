@@ -67,6 +67,7 @@
           $canAccessBanner = Auth::user()->can("banner_index");
           $canAccessMenu = \App\Helper::userCanAccess('menu_index_') || Auth::user()->can("any_menu_index");
           $canAccessNews = \App\Helper::userCanAccess('news_index_') || Auth::user()->can("any_news_index");
+          $canAccessForeignNews = \App\Helper::userCanAccess('foreign_news_index_') || Auth::user()->can("any_foreign_news_index");
           $canAccessEvents = \App\Helper::userCanAccess('events_index_') || Auth::user()->can("any_events_index");
           $canAccessPages = \App\Helper::userCanAccess('pages_index_') || Auth::user()->can("any_pages_index");
           $canAccessLog = Auth::user()->can("log");
@@ -85,7 +86,7 @@
               </li>
             @endif
 
-            @if ( $canAccessNews )
+            @if ( $canAccessForeignNews )
               <li>
                 <a href="{{ route("article.index", "foreign_news") }}">
                   <i class="fa-solid fa-podcast"></i> Külföldi hírek kezelése
@@ -97,6 +98,14 @@
               <li>
                 <a href="{{ route("article.index", "events") }}">
                   <i class="fa-solid fa-calendar-days"></i> Események kezelése
+                </a>
+              </li>
+            @endif
+
+            @if ( $canAccessPages )
+              <li>
+                <a href="{{ route("article.index", "pages") }}">
+                  <i class="fa-solid fa-file"></i> Oldalak kezelése
                 </a>
               </li>
             @endif

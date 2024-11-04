@@ -30,5 +30,11 @@ class ArticleTypeSeeder extends Seeder
             "slug" => "events",
             "cover_path" => "/images/events"
         ]);
+
+        ArticleType::create([
+            "name" => "Oldalak",
+            "slug" => "pages",
+            "cover_path" => "/images/pages"
+        ]);
     }
 }

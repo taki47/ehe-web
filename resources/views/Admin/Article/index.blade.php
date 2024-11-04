@@ -18,6 +18,11 @@
         if ( \App\Helper::userCanAccess('news_edit_') || Auth::user()->can("any_news_edit") ) {
             $canEdit = true;
         }
+
+        $canArchive = false;
+        if ( \App\Helper::userCanAccess('news_archive_') || Auth::user()->can("any_news_archive") ) {
+            $canArchive = true;
+        }
     @endphp
     
 
@@ -62,7 +67,7 @@
         </div>
     </form>
 
-    @if ( $canEdit )
+    @if ( $canArchive )
         <!-- Státusz módosító -->
         <div class="mb-3">
             <form action="{{ route('article.bulk-actions', $type) }}" method="POST" id="bulkStatusForm">
@@ -83,7 +88,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                @if ( $canEdit )
+                @if ( $canArchive )
                     <th>
                         <input type="checkbox" id="select_all" onclick="toggle(this)" />
                     </th>
@@ -172,7 +177,7 @@
         <tbody>
             @foreach($articles as $article)
                 <tr style="cursor: pointer;" onClick="handleRowClick(event, '{{ (\App\Helper::userCanAccess('news_edit_'.$article->menu->id) || Auth::user()->can("any_news_edit")) && ($article->article_status_id==3 || $article->article_status_id==1 || $article->article_status_id==2) ? route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "edit"]) : "" }}')">
-                    @if ( $canEdit )
+                    @if ( $canArchive )
                         <td>
                             <input type="checkbox" name="article_ids[]" value="{{ $article->id }}" onchange="updateSelectedArticles()" />
                         </td>

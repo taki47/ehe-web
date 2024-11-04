@@ -121,7 +121,7 @@ class BannersTableSeeder extends Seeder
             array (
                 'id' => 8,
                 'title' => 'Kommende Veranstaltungen',
-                'description' => 'Verpassen Sie nicht unsere aufregenden bevorstehenden Veranstaltungen! Schauen Sie sich unseren Kalender mit Workshops, Meetings und Community-Treffen an, die wir für alle unsere Mitglieder veranstalten.',
+                'description' => 'Verpassen Sie nicht unsere aufregenden bevorstehenden Veranstaltungen! Schauen Sie sich unseren Kalender mit Workshops, Meetings und Community-Treffen an, die wir für alle unsere.',
                 'link' => NULL,
                 'created_by' => 1,
                 'updated_by' => 1,
