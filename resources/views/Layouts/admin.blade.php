@@ -85,6 +85,22 @@
               </li>
             @endif
 
+            @if ( $canAccessNews )
+              <li>
+                <a href="{{ route("article.index", "foreign_news") }}">
+                  <i class="fa-solid fa-podcast"></i> Külföldi hírek kezelése
+                </a>
+              </li>
+            @endif
+
+            @if ( $canAccessEvents )
+              <li>
+                <a href="{{ route("article.index", "events") }}">
+                  <i class="fa-solid fa-calendar-days"></i> Események kezelése
+                </a>
+              </li>
+            @endif
+
             @if ( $canAccessMenu )
               <li>
                 <a href="{{ route("menu.index") }}">

@@ -20,6 +20,12 @@ class ArticleTypeSeeder extends Seeder
         ]);
 
         ArticleType::create([
+            "name" => "Külföldi hírek",
+            "slug" => "foreign_news",
+            "cover_path" => "/images/foreign_news"
+        ]);
+
+        ArticleType::create([
             "name" => "Események",
             "slug" => "events",
             "cover_path" => "/images/events"

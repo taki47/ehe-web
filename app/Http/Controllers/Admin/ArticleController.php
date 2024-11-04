@@ -32,8 +32,8 @@ class ArticleController extends Controller
         if (!Helper::userCanAccess($type.'_index_') && !Auth::user()->can("any_".$type."_index"))
             abort(403);
 
-
-        $query = Article::with("language", "status");
+        $articleType = ArticleType::where("slug", $type)->first();
+        $query = Article::with("language", "status")->where("article_type_id", $articleType->id);
         
         // Keresés a cím és a leírás alapján
         if ($request->has('search') && $request->input('search') != '') {
@@ -98,7 +98,7 @@ class ArticleController extends Controller
         // státuszok lekérése
         $statuses = ArticleStatus::all();
 
-        return view("Admin.Article.index", compact("articles", "statuses", "type", "menus"));
+        return view("Admin.Article.index", compact("articles", "statuses", "type", "menus", "articleType"));
     }
 
     /**

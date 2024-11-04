@@ -1,6 +1,6 @@
 @extends('Layouts.admin')
 
-@section('title') Hírek @endsection
+@section('title') {{ $articleType->name }} @endsection
 
 @section('content')
     @php
@@ -22,7 +22,7 @@
     
 
     @if ( $canCreate )
-        <a href="{{ route('article.create', $type) }}" class="btn btn-primary">+ Új hírek hozzáadása</a>
+        <a href="{{ route('article.create', $type) }}" class="btn btn-primary">+ Új {{ $articleType->name }} hozzáadása</a>
     @endif
     
     @if (session('success'))
