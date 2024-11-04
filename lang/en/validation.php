@@ -158,6 +158,9 @@ return [
         'body' => 'Törzs',
         'cover' => 'Nyitókép',
         'lead' => 'Leírás',
-        'menu_id' => 'Csoport'
+        'menu_id' => 'Csoport',
+        'event_start_date' => "Esemény kezdő dátuma",
+        'event_end_date' => "Esemény befejezés dátuma",
+        'event_location' => "Esemény helyszíne",
     ],
 ];

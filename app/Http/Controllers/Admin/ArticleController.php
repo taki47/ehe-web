@@ -161,6 +161,9 @@ class ArticleController extends Controller
                 'cover' => $uploaded,
                 'lead' => $request->lead,
                 'body' => $request->body,
+                'event_start_date' => $request->event_start_date,
+                'event_end_date' => $request->event_end_date,
+                'event_location' => $request->event_location,
                 'article_status_id' => ($request->savetype=="draft" ? 1 : 2),
                 'created_by' => Auth::user()->id,
                 'created_at' => Carbon::now()
@@ -307,6 +310,24 @@ class ArticleController extends Controller
                 $updateData["body"] = $request->body;
             }
 
+            // esemény kezdő dátum módosítása
+            if ( $request->has("event_start_date") && $request->event_start_date != $article->event_start_date ) {
+                $log[] = "Esemény kezdő dátuma: ".$article->event_start_date . " -> ".$request->event_start_date;
+                $updateData["event_start_date"] = $request->event_start_date;
+            }
+
+            // esemény befejezés dátum módosítása
+            if ( $request->has("event_end_date") && $request->event_end_date != $article->event_end_date ) {
+                $log[] = "Esemény befejező dátuma: ".$article->event_end_date . " -> ".$request->event_end_date;
+                $updateData["event_end_date"] = $request->event_end_date;
+            }
+
+            // esemény helyszín módosítása
+            if ( $request->has("event_location") && $request->event_location != $article->event_location ) {
+                $log[] = "Esemény helyszín: ".$article->event_location . " -> ".$request->event_location;
+                $updateData["event_location"] = $request->event_location;
+            }
+
             // nyelv módosítása
             if ( $request->language != $article->language_id ) {
                 $log[] = "Nyelv: ".Helper::get_name_from_id(Language::class, $article->language_id) . " -> ".Helper::get_name_from_id(Language::class, $request->language);
@@ -380,6 +401,9 @@ class ArticleController extends Controller
                     'cover' => ($uploadedImage ? $uploadedImage : $article->cover),
                     'lead' => $request->lead,
                     'body' => $request->body,
+                    'event_start_date' => ($request->has("event_start_date") ? $request->event_start_date : null),
+                    'event_end_date' => ($request->has("event_end_date") ? $request->event_end_date : null),
+                    'event_location' => ($request->has("event_location") ? $request->event_location : null),
                     'created_by' => Auth::user()->id,
                     'created_at' => Carbon::now(),
                     'article_status_id' => ($request->savetype=="draft" ? 1 : 2),

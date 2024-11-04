@@ -134,6 +134,37 @@
                 <span class="text-danger">{{ $errors->first('body') }}</span>
             @endif
         </div>
+
+        @if ( $type=="events" )
+            <div class="form-group">
+                <label for="event_start_date">* Esemény kezdő dátuma</label>
+                <input type="datetime-local" name="event_start_date" id="event_start_date" class="form-control" value="{{ old("event_start_date", $article->event_start_date) }}" {{ $editSettings["approval"] ? "readonly" : "" }}>
+
+                @if ($errors->has('event_start_date'))
+                    <span class="text-danger">{{ $errors->first('event_start_date') }}</span>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label for="event_end_date">* Esemény befejezés dátuma</label>
+                <input type="datetime-local" name="event_end_date" id="event_end_date" class="form-control" value="{{ old("event_start_date", $article->event_end_date) }}" {{ $editSettings["approval"] ? "readonly" : "" }}>
+
+                @if ($errors->has('event_end_date'))
+                    <span class="text-danger">{{ $errors->first('event_end_date') }}</span>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label for="event_location">* Esemény helyszíne</label>
+                <input type="text" name="event_location" id="location" class="form-control" oninput="fetchSuggestions(this.value)" list="locationList" value="{{ old("event_location", $article->event_location) }}" {{ $editSettings["approval"] ? "readonly" : "" }}>
+                <datalist id="locationList"></datalist>
+
+                @if ($errors->has('event_location'))
+                    <span class="text-danger">{{ $errors->first('event_location') }}</span>
+                @endif
+            </div>
+        @endif
+
         <div class="form-group">
             <label for="language">* Nyelv</label>
             <select name="language" id="language-select" class="form-control" {{ $editSettings["approval"] ? "disabled" : "" }}>
@@ -346,5 +377,21 @@
                 menuSelect.appendChild(option);
             });
         });
+
+        async function fetchSuggestions(query) {
+            if (query.length < 3) return; // Csak 3 karakter felett kezdje a keresést
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5`);
+            const data = await response.json();
+
+            const datalist = document.getElementById('locationList');
+            datalist.innerHTML = ''; // Töröld az előző ajánlásokat
+
+            // Helyszínajánlások hozzáadása a datalist elemhez
+            data.forEach(place => {
+                const option = document.createElement('option');
+                option.value = place.display_name; // Ezt látja a felhasználó
+                datalist.appendChild(option);
+            });
+        }
     </script>
 @endsection

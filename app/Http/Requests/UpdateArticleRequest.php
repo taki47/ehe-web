@@ -65,6 +65,25 @@ class UpdateArticleRequest extends FormRequest
                     "exists:menus,id"
                 ]
             ];
+
+            if ( $type=="events" ) {
+                $rule["event_start_date"] = [
+                    "nullable",
+                    "date",
+                    "after_or_equal:today"
+                ];
+
+                $rule["event_end_date"] = [
+                    "nullable",
+                    "date",
+                    "after_or_equal:event_start_date"
+                ];
+
+                $rule["event_location"] = [
+                    "nullable",
+                    "string"
+                ];
+            }
         } else {
             $rule = [
                 "title" => [
@@ -94,6 +113,25 @@ class UpdateArticleRequest extends FormRequest
                     "exists:menus,id"
                 ]
             ];
+
+            if ( $type=="events" ) {
+                $rule["event_start_date"] = [
+                    "required",
+                    "date",
+                    "after_or_equal:today"
+                ];
+
+                $rule["event_end_date"] = [
+                    "required",
+                    "date",
+                    "after_or_equal:event_start_date"
+                ];
+
+                $rule["event_location"] = [
+                    "required",
+                    "string"
+                ];
+            }
         }
 
         return $rule;

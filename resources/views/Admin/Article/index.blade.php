@@ -5,22 +5,22 @@
 @section('content')
     @php
         $canApproval = false;
-        if ( \App\Helper::userCanAccess('news_approval_') || Auth::user()->can("any_news_approval") ) {
+        if ( \App\Helper::userCanAccess($type.'_approval_') || Auth::user()->can("any_".$type."_approval") ) {
             $canApproval = true;
         }
 
         $canCreate = false;
-        if ( \App\Helper::userCanAccess('news_create_') || Auth::user()->can("any_news_create") ) {
+        if ( \App\Helper::userCanAccess($type.'_create_') || Auth::user()->can("any_".$type."_create") ) {
             $canCreate = true;
         }
 
         $canEdit = false;
-        if ( \App\Helper::userCanAccess('news_edit_') || Auth::user()->can("any_news_edit") ) {
+        if ( \App\Helper::userCanAccess($type.'_edit_') || Auth::user()->can("any_".$type."_edit") ) {
             $canEdit = true;
         }
 
         $canArchive = false;
-        if ( \App\Helper::userCanAccess('news_archive_') || Auth::user()->can("any_news_archive") ) {
+        if ( \App\Helper::userCanAccess($type.'_archive_') || Auth::user()->can("any_".$type."_archive") ) {
             $canArchive = true;
         }
     @endphp
@@ -103,6 +103,14 @@
                     </a>
                 </th>
                 <th>
+                    <a href="{{ route('article.index', ['type' => $type, 'sort' => 'slug', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
+                        URL
+                        @if(request('sort') == 'slug')
+                            <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
+                        @endif
+                    </a>
+                </th>
+                <th>
                     <a href="{{ route('article.index', ['type' => $type, 'sort' => 'lead', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
                         Leírás
                         @if(request('sort') == 'lead')
@@ -110,6 +118,34 @@
                         @endif
                     </a>
                 </th>
+
+                @if ( $type=="events" )
+                    <th>
+                        <a href="{{ route('article.index', ['type' => $type, 'sort' => 'event_start_date', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
+                            Esemény kezdő dátuma
+                            @if(request('sort') == 'event_start_date')
+                                <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
+                            @endif
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('article.index', ['type' => $type, 'sort' => 'event_end_date', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
+                            Esemény befejezés dátuma
+                            @if(request('sort') == 'event_end_date')
+                                <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
+                            @endif
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('article.index', ['type' => $type, 'sort' => 'event_location', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
+                            Esemény helyszíne
+                            @if(request('sort') == 'event_location')
+                                <span class="badge">{{ request('direction') == 'asc' ? '↑' : '↓' }}</span>
+                            @endif
+                        </a>
+                    </th>
+                @endif
+                
                 <th>
                     <a href="{{ route('article.index', ['type' => $type, 'sort' => 'language_id', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['sort', 'direction'])) }}">
                         Nyelv
@@ -176,7 +212,7 @@
         </thead>
         <tbody>
             @foreach($articles as $article)
-                <tr style="cursor: pointer;" onClick="handleRowClick(event, '{{ (\App\Helper::userCanAccess('news_edit_'.$article->menu->id) || Auth::user()->can("any_news_edit")) && ($article->article_status_id==3 || $article->article_status_id==1 || $article->article_status_id==2) ? route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "edit"]) : "" }}')">
+                <tr style="cursor: pointer;" onClick="handleRowClick(event, '{{ (\App\Helper::userCanAccess($type.'_edit_'.$article->menu->id) || Auth::user()->can("any_".$type."_edit")) && ($article->article_status_id==3 || $article->article_status_id==1 || $article->article_status_id==2) ? route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "edit"]) : "" }}')">
                     @if ( $canArchive )
                         <td>
                             <input type="checkbox" name="article_ids[]" value="{{ $article->id }}" onchange="updateSelectedArticles()" />
@@ -184,9 +220,15 @@
                     @endif
                     <td>{{ $article->id }}</td>
                     <td>{{ $article->title }}</td>
+                    <td>{{ $article->slug }}</td>
                     <td>{{ $article->lead }}</td>
+                    @if ( $type=="events" )
+                        <td>{{ $article->event_start_date }}</td>
+                        <td>{{ $article->event_end_date }}</td>
+                        <td>{{ $article->event_location }}</td>
+                    @endif
                     <td>{{ $article->language->name }}</td>
-                    <td>{{ $article->menu->name }}</td>
+                    <td>{{ $article->menu->name }} {{ $article->menu->language->lang_code }}</td>
                     <td>{{ $article->status->name }}</td>
                     <td>{{ $article->createdUser->name }}</td>
                     <td>{{ $article->created_at }}</td>
@@ -197,7 +239,7 @@
                             <img src="{{ $article->cover_path }}/{{ $article->cover }}" style="max-height:100px;">
                         @endif
                     </td>
-                    @if ( \App\Helper::userCanAccess('news_approval_'.$article->menu->id) || Auth::user()->can("any_news_approval") )
+                    @if ( \App\Helper::userCanAccess($type.'_approval_'.$article->menu->id) || Auth::user()->can("any_".$type."_approval") )
                         <td>
                             @if ( $article->article_status_id==2 )
                                 <a href="{{ route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "approval"]) }}" class="btn btn-sm btn-primary">Jóváhagyás</a>
@@ -231,6 +273,9 @@
                                             Cím
                                         </th>
                                         <th>
+                                            URL
+                                        </th>
+                                        <th>
                                             Leírás
                                         </th>
                                         <th>
@@ -251,7 +296,7 @@
                                         <th>
                                             Nyitókép
                                         </th>
-                                        @if ( \App\Helper::userCanAccess('news_approval_'.$article->menu->id) || Auth::user()->can("any_news_approval") )
+                                        @if ( \App\Helper::userCanAccess($type.'_approval_'.$article->menu->id) || Auth::user()->can("any_".$type."_approval") )
                                             <th>
                                                 Műveletek
                                             </th>
@@ -262,7 +307,7 @@
                                     @foreach ($pendingApprovals as $item)
                                     <tr style="cursor: pointer;" 
                                             @if ($item->created_by == Auth::user()->id && ($item->article_status_id==1 || $item->article_status_id==2 ))
-                                                onClick="document.location.href='{{ route("article.editOrApproval", ["type" => $type, "operation" => "edit", "id" => $item->id, "revision" => true]) }}'"
+                                                onClick="document.location.href='{{ (\App\Helper::userCanAccess($type.'_edit_'.$article->menu->id) || Auth::user()->can("any_".$type."_edit")) && ($article->article_status_id==3 || $article->article_status_id==1 || $article->article_status_id==2) ? route("article.editOrApproval", ["type" => $type, "id" => $article->id, "operation" => "edit", "revision" => true]) : "" }}'"
                                             @endif
                                         >                                
                                             <td>
@@ -270,6 +315,9 @@
                                             </td>
                                             <td>
                                                 {{ $item->title }}
+                                            </td>
+                                            <td>
+                                                {{ $item->slug }}
                                             </td>
                                             <td>
                                                 {{ $item->lead }}
@@ -294,7 +342,7 @@
                                                     <img src="{{ $item->cover_path }}/{{ $item->cover }}" style="max-height:100px;">
                                                 @endif
                                             </td>
-                                            @if ( \App\Helper::userCanAccess('news_approval_'.$article->menu->id) || Auth::user()->can("any_news_approval") )
+                                            @if ( \App\Helper::userCanAccess($type.'_approval_'.$article->menu->id) || Auth::user()->can("any_".$type."_approval") )
                                                 <td>
                                                     @if ( $item->article_status_id==2 )
                                                         <a href="{{ route("article.editOrApproval", ["type" => $type, "id" => $item->id, "operation" => "approval", "revision" => true]) }}" class="btn btn-sm btn-primary">Jóváhagyás</a>
