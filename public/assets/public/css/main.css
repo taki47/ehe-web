@@ -38,6 +38,10 @@
 
 }
 
+.tile a {
+    color: inherit;
+}
+
 .tile .text {
     margin-left: 10px;
 }

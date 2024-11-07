@@ -25,6 +25,9 @@
         display: inline-block;
     }
 </style>
+
+<link href="/assets/summernote/summernote.min.css" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('content')
@@ -70,8 +73,8 @@
         </div>
         <div class="form-group">
             <label for="body">* Törzs</label>
-            <textarea name="body" id="body" class="form-control">{{ old("body") }}</textarea>
-
+            <textarea name="body" id="body" class="form-control summernote">{{ old("body") }}</textarea>
+            
             @if ($errors->has('body'))
                 <span class="text-danger">{{ $errors->first('body') }}</span>
             @endif
@@ -174,7 +177,7 @@
 @endsection
 
 @section('scripts')
-    <script src="/assets/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/assets/summernote/summernote-functions.js"></script>
     <script>
         // mentés gombok
         $("#draft-btn").on("click", function() {
@@ -185,19 +188,6 @@
         $("#save-btn").on("click", function() {
             $("#saveType").val("save");
             $("#createForm").submit();
-        });
-
-        // wysiwyg editor inicializálása
-        tinymce.init({
-            selector: 'textarea#body',
-            plugins: [
-                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            tinycomments_mode: 'embedded',
-            exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
-            exportword_converter_options: { 'document': { 'size': 'Letter' } },
-            importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
         });
 
         // nyelv választáskor csoport szűkítés

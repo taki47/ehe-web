@@ -2,6 +2,11 @@
 
 @section('title') Weboldal beállítások @endsection
 
+@section('styles')
+    <link href="/assets/summernote/summernote.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content')
     @if (session('success'))
         <div class="alert alert-success">
@@ -34,8 +39,10 @@
                             </select>
                         @elseif( $setting->type=="boolean" )
                             <input type="checkbox" name="{{ $setting->id }}" value="1" {{ $setting->value=="1" ? "checked" : "" }}>
+                        @elseif( $setting->type=="tiny" )
+                            <textarea name="{{ $setting->id }}" class="textarea summernote">{{ $setting->value }}</textarea>
                         @else
-                            <input type="text" name="{{ $setting->id }}" value="{{ $setting->value }}">
+                            <input type="text" name="{{ $setting->id }}" value="{{ $setting->value }}" class="form-control">
                         @endif
                     </td>
                 </tr>
@@ -44,4 +51,8 @@
 
         <input type="submit" class="btn btn-primary" value="Módosítás">
     </form>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="/assets/summernote/summernote-functions.js"></script>
 @endsection

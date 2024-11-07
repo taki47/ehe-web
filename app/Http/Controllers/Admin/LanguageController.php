@@ -174,11 +174,17 @@ class LanguageController extends Controller
 
         foreach ($data as $key => $locales) {
             foreach ($locales as $locale => $value) {
-                Translation::updateOrCreate([
-                        'key' => $key,
-                        'language' => $locale,
-                        'value' => $value
-                ]);
+                $translation = Translation::where("key", $key)->where("language", $locale)->first();
+                if ( $translation ) {
+                    $translation->value = $value;
+                    $translation->save();
+                } else {
+                    $translation = new Translation();
+                    $translation->key = $key;
+                    $translation->language = $locale;
+                    $translation->value = $value;
+                    $translation->save();
+                }
             }
         }
 

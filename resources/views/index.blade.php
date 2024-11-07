@@ -35,6 +35,9 @@
 	<link rel="stylesheet" href="/assets/public/include/fontawesome/css/all.min.css">
 
 	<title>{{ \App\Models\Translation::getTranslation('site.name') }}</title>
+
+	<!-- header kódok -->
+	{{ $settings[9]->value }}
 </head>
 
 <body class="stretched">
@@ -151,12 +154,27 @@
 		<div class="tiles" style="max-width: 100%; max-height: 100px; background: rgb(245, 245, 245);padding: 10px 0px;">
 			<div class="container">
 				@foreach ($menus as $index => $menu)
-					<div class="tile {{ $index==0 ? "selected" : "" }}" menu-toggle="{{ $menu->id }}">
+					@php
+						$selected = "";
+						if ( (!request()->has("activemenu") && $index==0) || (request()->has("activemenu") && request()->query("activemenu")==$menu->id) )
+							$selected = "selected";
+
+						$hasLink = "";
+						if ( $menu->children->count()==0 )
+							$hasLink = "haslink";
+					@endphp
+					<div class="tile {{ $selected }} {{ $hasLink }}" menu-toggle="{{ $menu->id }}" data-link="{{ $menu->link }}?activemenu={{ $menu->id }}">
 						<div class="image" style="background: url('/images/tiles/{{ $menu->image }}')"></div>
 						<div class="text">
-							<p class="title">{{ $menu->name }}</p>
-							<p class="description">{{ $menu->description }}</p>
-							<p class='subdescription'>{{ $menu->subdescription }}</p>
+							<p class="title">
+								{{ $menu->name }}
+							</p>
+							<p class="description">
+								{{ $menu->description }}
+							</p>
+							<p class='subdescription'>
+								{{ $menu->subdescription }}
+							</p>
 						</div>
 					</div>
 				@endforeach
@@ -167,7 +185,7 @@
 		<!-- tile menus -->
 		<div id="tile-menus">
 			@foreach ($menus as $index => $menu)
-				<nav class="main-nav {{ $index == 0 ? '' : 'd-none' }}" role="navigation" id="menu-{{ $menu->id }}">
+				<nav class="main-nav {{ (!request()->has("activemenu") && $index==0) || (request()->has("activemenu") && request()->query("activemenu")==$menu->id) ? "" : "d-none" }}" role="navigation" id="menu-{{ $menu->id }}">
 					<div class="container">
 						<ul id="main-menu" class="sm sm-mint tile-menu">
 							@foreach ($menu->children as $child)
@@ -932,7 +950,7 @@
 										</div>
 										<div class="col ps-3">
 											<div class="entry-meta">
-												6440 Jánoshalma, Eötvös József utca 27.
+												{{ $settings[4]->value }}
 											</div>
 										</div>
 									</div>
@@ -944,7 +962,7 @@
 										</div>
 										<div class="col ps-3">
 											<div class="entry-meta">
-												<a href="tel:+36 1 123-4567">+36 1 123-4567</a>
+												<a href="tel:{{ $settings[5]->value }}">{{ $settings[5]->value }}</a>
 											</div>
 										</div>
 									</div>
@@ -956,7 +974,7 @@
 										</div>
 										<div class="col ps-3">
 											<div class="entry-meta">
-												<a href="tel:+36 1 123-4567">+36 1 123-4567</a>
+												<a href="tel:{{ $settings[6]->value }}">{{ $settings[6]->value }}</a>
 											</div>
 										</div>
 									</div>
@@ -968,7 +986,7 @@
 										</div>
 										<div class="col ps-3">
 											<div class="entry-meta">
-												<a href="mailto:info@ehe.hu">info@ehe.hu</a>
+												<a href="mailto:{{ $settings[7]->value }}">{{ $settings[7]->value }}</a>
 											</div>
 										</div>
 									</div>
@@ -999,7 +1017,14 @@
 					<div class="row justify-content-center">
 						<div class="col-md-12 align-self-center">
 							{{ \App\Models\Translation::getTranslation('footer.copyright') }}<br>
-							<div class="copyright-links"><a href="/">{{ \App\Models\Translation::getTranslation('footer.links.term') }}</a> / <a href="/">{{ \App\Models\Translation::getTranslation('footer.links.privacy') }}</a>
+							<div class="copyright-links">
+								@php
+									$term = explode(",",\App\Models\Translation::getTranslation('footer.links.term'));
+									$privacy = explode(",",\App\Models\Translation::getTranslation('footer.links.privacy'));
+								@endphp
+								<a href="{{ $term[1] }}">{{ $term[0] }}</a>
+								/
+								<a href="{{ $privacy[1] }}">{{ $privacy[0] }}</a>
 							</div>
 						</div>
 					</div>
@@ -1233,6 +1258,11 @@
 
 		$("#toTop").click(function() {
 			$("html, body").animate({scrollTop: 0}, 1000);
+		});
+
+		$(".haslink").on("click", function() {
+			let link = $(this).data("link");
+			document.location.href=link;
 		});
 
 		

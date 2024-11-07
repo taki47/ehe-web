@@ -623,7 +623,7 @@ class ArticleController extends Controller
 
             DB::table("articles")->where('id', $article->article_id)->update($updateData);
             
-            Helper::log($type, "MODIFY", $article->article_id, json_encode($article->log), $article->created_by);
+            Helper::log($type, "MODIFY", $article->article_id, $article->log, $article->created_by);
 
             // article_revisions táblában státusz jóváhagyott (5)
             $article->article_status_id="5";

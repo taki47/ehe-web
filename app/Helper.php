@@ -3,6 +3,7 @@
 namespace App;
 use App\Models\Log;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Helper {
@@ -58,5 +59,20 @@ class Helper {
         }
 
         return $menuIds;
+    }
+
+    function fileUpload(Request $request) {
+        $file = $request->file;
+        $datePath = now()->format('Y/m/d');
+        $path = "/uploads/".$datePath;
+
+        $fileUploader = new FileUploadHelper($file, $path);
+        $uploaded = $fileUploader->UploadFile("new");
+
+        if ( $uploaded ) {
+            return response()->json(["status" => true, "filename" => $path."/".$uploaded]);
+        } else {
+            return response()->json(["status" => false, "filename" => ""]);
+        }
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Menu extends Model
 {
@@ -15,7 +16,14 @@ class Menu extends Model
     // Szülő-gyermek kapcsolat
     public function children()
     {
-        return $this->hasMany(Menu::class, 'parent_id')->orderBy('order');
+        //return $this->hasMany(Menu::class, 'parent_id')->where("status",1)->orderBy('order');
+        $query = $this->hasMany(Menu::class, "parent_id")->orderBy("order");
+
+        if ( !auth()->user() || !(\App\Helper::userCanAccess('menu_create_') || Auth::user()->can("any_menu_create")) ) {
+            $query->where("status", 1);
+        }
+
+        return $query;
     }
 
     public function parent()

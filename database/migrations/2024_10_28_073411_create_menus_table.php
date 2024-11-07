@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger("parent_id")->nullable();
             $table->integer("order")->default(0);
             $table->foreignIdFor(Language::class)->nullable();
+            $table->char("status", 1)->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

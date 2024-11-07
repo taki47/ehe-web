@@ -102,6 +102,19 @@
             </div>
         @endif
 
+        <div class="form-group">
+            <label for="link">* Státusz:</label>
+            <select name="status" class="form-control">
+                <option value="0" {{ old() && old("status")==0 || !old() && $editMenu->status==0 ? "selected" : "" }}>Inaktív</option>
+                <option value="1" {{ old() && old("status")==1 || !old() && $editMenu->status==1 ? "selected" : "" }}>Aktív</option>
+            </select>
+            <small id="linkHelp" class="form-text text-muted">Külső link esetén minden esetben https://-el kell kezdeni</small>
+
+            @if ($errors->has('link'))
+                <span class="text-danger">{{ $errors->first('link') }}</span>
+            @endif
+        </div>
+
         <button type="submit" class="btn btn-primary">Módosítás</button>
     </form>
 @endsection

@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\RolePermissionController;
+use App\Helper;
 
 Route::get('/', [PublicController::class, "index"])->name("home");
 
@@ -80,4 +81,7 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
      Route::post("article/{type}/bulk-action", [ArticleController::class, "bulkAction"])->name("article.bulk-actions");
      Route::put("article/{type}/edit/{id}", [ArticleController::class, "update"])->name("article.update");
      Route::get("article/{type}/{operation}/{id}", [ArticleController::class, "edit"])->name("article.editOrApproval");
+
+     // file upload
+     Route::post("upload", [Helper::class, "fileUpload"]);
 });

@@ -5,9 +5,15 @@
             <img src="{{ asset('/images/tiles/' . $menu->image) }}" alt="{{ $menu->name }}" class="menu-image">
 
             <div class="menu-details">
-                <h3 class="menu-title">{{ $menu->name }}</h3>
-                <p class="menu-description">{{ $menu->description }}</p>
-                <p class="menu-subdescription">{{ $menu->subdescription }}</p>
+                @if ( $menu->status==0 )
+                    <h3 class="menu-title"><s>{{ $menu->name }}</s></h3>
+                    <p class="menu-description"><s>{{ $menu->description }}</s></p>
+                    <p class="menu-subdescription"><s>{{ $menu->subdescription }}</s></p>
+                @else
+                    <h3 class="menu-title">{{ $menu->name }}</h3>
+                    <p class="menu-description">{{ $menu->description }}</p>
+                    <p class="menu-subdescription">{{ $menu->subdescription }}</p>
+                @endif
             </div>
 
             <div class="menu-actions">
@@ -25,7 +31,15 @@
             </div>
         </div>
     @else
-        <div>{{ $menu->name }}</div>
+        <div>
+            @if ( $menu->status==0 )
+                <s>
+                    {{ $menu->name }}
+                </s>
+            @else
+                {{ $menu->name }}
+            @endif
+        </div>
         <div class="menu-actions">
             @php
                 $topLevelParentId = $menu->getTopLevelParentId();

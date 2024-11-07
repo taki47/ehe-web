@@ -35,14 +35,14 @@ class TranslationSeeder extends Seeder
                 "de" => "Links"
             ],
             "footer.links.term" => [
-                "hu" => "Felhasználási feltételek",
-                "en" => "Terms of use",
-                "de" => "Nutzungsbedingungen"
+                "hu" => "Felhasználási feltételek,felhasznalasi-feltetelek",
+                "en" => "Terms of use,term-of-use",
+                "de" => "Nutzungsbedingungen,nutzungsbedingungen"
             ],
             "footer.links.privacy" => [
-                "hu" => "Adatvédelmi tájékoztató",
-                "en" => "Privacy notice",
-                "de" => "Datenschutzhinweis"
+                "hu" => "Adatvédelmi tájékoztató,adatvedelmi-tajekoztato",
+                "en" => "Privacy notice,privacy-notice",
+                "de" => "Datenschutzhinweis,datenschutzhinweis"
             ],
             "footer.links.contacts" => [
                 "hu" => "Szervezeti kapcsolatok",

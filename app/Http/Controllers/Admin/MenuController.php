@@ -260,6 +260,11 @@ class MenuController extends Controller
                 $updateData["language_id"] = $request->language_id;
             }
 
+            if ( $menu->status != $request->status ) {
+                $log[] = "Státusz: ".$menu->status." -> ".$request->status;
+                $updateData["status"] = $request->status;
+            }
+
             if ( !empty($updateData) )
                 DB::table('menus')->where('id', $id)->update($updateData);
 

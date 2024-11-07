@@ -20,6 +20,7 @@ class PublicController extends Controller
 
         $menus = Menu::whereNull('parent_id')
                         ->where("language_id", $currentLanguage->id)
+                        ->where("status", 1)
                         ->with('children')
                         ->orderBy('order')
                         ->get();
