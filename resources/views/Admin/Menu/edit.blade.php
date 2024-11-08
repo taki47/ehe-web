@@ -20,7 +20,7 @@
         @method("PUT")
         <div class="form-group">
             <label for="name">* Menüpont Neve:</label>
-            <input type="text" id="name" name="name" required class="form-control" autofocus value={{ old("name", $editMenu->name) }}>
+            <input type="text" id="name" name="name" required class="form-control" autofocus value="{{ old("name", $editMenu->name) }}">
 
             @if ($errors->has('name'))
                 <span class="text-danger">{{ $errors->first('name') }}</span>

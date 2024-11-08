@@ -33,7 +33,13 @@ class UpdateMenuRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique("menus")->ignore($this->route('menu')),
+                Rule::unique("menus")->where(function ($query ) {
+                    if ( !$this->parent_id ) {
+                        $query->where('language_id', $this->language_id);
+                    } else {
+                        $query->where('parent_id', $this->parent_id);
+                    }
+                })->ignore($this->route('menu')),
             ],
             'parent_id' => 'nullable|exists:menus,id'
         ];
