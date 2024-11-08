@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -31,7 +32,11 @@ class Log extends Model
         }
 
         // Lekérdezzük az entitást az ID alapján
-        $entity = $modelClass::withTrashed()->find($entityId);
+        if (in_array(SoftDeletes::class, class_uses($modelClass))) {
+            $entity = $modelClass::withTrashed()->find($entityId);
+        } else {
+            $entity = $modelClass::find($entityId);
+        }
 
         // Ellenőrizzük, hogy az entitás létezik-e
         if (!$entity) {
