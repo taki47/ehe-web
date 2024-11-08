@@ -23,4 +23,32 @@ class Translation extends Model
             return self::where('key', $key)->where('language', $locale)->first()->value ?? $key;
         });
     }
+
+    public static function translation_route(string $key, array $params = [])
+    {
+        // Aktuális nyelvet használjuk
+        $locale = request()->segment(1);
+        if ( !$locale )
+            return false;
+
+        // ha nem létezik az adott nyelv
+        $localeExists = Language::where('lang_code', request()->segment(1))->exists(); // Ha nem létezik, false-t ad vissza
+        if ( !$localeExists )
+            return false;
+
+        // Fordítás lekérdezése a translations táblából
+        $translation = Translation::where('key', $key)->where('language', $locale)->first();
+
+        if (!$translation || !$translation->is_link || !$translation->url) {
+            return route($key, $params); // alapértelmezett route, ha nincs fordítás
+        }
+
+        // Paraméterek helyettesítése az URL-ben
+        $url = $translation->url;
+        foreach ($params as $paramKey => $paramValue) {
+            $url = str_replace("{" . $paramKey . "}", $paramValue, $url);
+        }
+
+        return $url;
+    }
 }

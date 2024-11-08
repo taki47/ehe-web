@@ -114,6 +114,7 @@ class MenuController extends Controller
         $menu->parent_id = $request->parent_id;
 
         if ( $menu->parent_id==null || $menu->parent_id=="" ) {
+            $menu->slug = Str::slug($request->name);
             $imageHelper = new ImageHelper($request->image, $this->tilePath);
             $uploadedImage = $imageHelper->UploadImage("new", true, [60,60]);
 
@@ -223,6 +224,7 @@ class MenuController extends Controller
             if ( $menu->name != $request->name ) {
                 $log[] = "Név: ".$menu->name." -> ".$request->name;
                 $updateData["name"] = $request->name;
+                $updateData["slug"] = Str::slug($request->name);
             }
 
             if ( $menu->link != $request->link ) {

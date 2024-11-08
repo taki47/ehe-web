@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,5 +43,12 @@ class Menu extends Model
 
     function language() {
         return $this->belongsTo(Language::class);
+    }
+
+    function getArticles($articleType, $take) {
+        $menuId = $this->id;
+        $currentLanguage = Language::where("lang_code",App::getLocale())->first();
+
+        return Article::where("article_type_id",$articleType)->where("menu_id", $menuId)->where("language_id", $currentLanguage->id)->take($take)->get();
     }
 }

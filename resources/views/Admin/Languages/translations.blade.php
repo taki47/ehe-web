@@ -21,16 +21,18 @@
             </thead>
             <tbody>
                 @foreach ($translations as $key => $trans)
-                    <tr>
-                        <td>{{ $key }}</td>
-                        @foreach ($languages as $language)
-                            <td>
-                                <input type="text" name="translations[{{ $key }}][{{ $language }}]"
-                                       value="{{ $trans->where('language', $language)->first()->value ?? '' }}"
-                                       class="form-control">
-                            </td>
-                        @endforeach
-                    </tr>
+                    @if ( !(strpos($key,"show")>-1) )
+                        <tr>
+                            <td>{{ $key }}</td>
+                            @foreach ($languages as $language)
+                                <td>
+                                    <input type="text" name="translations[{{ $key }}][{{ $language }}]"
+                                        value="{{ $trans->where('language', $language)->first()->value ?? '' }}"
+                                        class="form-control">
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

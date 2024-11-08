@@ -1,10 +1,13 @@
 <?php
 
+use App\Helper;
 use App\Models\Language;
+use App\Models\Translation;
+
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
-
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\MenuController;
@@ -16,22 +19,11 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\RolePermissionController;
-use App\Helper;
+use App\Http\Middleware\LocaleMiddleware;
 
 Route::get('/', [PublicController::class, "index"])->name("home");
-
 Route::get('/login', [AuthController::class, "login"])->name("login");
 Route::post('/login', [AuthController::class, "loginAttempt"])->name("loginAttempt");
-
-Route::get('/language/{lang}', function ($lang) {
-    // Lekérjük az adatbázisból a nyelvet
-    $language = Language::where('lang_code', $lang)->first();
-
-    if ($language)
-        session()->put('locale', $language->lang_code);
-
-    return redirect()->back();
-})->name("locale");
 
 Route::prefix('admin')->middleware("checkUser")->group(function () {
     Route::get('/logout', [AuthController::class, "logout"])->name("logout");
@@ -84,4 +76,30 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
 
      // file upload
      Route::post("upload", [Helper::class, "fileUpload"]);
+});
+
+
+Route::group(['prefix' => '{locale}', 'middleware' => LocaleMiddleware::class], function () {
+    Route::get('/', [PublicController::class, "index"])->name("home");
+
+    // A fordítások használata
+    Route::get(Translation::translation_route('news.title', ['type' => '{type}']), [PublicController::class, 'newsIndex'])->name('news.index');
+    Route::get(Translation::translation_route('news.show', ['type' => '{type}', 'slug' => '{slug}']), [PublicController::class, 'newsShow'])->name('news.show');
+
+    // Nyelv változtatás
+    Route::get('/language/{lang}', function ($locale, $lang) {
+        // Lekérjük az adatbázisból a nyelvet
+        $language = Language::where('lang_code', $lang)->first();
+    
+        if ($language) {
+            session()->put('locale', $language->lang_code);
+            App::setLocale($language->lang_code);
+        }
+    
+        // Az új URL visszaállítása, hogy csak a nyelvi prefiksz és az oldal többi része legyen benne
+        return redirect('/' . $language->lang_code);
+    })->name("locale");
+
+    // minden egyéb oldal
+    Route::get("/{slug}", [PublicController::class, "page"])->name("page");
 });

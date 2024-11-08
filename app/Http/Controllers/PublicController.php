@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\Banner;
+use App\Models\Article;
 use App\Models\Language;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\App;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 class PublicController extends Controller
 {
@@ -25,6 +28,69 @@ class PublicController extends Controller
                         ->orderBy('order')
                         ->get();
 
+        // Menü elemekhez szín hozzárendelése
+        $categories = [
+            "travel",
+            "food",
+            "sports",
+            "fashion"
+        ];
+
+        $i = 0;
+        foreach ($menus as $menu) {
+            // Menü kategória hozzárendelése
+            $menu->category = $categories[$i];
+            
+            // $i növelése, és ha túlmegy a kategóriák számán, akkor újra nullázás
+            $i = ($i + 1) % count($categories);  // A % operátor biztosítja, hogy újrainduljon 0-ról
+        }
+
         return view("index", compact("banners", "menus"));
+    }
+
+    function newsIndex($lang, $menu)
+    {
+        $articles = $this->getArticles(1, $menu);
+        $type = "news";
+        return view("articles", compact("articles", "type"));
+    }
+
+    function newsShow($lang, $menu, $slug)
+    {
+        $article = $this->getArticle($menu, $slug);
+        $type = "news";
+        return view("article", compact("article", "type"));
+    }
+
+    private function getArticle($menu, $slug)
+    {
+        $currentLanguage = Language::where("lang_code",App::getLocale())->first();
+        $currentMenu = Menu::where("slug", $menu)->where("language_id", $currentLanguage->id)->first();
+
+        return Article::where("slug", $slug)
+                        ->where("language_id", $currentLanguage->id)
+                        ->where("article_status_id", 3)
+                        ->where("menu_id", $currentMenu->id)
+                        ->firstOrFail();
+    }
+
+    private function getArticles($articleTypeId, $menu)
+    {
+        $currentLanguage = Language::where("lang_code",App::getLocale())->first();
+        $currentMenu = Menu::where("slug", $menu)->where("language_id", $currentLanguage->id)->first();
+
+        return Article::where("article_type_id", $articleTypeId)
+                        ->where("language_id", $currentLanguage->id)
+                        ->where("article_status_id", 3)
+                        ->where("menu_id", $currentMenu->id)
+                        ->paginate(10);
+    }
+
+    function page($locale, $slug)
+    {
+        $currentLanguage = Language::where("lang_code", $locale)->first();
+        $article = Article::where("slug", $slug)->where("language_id", $currentLanguage->id)->where("article_status_id",3)->firstOrFail();
+
+        return view("page", compact("article"));
     }
 }

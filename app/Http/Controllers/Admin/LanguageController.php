@@ -6,6 +6,7 @@ use App\Helper;
 use App\ImageHelper;
 use App\Models\Language;
 use App\Models\Translation;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -174,16 +175,61 @@ class LanguageController extends Controller
 
         foreach ($data as $key => $locales) {
             foreach ($locales as $locale => $value) {
-                $translation = Translation::where("key", $key)->where("language", $locale)->first();
+                $translations = Translation::where("key", $key)->get();
+                
+                $translation = $translations->where("language", $locale)->first();
                 if ( $translation ) {
                     $translation->value = $value;
+                    if ( $translations[0]->is_link && $value!="" ) {
+                        $oldUrl = $translation->url;
+                        $newUrl = "";
+                        if (strpos($oldUrl, "/") > -1) {
+                            $newUrl = Str::slug($value) . substr($oldUrl, strpos($oldUrl, "/"));
+                        } else {
+                            $newUrl = Str::slug($value);
+                        }
+                        $translation->url = $newUrl;
+                    }
                     $translation->save();
                 } else {
                     $translation = new Translation();
                     $translation->key = $key;
                     $translation->language = $locale;
                     $translation->value = $value;
+                    if ( $translations[0]->is_link && $value!="" ) {
+                        $newUrl = "";
+                        if (strpos($translations[0]->url, "/") > -1) {
+                            $newUrl = Str::slug($value) . substr($translations[0]->url, strpos($translations[0]->url, "/"));
+                        } else {
+                            $newUrl = Str::slug($value);
+                        }
+
+                        $translation->is_link = 1;
+                        $translation->url = $newUrl;
+                    }
                     $translation->save();
+                }
+
+
+                // ha van a key-ben title (news.title), és nincs benne a home (pl. home.events.title)
+                if ( $key=="news.title" || $key=="events.title" || $key=="foreignnews.title" ) {
+                    $keyParts = explode(".",$key);
+                    $showKey = $keyParts[0].".show";
+                    
+                    $showTranslation = Translation::where("key", $showKey)->where("language",$locale)->first();
+                    if ( $showTranslation ) {
+                        $showTranslation->value = $value;
+                        $showTranslation->url = $keyParts[0]=="events" ? Str::slug($value)."/{slug}" : Str::slug($value)."/{type}/{slug}";
+                        $showTranslation->save();
+                    } else {
+                        $showTranslation = new Translation();
+                        $showTranslation->key = $showKey;
+                        $showTranslation->language = $locale;
+                        $showTranslation->value = $value;
+                        $showTranslation->is_link = 1;
+                        $showTranslation->url = $keyParts[0]=="events" ? Str::slug($value)."/{slug}" : Str::slug($value)."/{type}/{slug}";
+                        $showTranslation->save();
+                    }
                 }
             }
         }

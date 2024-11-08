@@ -1,5 +1,9 @@
-@extends('errors::minimal')
+@extends('Layouts.error')
 
-@section('title', __('Server Error'))
-@section('code', '500')
-@section('message', __('Server Error'))
+@section('content')
+    {{ \App\Models\Translation::getTranslation('site.error.title', app()->getLocale()) }}
+
+    <br><br>
+    
+    <a href="/">{{ \App\Models\Translation::getTranslation('site.error.back', app()->getLocale()) }}</a>
+@endsection

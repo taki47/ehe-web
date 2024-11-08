@@ -15,5 +15,6 @@ class TestDataSeeder extends Seeder
         $this->call(BannersTableSeeder::class);
         $this->call(MediaUsagesTableSeeder::class);
         $this->call(MenusTableSeeder::class);
+        $this->call(ArticleSeeder::class);
     }
 }

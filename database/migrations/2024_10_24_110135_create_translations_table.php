@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string("key");
             $table->string("language", 5);
             $table->longText("value")->nullable();
+            $table->boolean("is_link")->default(0);
+            $table->string("url")->nullable();
             $table->timestamps();
         });
     }

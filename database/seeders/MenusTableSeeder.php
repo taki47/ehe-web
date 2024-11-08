@@ -23,6 +23,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'name' => 'KITTI Háló',
+                'slug' => 'kitti-halo',
                 'link' => '/',
                 'image' => 'kitti.webp',
                 'description' => 'Kistérségi és Települési Ifjúsági Hálózat',
@@ -38,6 +39,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'name' => 'E.H.E.',
+                'slug' => 'ehe',
                 'link' => '/',
                 'image' => 'ehe.webp',
                 'description' => 'Erdélyi Hagyományokért Egyesület',
@@ -53,6 +55,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 3,
                 'name' => 'KITTI Net',
+                'slug' => 'kitti-net',
                 'link' => '/',
                 'image' => '1730204627kitti.webp',
                 'description' => 'Micro-regional and Urban Youth Network',
@@ -68,6 +71,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 4,
                 'name' => 'KITTI-Netz',
+                'slug' => 'kitti-netz',
                 'link' => '/',
                 'image' => '1730204670kitti.webp',
                 'description' => 'Mikroregionales und städtisches Jugendnetzwerk',
@@ -83,6 +87,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 5,
                 'name' => 'E.H.E.',
+                'slug' => 'ehe',
                 'link' => '/',
                 'image' => '1730204732ehe.webp',
                 'description' => 'Association for Transylvanian Traditions',
@@ -98,6 +103,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 6,
                 'name' => 'E.H.E.',
+                'slug' => 'ehe',
                 'link' => '/',
                 'image' => '1730204750ehe.webp',
                 'description' => 'Verein für siebenbürgische Traditionen',
@@ -113,6 +119,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 7,
                 'name' => 'Egyesületről',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -128,6 +135,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 8,
                 'name' => 'Programok',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -143,6 +151,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 9,
                 'name' => 'Dokumentumtár',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -158,6 +167,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 10,
                 'name' => 'Médiatár',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -173,6 +183,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 11,
                 'name' => 'Támogatóink',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -188,6 +199,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 12,
                 'name' => 'Tagság és Partnerek',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -203,6 +215,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 13,
                 'name' => 'Bemutatkozás',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -218,6 +231,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 14,
                 'name' => 'Vezetőség',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -233,6 +247,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 15,
                 'name' => 'Aktuális programok',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -248,6 +263,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 16,
                 'name' => 'Lezárt programok',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -263,6 +279,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 17,
                 'name' => 'Határozatok',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -278,6 +295,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 18,
                 'name' => 'Jelentések',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -293,6 +311,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 19,
                 'name' => 'Szabályzatok',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -308,6 +327,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 20,
                 'name' => 'Rendezvény jelentkezések',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -323,6 +343,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 21,
                 'name' => 'Közgyűlési',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -338,6 +359,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 22,
                 'name' => 'Elnökségi',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -353,6 +375,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 23,
                 'name' => 'Közgyűlési beszámoló',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -368,6 +391,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 24,
                 'name' => 'Elnökségi beszámoló',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -383,6 +407,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 25,
                 'name' => 'Közhasznúsági bejelentések',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,
@@ -398,6 +423,7 @@ class MenusTableSeeder extends Seeder
             array (
                 'id' => 26,
                 'name' => 'Alapszabály',
+                'slug' => null,
                 'link' => '/',
                 'image' => NULL,
                 'description' => NULL,

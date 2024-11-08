@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
                 \App\Models\Seeder::create([
                     "name" => $seeder
                 ]);
-            }
+    }
         }
 
         $this->enableForeignKeys();

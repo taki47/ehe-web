@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->string("slug")->nullable();
             $table->string("link")->nullable();
             $table->string("image")->nullable();
             $table->string("description")->nullable();
