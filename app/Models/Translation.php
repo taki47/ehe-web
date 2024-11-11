@@ -24,15 +24,21 @@ class Translation extends Model
         });
     }
 
-    public static function translation_route(string $key, array $params = [])
+    public static function translation_route(string $key, array $params = [], string $lang = "")
     {
         // Aktuális nyelvet használjuk
-        $locale = request()->segment(1);
+        $locale = "";
+        if ( $lang!="" ) {
+            $locale = $lang;
+        } else {
+            $locale = request()->segment(1);
+        }
+
         if ( !$locale )
             return false;
 
         // ha nem létezik az adott nyelv
-        $localeExists = Language::where('lang_code', request()->segment(1))->exists(); // Ha nem létezik, false-t ad vissza
+        $localeExists = Language::where('lang_code', $locale)->exists(); // Ha nem létezik, false-t ad vissza
         if ( !$localeExists )
             return false;
 

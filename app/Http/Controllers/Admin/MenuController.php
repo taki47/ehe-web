@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Helper;
 use App\ImageHelper;
 use App\Models\Menu;
+use App\Models\Language;
 use App\Models\Permission;
+use App\Models\Translation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
-use App\Models\Language;
 
 class MenuController extends Controller
 {
@@ -43,7 +44,36 @@ class MenuController extends Controller
                         ->get();
         }
 
-        return view("Admin.Menu.index", compact("menus"));
+        $parentMenus = Menu::whereNull('parent_id')->get();
+        $langs = Language::all();
+        $urls = [];
+
+        foreach ($langs as $lang) {
+            $tmp = [
+                "lang" => $lang->name,
+                "news_readable" => "Hírek",
+                "news_url" => [],
+                "foreignnews_readable" => "Külföldi hírek",
+                "foreignnews_url" => [],
+                "events_readable" => "Események",
+                "events_url" => [],
+            ];
+        
+            foreach ($parentMenus as $parentMenu) {
+                if ($parentMenu->language_id == $lang->id) {
+                    $tmp["news_url"][] = Translation::translation_route('news.title', ['type' => $parentMenu->slug], $lang->lang_code);
+                    $tmp["news_url"][] = Translation::translation_route('news.show', ['type' => $parentMenu->slug, 'slug' => 'archive'], $lang->lang_code);
+                    $tmp["foreignnews_url"][] = Translation::translation_route('foreignnews.title', ['type' => $parentMenu->slug], $lang->lang_code);
+                    $tmp["foreignnews_url"][] = Translation::translation_route('foreignnews.show', ['type' => $parentMenu->slug, 'slug' => 'archive'], $lang->lang_code);
+                }
+            }
+            $tmp["events_url"][] = Translation::translation_route('events.title', ['type' => $parentMenu->slug], $lang->lang_code);
+            $tmp["events_url"][] = Translation::translation_route('events.show', ['type' => $parentMenu->slug, 'slug' => 'archive'], $lang->lang_code);
+        
+            $urls[] = $tmp;  // Add this language's URLs to the main array
+        }
+        
+        return view("Admin.Menu.index", compact("menus", "urls"));
     }
 
     public function updateOrder(Request $request)

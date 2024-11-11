@@ -60,6 +60,43 @@
 @endsection
 
 @section('content')
+    <p>
+        <a class="btn btn-sm btn-secondary" data-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapse">
+        Programozott oldalak listája
+        </a>
+    </p>
+    <div class="collapse mb-4" id="collapse">
+        <div class="card card-body">
+            @foreach ($urls as $url)
+                <strong>{{ $url["lang"] }}</strong><br>
+                
+                Hírek:
+                <ul>
+                    @foreach ($url["news_url"] as $newurl)
+                        <li>{{ $newurl }}</li>
+                    @endforeach
+                </ul>
+
+                Külföldi hírek:
+                <ul>
+                    @foreach ($url["foreignnews_url"] as $newurl)
+                        <li>{{ $newurl }}</li>
+                    @endforeach
+                </ul>
+
+                Események:
+                <ul>
+                    @foreach ($url["events_url"] as $newurl)
+                        <li>{{ $newurl }}</li>
+                    @endforeach
+                </ul>
+
+                <hr>
+            @endforeach
+        </div>
+    </div>
+
+
     @if ( \App\Helper::userCanAccess('menu_create_') || Auth::user()->can("any_menu_create") )
         <a href="{{ route("menu.create") }}" class="btn btn-sm btn-primary">Új menüpont létrehozása</a>
     @endif
