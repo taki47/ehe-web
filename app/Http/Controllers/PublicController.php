@@ -6,6 +6,7 @@ use App\Models\Menu;
 use App\Models\Banner;
 use App\Models\Article;
 use App\Models\Language;
+use App\Models\Partner;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -28,6 +29,9 @@ class PublicController extends Controller
                         ->orderBy('order')
                         ->get();
 
+        $partners = Partner::where("partner_type_id", 1)->where("status", 1)->get();
+        $supporters = Partner::where("partner_type_id", 2)->where("status", 1)->get();
+
         // Menü elemekhez szín hozzárendelése
         $categories = [
             "travel",
@@ -45,7 +49,7 @@ class PublicController extends Controller
             $i = ($i + 1) % count($categories);  // A % operátor biztosítja, hogy újrainduljon 0-ról
         }
 
-        return view("index", compact("banners", "menus"));
+        return view("index", compact("banners", "menus", "partners", "supporters"));
     }
 
     function newsIndex($lang, $menu)

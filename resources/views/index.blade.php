@@ -270,24 +270,11 @@
 				<div class="tab-pane fade show active" id="nav-kategoria" role="tabpanel" aria-labelledby="nav-outdoor-tab">
 					<div class="row col-mb-30 mb-0">
 						<div class="col-12 supporters">
-							<div class="supporter">
-								<img src="/images/supporters/bga.png" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/csoori.png" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/me.png" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/nca.jpg" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/nea.png" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/nka.png" class="img-fluid">
-							</div>
+							@foreach ($supporters as $supporter)
+								<div class="supporter">
+									<a href="{{ $supporter->link }}" target="_blank"><img src="{{ $supporter->image_path."/".$supporter->image }}" class="img-fluid"></a>
+								</div>
+							@endforeach
 						</div>
 					</div>
 				</div>
@@ -309,27 +296,11 @@
 					<div class="tab-pane fade show active" id="nav-kategoria" role="tabpanel" aria-labelledby="nav-outdoor-tab">
 						<div class="row col-mb-30 mb-0">
 							<div class="col-12 partners">
-								<div class="partner">
-									<img src="/images/partners/debreceni-egyetem.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/gwp.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/icid.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/mate.png" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/mht.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/mta.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/debreceni-egyetem.jpg" class="img-fluid">
-								</div>
+								@foreach ($partners as $partner)
+									<div class="partner">
+										<a href="{{ $partner->link }}" target="_blank"><img src="{{ $partner->image_path . "/" . $partner->image}}" class="img-fluid"></a>
+									</div>
+								@endforeach
 							</div>
 						</div>
 					</div>
