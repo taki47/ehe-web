@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Middleware\LocaleMiddleware;
@@ -57,6 +58,14 @@ Route::prefix('admin')->middleware("checkUser")->group(function () {
     // banners
     Route::resource("banner", BannerController::class);
     Route::post('banners/update-status', [BannerController::class, 'updateStatus'])->name('banner.updateStatus');
+
+    // supporters, partners
+    Route::get("partner/{type}", [PartnerController::class, "index"])->name("partner.index");
+    Route::post("partner/{type}", [PartnerController::class, "store"])->name("partner.store");
+    Route::get("partner/{type}/create", [PartnerController::class, "create"])->name("partner.create");
+    Route::get("partner/{type}/{id}", [PartnerController::class, "edit"])->name("partner.edit");
+    Route::put("partner/{type}/{id}", [PartnerController::class, "update"])->name("partner.update");
+    Route::delete("partner/{type}/{id}", [PartnerController::class, "destroy"])->name("partner.destroy");
 
     // menus
     Route::post("menu/order", [MenuController::class, "updateOrder"])->name("menu.order");

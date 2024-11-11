@@ -1,1 +1,1 @@
-["RoleSeeder","UserSeeder","PermissionSeeder","SettingSeeder","SiteModeSeeder","LanguageSeeder","TranslationSeeder","TestDataSeeder","ArticleTypeSeeder","ArticleStatusSeeder"]
+["RoleSeeder","UserSeeder","PermissionSeeder","SettingSeeder","SiteModeSeeder","LanguageSeeder","TranslationSeeder","TestDataSeeder","ArticleTypeSeeder","ArticleStatusSeeder", "PartnerTypeSeeder"]

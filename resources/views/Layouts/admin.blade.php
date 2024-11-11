@@ -65,6 +65,8 @@
           $canAccessVideoGallery = Auth::user()->can("media_video_index");
           $canAccessAudioGallery = Auth::user()->can("media_audio_index");
           $canAccessBanner = Auth::user()->can("banner_index");
+          $canAccessPartner = Auth::user()->can("partner_index");
+          $canAccessSupporter = Auth::user()->can("supporter_index");
           $canAccessMenu = \App\Helper::userCanAccess('menu_index_') || Auth::user()->can("any_menu_index");
           $canAccessNews = \App\Helper::userCanAccess('news_index_') || Auth::user()->can("any_news_index");
           $canAccessForeignNews = \App\Helper::userCanAccess('foreign_news_index_') || Auth::user()->can("any_foreign_news_index");
@@ -75,7 +77,7 @@
 				@endphp
 
 
-        @if ($canAccessBanner || $canAccessMenu || $canAccessNews || $canAccessEvents || $canAccessPages)
+        @if ($canAccessPartner || $canAccessSupporter || $canAccessBanner || $canAccessMenu || $canAccessNews || $canAccessEvents || $canAccessPages)
         <div class="menu_section">
           <h3>Oldal kezelése</h3>
           <ul class="nav side-menu">
@@ -123,6 +125,22 @@
               <li>
                 <a href="{{ route("banner.index") }}">
                   <i class="fa-solid fa-image"></i> Banner
+                </a>
+              </li>
+            @endif
+
+            @if ( $canAccessPartner )
+              <li>
+                <a href="{{ route("partner.index", "partner") }}">
+                  <i class="fa-solid fa-handshake"></i> Partnerek
+                </a>
+              </li>
+            @endif
+
+            @if ( $canAccessSupporter )
+              <li>
+                <a href="{{ route("partner.index", "supporter") }}">
+                  <i class="fa-solid fa-headset"></i> Támogatók
                 </a>
               </li>
             @endif

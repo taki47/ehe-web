@@ -288,24 +288,6 @@
 							<div class="supporter">
 								<img src="/images/supporters/nka.png" class="img-fluid">
 							</div>
-							<div class="supporter">
-								<img src="/images/supporters/bga.png" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/csoori.png" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/me.png" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/nca.jpg" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/nea.png" class="img-fluid">
-							</div>
-							<div class="supporter">
-								<img src="/images/supporters/nka.png" class="img-fluid">
-							</div>
 						</div>
 					</div>
 				</div>
@@ -347,21 +329,6 @@
 								</div>
 								<div class="partner">
 									<img src="/images/partners/debreceni-egyetem.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/gwp.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/icid.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/mate.png" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/mht.jpg" class="img-fluid">
-								</div>
-								<div class="partner">
-									<img src="/images/partners/mta.jpg" class="img-fluid">
 								</div>
 							</div>
 						</div>
