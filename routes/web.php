@@ -93,12 +93,15 @@ Route::group(['prefix' => '{locale}', 'middleware' => LocaleMiddleware::class], 
 
     // A fordítások használata
     Route::get(Translation::translation_route('news.title', ['type' => '{type}']), [PublicController::class, 'newsIndex'])->name('news.index');
+    Route::get(Translation::translation_route('news.show', ['type' => '{type}', 'slug' => 'archive']), [PublicController::class, 'newsArchive'])->name('news.archive');
     Route::get(Translation::translation_route('news.show', ['type' => '{type}', 'slug' => '{slug}']), [PublicController::class, 'newsShow'])->name('news.show');
 
     Route::get(Translation::translation_route('foreignnews.title', ['type' => '{type}']), [PublicController::class, 'foreignNewsIndex'])->name('foreignnews.index');
+    Route::get(Translation::translation_route('foreignnews.show', ['type' => '{type}', 'slug' => 'archive']), [PublicController::class, 'foreignNewsArchive'])->name('foreignnews.archive');
     Route::get(Translation::translation_route('foreignnews.show', ['type' => '{type}', 'slug' => '{slug}']), [PublicController::class, 'foreignNewsShow'])->name('foreignnews.show');
 
     Route::get(Translation::translation_route('events.title', ['type' => '{type}']), [PublicController::class, 'eventsIndex'])->name('events.index');
+    Route::get(Translation::translation_route('events.show', ['type' => '{type}', 'slug' => 'archive']), [PublicController::class, 'eventsArchive'])->name('events.archive');
     Route::get(Translation::translation_route('events.show', ['type' => '{type}', 'slug' => '{slug}']), [PublicController::class, 'eventsShow'])->name('events.show');
 
     // Nyelv változtatás

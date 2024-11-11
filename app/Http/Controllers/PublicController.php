@@ -55,8 +55,20 @@ class PublicController extends Controller
     function newsIndex($lang, $menu)
     {
         $articles = $this->getArticles(1, $menu);
+        $menu = Menu::where("slug", $menu)->first();
         $type = "news";
-        return view("articles", compact("articles", "type"));
+        $archive = false;
+        return view("articles", compact("articles", "type", "menu", "archive"));
+    }
+
+    function newsArchive($lang, $menu)
+    {
+        $articles = $this->getArticles(1, $menu, true);
+        $type = "news";
+        $menu = Menu::where("slug", $menu)->first();
+        $archive = true;
+
+        return view("articles", compact("articles", "type", "menu", "archive"));
     }
 
     function newsShow($lang, $menu, $slug)
@@ -69,8 +81,21 @@ class PublicController extends Controller
     function foreignNewsIndex($lang, $menu)
     {
         $articles = $this->getArticles(2, $menu);
+        $menu = Menu::where("slug", $menu)->first();
         $type = "foreignnews";
-        return view("articles", compact("articles", "type"));
+        $archive = false;
+
+        return view("articles", compact("articles", "type", "menu", "archive"));
+    }
+
+    function foreignNewsArchive($lang, $menu)
+    {
+        $articles = $this->getArticles(2, $menu, true);
+        $menu = Menu::where("slug", $menu)->first();
+        $type = "foreignnews";
+        $archive = true;
+
+        return view("articles", compact("articles", "type", "menu", "archive"));
     }
 
     function foreignNewsShow($lang, $menu, $slug)
@@ -84,7 +109,16 @@ class PublicController extends Controller
     {
         $articles = $this->getArticles(3);
         $type = "events";
-        return view("articles", compact("articles", "type"));
+        $archive = false;
+        return view("articles", compact("articles", "type", "archive"));
+    }
+
+    function eventsArchive($lang)
+    {
+        $articles = $this->getArticles(3, null, true);
+        $type = "events";
+        $archive = true;
+        return view("articles", compact("articles", "type", "archive"));
     }
 
     function eventsShow($lang, $slug)
@@ -111,14 +145,14 @@ class PublicController extends Controller
         return $articles;
     }
 
-    private function getArticles($articleTypeId, $menu=null)
+    private function getArticles($articleTypeId, $menu=null, $archive=false)
     {
         $currentLanguage = Language::where("lang_code",App::getLocale())->first();
         $currentMenu = Menu::where("slug", $menu)->where("language_id", $currentLanguage->id)->first();
 
         $query = Article::where("article_type_id", $articleTypeId)
                         ->where("language_id", $currentLanguage->id)
-                        ->where("article_status_id", 3)
+                        ->where("article_status_id", ($archive ? 4 : 3))
                         ->orderBy("id", "desc");
 
         if ( $menu )

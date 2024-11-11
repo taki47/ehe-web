@@ -3,9 +3,12 @@
 
 @section('content')
     <h1 class="mb-4">
+        @if ( isset($archive) && $archive )
+        {{ \App\Models\Translation::getTranslation('archive') }}
+        @endif
         {{ \App\Models\Translation::getTranslation($type.'.title') }}
         @if ( $type!="events" )
-            - {{ $articles[0]->menu->name }}
+            - {{ $menu->name }}
         @endif
     </h1>
 

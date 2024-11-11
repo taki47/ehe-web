@@ -14,6 +14,11 @@ class TranslationSeeder extends Seeder
     public function run(): void
     {
         $translations = [
+            "archive" => [
+                "hu" => "Archív",
+                "en" => "Archive",
+                "de" => "Archiv"
+            ],
             "site.error.title" => [
                 "hu" => "Hiba történt! Sajnáljuk, de valami hiba lépett fel a rendszerben. Kérjük, próbálja újra később, vagy lépjen kapcsolatba ügyfélszolgálatunkkal, ha a probléma továbbra is fennáll. Köszönjük megértését!",
                 "en" => "An error occurred! We are sorry, but something went wrong on our end. Please try again later, or contact our support team if the issue persists. Thank you for your understanding!",
