@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string("cover_path")->nullable();
             $table->string("cover")->nullable();
             $table->text("lead",500)->nullable();
-            $table->text("body")->nullable();
+            $table->longText("body")->nullable();
             $table->datetime("event_start_date")->nullable();
             $table->datetime("event_end_date")->nullable();
             $table->string("event_location")->nullable();

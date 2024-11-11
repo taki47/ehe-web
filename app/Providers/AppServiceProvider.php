@@ -41,17 +41,22 @@ class AppServiceProvider extends ServiceProvider
         $locale = request()->segment(1) ?: env("APP_LOCALE");
         $currentLanguage = Language::where("lang_code",$locale)->first();
 
-        $banners = Banner::where("language_id", $currentLanguage->id)
-                        ->where("status", 1)
-                        ->with("mediaUsages.media")
-                        ->get();
+        $banners = null;
+        $menus = null;
 
-        $menus = Menu::whereNull('parent_id')
-                        ->where("language_id", $currentLanguage->id)
-                        ->where("status", 1)
-                        ->with('children')
-                        ->orderBy('order')
-                        ->get();
+        if ( $currentLanguage ) {
+            $banners = Banner::where("language_id", $currentLanguage->id)
+                            ->where("status", 1)
+                            ->with("mediaUsages.media")
+                            ->get();
+
+            $menus = Menu::whereNull('parent_id')
+                            ->where("language_id", $currentLanguage->id)
+                            ->where("status", 1)
+                            ->with('children')
+                            ->orderBy('order')
+                            ->get();
+        }
                         
         view()->share('settings', $settings);
         view()->share('banners', $banners);
