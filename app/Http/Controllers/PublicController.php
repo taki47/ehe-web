@@ -57,33 +57,72 @@ class PublicController extends Controller
 
     function newsShow($lang, $menu, $slug)
     {
-        $article = $this->getArticle($menu, $slug);
+        $article = $this->getArticle($slug, $menu);
         $type = "news";
         return view("article", compact("article", "type"));
     }
 
-    private function getArticle($menu, $slug)
+    function foreignNewsIndex($lang, $menu)
     {
-        $currentLanguage = Language::where("lang_code",App::getLocale())->first();
-        $currentMenu = Menu::where("slug", $menu)->where("language_id", $currentLanguage->id)->first();
-
-        return Article::where("slug", $slug)
-                        ->where("language_id", $currentLanguage->id)
-                        ->where("article_status_id", 3)
-                        ->where("menu_id", $currentMenu->id)
-                        ->firstOrFail();
+        $articles = $this->getArticles(2, $menu);
+        $type = "foreignnews";
+        return view("articles", compact("articles", "type"));
     }
 
-    private function getArticles($articleTypeId, $menu)
+    function foreignNewsShow($lang, $menu, $slug)
+    {
+        $article = $this->getArticle($slug, $menu);
+        $type = "foreignnews";
+        return view("article", compact("article", "type"));
+    }
+
+    function eventsIndex($lang)
+    {
+        $articles = $this->getArticles(3);
+        $type = "events";
+        return view("articles", compact("articles", "type"));
+    }
+
+    function eventsShow($lang, $slug)
+    {
+        $article = $this->getArticle($slug);
+        $type = "events";
+        return view("article", compact("article", "type"));
+    }
+
+    private function getArticle($slug, $menu=null)
     {
         $currentLanguage = Language::where("lang_code",App::getLocale())->first();
         $currentMenu = Menu::where("slug", $menu)->where("language_id", $currentLanguage->id)->first();
 
-        return Article::where("article_type_id", $articleTypeId)
+        $query = Article::where("slug", $slug)
+                        ->where("language_id", $currentLanguage->id)
+                        ->where("article_status_id", 3);
+
+        if ( $menu )
+            $query->where("menu_id", $currentMenu->id);
+
+        $articles = $query->firstOrFail();
+
+        return $articles;
+    }
+
+    private function getArticles($articleTypeId, $menu=null)
+    {
+        $currentLanguage = Language::where("lang_code",App::getLocale())->first();
+        $currentMenu = Menu::where("slug", $menu)->where("language_id", $currentLanguage->id)->first();
+
+        $query = Article::where("article_type_id", $articleTypeId)
                         ->where("language_id", $currentLanguage->id)
                         ->where("article_status_id", 3)
-                        ->where("menu_id", $currentMenu->id)
-                        ->paginate(10);
+                        ->orderBy("id", "desc");
+
+        if ( $menu )
+            $query->where("menu_id", $currentMenu->id);
+
+        $articles = $query->paginate(10);
+
+        return $articles;
     }
 
     function page($locale, $slug)

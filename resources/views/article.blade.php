@@ -15,6 +15,21 @@
         {{ $article->createdUser->name }} &nbsp;|&nbsp; {{ \Carbon\Carbon::parse($article->created_at)->isoFormat("LL") }}
     </p>
 
+    @if ( $type=="events" )
+        <div class="d-flex align-items-center mt-1 mb-4 event-location entry-meta">
+            <ul>
+                <li>
+                    <i class="fas fa-calendar-alt event-icon me-2"></i> {{ \Carbon\Carbon::parse($article->event_start_date)->isoFormat("LL") }}
+                    -
+                    {{ \Carbon\Carbon::parse($article->event_end_date)->isoFormat("LL") }}
+                </li>
+                <li>
+                    <i class="fas fa-map-marker-alt location-icon me-2"></i> {{ $article->event_location }}
+                </li>
+            </ul>
+        </div>
+    @endif
+
     <!-- Article Introduction -->
     <p class="lead mb-4">
         {{ $article->lead }}
@@ -24,4 +39,8 @@
     <div class="article-body">
         {{ $article->body }}
     </div>
+
+    @if ( $type=="events" && $article->form )
+        {!! $article->form !!}
+    @endif
 @endsection

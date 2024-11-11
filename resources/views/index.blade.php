@@ -121,7 +121,7 @@
 					$events = $menu->getArticles(3, 8);
 				@endphp
 				@foreach ($events as $event)
-					<div class="col-lg-3 col-md-4 col-12">
+					<div class="col-lg-3 col-md-4 col-12 event-container" data-link="{{ route("events.show",[app()->getLocale(), $event->slug]) }}">
 						<div class="card event" data-slug="{{ $event->slug }}">
 							<div class="card-body">
 								<div class="event-title entry-title"><h4>{{ $event->title }}</h4></div>
@@ -142,7 +142,7 @@
 				@endforeach
 				
 				<div class="entry col-12">
-					<a href="/" class="btn btn-secondary">{{ \App\Models\Translation::getTranslation('home.events.more') }} >></a>
+					<a href="{{ route("events.index", app()->getLocale()) }}" class="btn btn-secondary">{{ \App\Models\Translation::getTranslation('home.events.more') }} >></a>
 				</div>
 
 
@@ -165,195 +165,93 @@
 						<div></div>
 						<ul class="nav nav-sm navbar-nav me-md-auto me-lg-0 mt-2 mt-lg-0 align-self-end"
 							role="tablist">
-							<li class="nav-item">
-								<a class="nav-link bg-color-travel active" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="true">Kategória 1</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link bg-color-food" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 2</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link bg-color-sports" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 3</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link bg-color-fashion" id="nav-kategoria-tab" data-bs-toggle="tab" href="#nav-kategoria" role="tab" aria-selected="false">Kategória 4</a>
-							</li>
+							@foreach ($menus as $index => $menu)
+								<li class="nav-item">
+									<a class="nav-link bg-color-{{ $menu->category }} {{ $index==0 ? "active" : "" }}" id="nav-foreign{{$menu->id}}-tab" data-bs-toggle="tab" href="#nav-foreign{{$menu->id}}" role="tab" aria-selected="true">{{ $menu->name }}</a>
+								</li>
+							@endforeach
 						</ul>
 					</div>
 				</nav>
 				<div class="line line-xs line-home"></div>
 
 				<div class="tab-content" id="nav-tabContent">
-					<div class="tab-pane fade show active" id="nav-kategoria" role="tabpanel" aria-labelledby="nav-outdoor-tab">
-						<div class="row col-mb-30 mb-0">
-							<div class="col-lg-6">
-								<div class="posts-md">
-									<div class="entry">
-										<div class="entry-image">
-											<a href="/">
-												<img src="/images/news/travel/3.jpg" alt="Image 3"></a>
-											<div class="entry-categories">
-												<a href="demo-news-category.html" class="bg-travel">Kategória</a></div>
-										</div>
-										<div class="entry-title nott">
-											<h3 class="mb-2">
-												<a href="/">
-													Lorem Ipsum
-												</a>
-											</h3>
-										</div>
-										<div class="entry-meta">
-											<ul>
-												<li><a href="#">Bajkó Róbert</a></li>
-												<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-											</ul>
-										</div>
-										<div class="entry-content clearfix">
-											<p>
-												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum elementum dui eget gravida. Curabitur erat augue, aliquet hendrerit nulla et, luctus ultricies elit.
-											</p>
-										</div>
+					@foreach ($menus as $index => $menu)
+						@php
+							$articles = $menu->getArticles(2, 10);
+						@endphp
+						<div class="tab-pane fade show {{ $index==0 ? "active" : "" }}" id="nav-foreign{{ $menu->id }}" role="tabpanel" aria-labelledby="nav-outdoor-tab">
+							<div class="row col-mb-30 mb-0">
+								<div class="col-lg-6">
+									<div class="posts-md row">
+										@for ($i = 0; $i < 2; $i++)
+											<div class="entry col-6">
+												<div class="entry-image">
+													<a href="{{ route("foreignnews.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
+														<img src="{{ $articles[$i]->cover_path."/".$articles[$i]->cover }}" alt="">
+													</a>
+												</div>
+												<div class="entry-title nott">
+													<h3 class="mb-2">
+														<a href="{{ route("foreignnews.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
+															{{ $articles[$i]->title }}
+														</a>
+													</h3>
+												</div>
+												<div class="entry-meta">
+													<ul>
+														<li><a href="javascript:void(0)">{{ $articles[$i]->createdUser->name }}</a></li>
+														<li><i class="icon-time"></i><a href="javascript:void(0)">{{ \Carbon\Carbon::parse($articles[$i]->created_at)->isoFormat('LLLL') }}</a></li>
+													</ul>
+												</div>
+												<div class="entry-content clearfix">
+													<p>
+														{{ $articles[$i]->lead }}
+													</p>
+												</div>
+											</div>
+										@endfor
 									</div>
 								</div>
-							</div>
-							<div class="col-lg-6">
-								<div class="posts-sm row col-mb-30">
-									<div class="entry col-12">
-										<div class="grid-inner row align-items-center g-0">
-											<div class="col-auto">
-												<div class="entry-image">
-													<a href="/">
-														<img src="/images/news/travel/small/1.jpg" alt="Image">
-													</a>
+
+								<div class="col-lg-6">
+									<div class="posts-sm row col-mb-30">
+										@for ($i = 2; $i < count($articles); $i++)
+											<div class="entry col-12">
+												<div class="grid-inner row align-items-center g-0">
+													<div class="col-auto">
+														<div class="entry-image">
+															<a href="{{ route("foreignnews.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
+																<img src="{{ $articles[$i]->cover_path."/".$articles[$i]->cover }}" alt="">
+															</a>
+														</div>
+													</div>
+													<div class="col ps-3">
+														<div class="entry-title">
+															<h4>
+																<a href="{{ route("foreignnews.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
+																	{{ $articles[$i]->title }}
+																</a>
+															</h4>
+														</div>
+														<div class="entry-meta">
+															<ul>
+																<li><a href="javascript:void(0)">{{ $articles[$i]->createdUser->name }}</a></li>
+																<li><i class="icon-time"></i><a href="javascript:void(0)">{{ \Carbon\Carbon::parse($articles[$i]->created_at)->isoFormat('LLLL') }}</a></li>
+															</ul>
+														</div>
+													</div>
 												</div>
 											</div>
-											<div class="col ps-3">
-												<div class="entry-title">
-													<h4>
-														<a href="/">
-															Lorem ipsum
-														</a>
-													</h4>
-												</div>
-												<div class="entry-meta">
-													<ul>
-														<li><a href="/">Bajkó Róbert</a></li>
-														<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-													</ul>
-												</div>
-											</div>
+										@endfor
+										<div class="entry col-12">
+											<a href="{{ route("foreignnews.index", [app()->getLocale(), $menu->slug]) }}" class="btn btn-secondary">{{ \App\Models\Translation::getTranslation('home.foreignnews.more') }} >></a>
 										</div>
-									</div>
-									<div class="entry col-12">
-										<div class="grid-inner row align-items-center g-0">
-											<div class="col-auto">
-												<div class="entry-image">
-													<a href="/">
-														<img src="/images/news/travel/small/2.jpg" alt="Image">
-													</a>
-												</div>
-											</div>
-											<div class="col ps-3">
-												<div class="entry-title">
-													<h4>
-														<a href="/">
-															Lorem ipsum
-														</a>
-													</h4>
-												</div>
-												<div class="entry-meta">
-													<ul>
-														<li><a href="/">Bajkó Róbert</a></li>
-														<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="entry col-12">
-										<div class="grid-inner row align-items-center g-0">
-											<div class="col-auto">
-												<div class="entry-image">
-													<a href="/">
-														<img src="/images/news/travel/small/3.jpg" alt="Image">
-													</a>
-												</div>
-											</div>
-											<div class="col ps-3">
-												<div class="entry-title">
-													<h4>
-														<a href="/">
-															Lorem ipsum
-														</a>
-													</h4>
-												</div>
-												<div class="entry-meta">
-													<ul>
-														<li><a href="/">Bajkó Róbert</a></li>
-														<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="entry col-12">
-										<div class="grid-inner row align-items-center g-0">
-											<div class="col-auto">
-												<div class="entry-image">
-													<a href="/">
-														<img src="/images/news/travel/small/4.jpg" alt="Image">
-													</a>
-												</div>
-											</div>
-											<div class="col ps-3">
-												<div class="entry-title">
-													<h4>
-														<a href="/">
-															Lorem ipsum
-														</a>
-													</h4>
-												</div>
-												<div class="entry-meta">
-													<ul>
-														<li><a href="/">Bajkó Róbert</a></li>
-														<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="entry col-12">
-										<div class="grid-inner row align-items-center g-0">
-											<div class="col-auto">
-												<div class="entry-image">
-													<a href="/">
-														<img src="/images/news/market/small/3.jpg" alt="Image">
-													</a>
-												</div>
-											</div>
-											<div class="col ps-3">
-												<div class="entry-title">
-													<h4>
-														<a href="/">
-															Lorem ipsum
-														</a>
-													</h4>
-												</div>
-												<div class="entry-meta">
-													<ul>
-														<li><a href="/">Bajkó Róbert</a></li>
-														<li><i class="icon-time"></i><a href="#">2024. május 15.</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="entry col-12">
-										<a href="/" class="btn btn-secondary">{{ \App\Models\Translation::getTranslation('home.foreignnews.more') }} >></a>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					@endforeach
 				</div>
 			</div>
 		</div>
@@ -473,4 +371,14 @@
 		</div>
 	@endif
 	<!-- / partnereink -->
+@endsection
+
+@section('scripts')
+	<script>
+		$(".event-container").on("click", function() {
+			let link = $(this).data("link");
+
+			document.location.href=link;
+		});
+	</script>
 @endsection
