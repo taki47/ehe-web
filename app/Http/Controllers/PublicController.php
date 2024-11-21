@@ -49,13 +49,32 @@ class PublicController extends Controller
             $i = ($i + 1) % count($categories);  // A % operátor biztosítja, hogy újrainduljon 0-ról
         }
 
-        return view("index", compact("banners", "menus", "partners", "supporters"));
+        // összes hír és külföldi hír lekérése
+        $allNews = Article::where("article_type_id",1)
+                            ->where("language_id", $currentLanguage->id)
+                            ->orderBy("id","desc")
+                            ->take(10)
+                            ->get();
+                            $allNews = Article::where("article_type_id",1)
+                            ->where("language_id", $currentLanguage->id)
+                            ->orderBy("id","desc")
+                            ->take(10)
+                            ->get();
+        $allForeignNews = Article::where("article_type_id",2)
+                            ->where("language_id", $currentLanguage->id)
+                            ->orderBy("id","desc")
+                            ->take(10)
+                            ->get();
+
+        return view("index", compact("banners", "menus", "partners", "supporters", "allNews", "allForeignNews"));
     }
 
     function newsIndex($lang, $menu)
     {
         $articles = $this->getArticles(1, $menu);
-        $menu = Menu::where("slug", $menu)->first();
+        if ( $menu!="all" )
+            $menu = Menu::where("slug", $menu)->first();
+
         $type = "news";
         $archive = false;
         return view("articles", compact("articles", "type", "menu", "archive"));
@@ -81,7 +100,8 @@ class PublicController extends Controller
     function foreignNewsIndex($lang, $menu)
     {
         $articles = $this->getArticles(2, $menu);
-        $menu = Menu::where("slug", $menu)->first();
+        if ( $menu!="all" )
+            $menu = Menu::where("slug", $menu)->first();
         $type = "foreignnews";
         $archive = false;
 
@@ -155,7 +175,7 @@ class PublicController extends Controller
                         ->where("article_status_id", ($archive ? 4 : 3))
                         ->orderBy("id", "desc");
 
-        if ( $menu )
+        if ( $menu && $menu!="all" )
             $query->where("menu_id", $currentMenu->id);
 
         $articles = $query->paginate(10);

@@ -295,9 +295,17 @@
 						<div class="col-md-12 align-self-center">
 							{{ \App\Models\Translation::getTranslation('footer.copyright') }}<br>
 							<div class="copyright-links">
-								<a href="{{ \App\Models\Translation::translation_route('footer.links.term') }}">{{ \App\Models\Translation::getTranslation('footer.links.term') }}</a>
+								@if (\App\Models\Translation::getTranslation('footer.links.term') && \App\Models\Translation::getTranslation('footer.links.term')!="footer.links.term")
+									<a href="{{ \App\Models\Translation::translation_route('footer.links.term') }}">{{ \App\Models\Translation::getTranslation('footer.links.term') }}</a>
+								@else
+									<a href="#">footer.copyright</a>
+								@endif
 								/
-								<a href="{{ \App\Models\Translation::translation_route('footer.links.privacy') }}">{{ \App\Models\Translation::getTranslation('footer.links.privacy') }}</a>
+								@if ( \App\Models\Translation::getTranslation('footer.links.privacy') && \App\Models\Translation::getTranslation('footer.links.privacy')!="footer.links.privacy" )
+									<a href="{{ \App\Models\Translation::translation_route('footer.links.privacy') }}">{{ \App\Models\Translation::getTranslation('footer.links.privacy') }}</a>
+								@else
+									<a href="#">footer.privacy</a>
+								@endif
 							</div>
 						</div>
 					</div>

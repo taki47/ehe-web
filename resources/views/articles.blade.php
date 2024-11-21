@@ -7,7 +7,7 @@
         {{ \App\Models\Translation::getTranslation('archive') }}
         @endif
         {{ \App\Models\Translation::getTranslation($type.'.title') }}
-        @if ( $type!="events" )
+        @if ( $type!="events" && $menu!="all" )
             - {{ $menu->name }}
         @endif
     </h1>
@@ -24,6 +24,9 @@
                         <a href="{{ route($type.".show",[app()->getLocale(), $article->slug]) }}" class="text-decoration-none">{{ $article->title }}</a>
                     @else
                         <a href="{{ route($type.".show",[app()->getLocale(), $article->menu->slug, $article->slug]) }}" class="text-decoration-none">{{ $article->title }}</a>
+                        <div class="entry-categories">
+                            <a href="javascript:void(0)" class="bg-fashion">{{ $article->menu->name }}</a>
+                        </div>
                     @endif
                 </h2>
                 <p class="text-muted mb-1"><strong>{{ $article->createdUser->name }}</strong> - <small>{{ \Carbon\Carbon::parse($article->created_at)->isoFormat("LL") }}</small></p>

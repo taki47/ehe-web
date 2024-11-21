@@ -49,6 +49,13 @@ class Menu extends Model
         $menuId = $this->id;
         $currentLanguage = Language::where("lang_code",App::getLocale())->first();
 
-        return Article::where("article_type_id",$articleType)->where("menu_id", $menuId)->where("language_id", $currentLanguage->id)->orderBy("id","desc")->take($take)->get();
+        $articles = Article::where("article_type_id",$articleType)
+                        ->where("menu_id", $menuId)
+                        ->where("language_id", $currentLanguage->id)
+                        ->orderBy("id","desc")
+                        ->take($take)
+                        ->get();
+
+        return $articles;
     }
 }

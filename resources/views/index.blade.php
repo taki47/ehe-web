@@ -13,11 +13,13 @@
 
 				<div class="collapse navbar-collapse justify-content-between" id="newsCategories">
 					<div></div>
-					<ul class="nav nav-sm navbar-nav me-md-auto me-lg-0 mt-2 mt-lg-0 align-self-end"
-						role="tablist">
+					<ul class="nav nav-sm navbar-nav me-md-auto me-lg-0 mt-2 mt-lg-0 align-self-end" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link bg-color-fashion active" id="nav-all-tab" data-bs-toggle="tab" href="#nav-all" role="tab" aria-selected="true">Mind</a>
+						</li>
 						@foreach ($menus as $index => $menu)
 							<li class="nav-item">
-								<a class="nav-link bg-color-{{ $menu->category }} {{ $index==0 ? "active" : "" }}" id="nav-{{$menu->id}}-tab" data-bs-toggle="tab" href="#nav-{{$menu->id}}" role="tab" aria-selected="true">{{ $menu->name }}</a>
+								<a class="nav-link bg-color-{{ $menu->category }}" id="nav-{{$menu->id}}-tab" data-bs-toggle="tab" href="#nav-{{$menu->id}}" role="tab" aria-selected="true">{{ $menu->name }}</a>
 							</li>
 						@endforeach
 					</ul>
@@ -26,79 +28,23 @@
 			<div class="line line-xs line-dark"></div>
 
 			<div class="tab-content" id="nav-tabContent">
+				@php
+					$articles = $allNews;
+				@endphp
+				<div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-outdoor-tab">
+					<div class="row col-mb-30 mb-0">
+						@include('partials.news', ['category' => 'all', 'foreignnews' => false])
+					</div>
+				</div>
+
 				@foreach ($menus as $index => $menu)
 					@php
 						$articles = $menu->getArticles(1, 10);
 					@endphp
-					<div class="tab-pane fade show {{ $index==0 ? "active" : "" }}" id="nav-{{ $menu->id }}" role="tabpanel" aria-labelledby="nav-outdoor-tab">
-						<div class="row col-mb-30 mb-0">
-							<div class="col-lg-6">
-								<div class="posts-md row">
-									@for ($i = 0; $i < 2; $i++)
-										<div class="entry col-6">
-											<div class="entry-image">
-												<a href="{{ route("news.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
-													<img src="{{ $articles[$i]->cover_path."/".$articles[$i]->cover }}" alt="">
-												</a>
-											</div>
-											<div class="entry-title nott">
-												<h3 class="mb-2">
-													<a href="{{ route("news.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
-														{{ $articles[$i]->title }}
-													</a>
-												</h3>
-											</div>
-											<div class="entry-meta">
-												<ul>
-													<li><a href="javascript:void(0)">{{ $articles[$i]->createdUser->name }}</a></li>
-													<li><i class="icon-time"></i><a href="javascript:void(0)">{{ \Carbon\Carbon::parse($articles[$i]->created_at)->isoFormat('LLLL') }}</a></li>
-												</ul>
-											</div>
-											<div class="entry-content clearfix">
-												<p>
-													{{ $articles[$i]->lead }}
-												</p>
-											</div>
-										</div>
-									@endfor
-								</div>
-							</div>
 
-							<div class="col-lg-6">
-								<div class="posts-sm row col-mb-30">
-									@for ($i = 2; $i < count($articles); $i++)
-										<div class="entry col-12">
-											<div class="grid-inner row align-items-center g-0">
-												<div class="col-auto">
-													<div class="entry-image">
-														<a href="{{ route("news.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
-															<img src="{{ $articles[$i]->cover_path."/".$articles[$i]->cover }}" alt="">
-														</a>
-													</div>
-												</div>
-												<div class="col ps-3">
-													<div class="entry-title">
-														<h4>
-															<a href="{{ route("news.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
-																{{ $articles[$i]->title }}
-															</a>
-														</h4>
-													</div>
-													<div class="entry-meta">
-														<ul>
-															<li><a href="javascript:void(0)">{{ $articles[$i]->createdUser->name }}</a></li>
-															<li><i class="icon-time"></i><a href="javascript:void(0)">{{ \Carbon\Carbon::parse($articles[$i]->created_at)->isoFormat('LLLL') }}</a></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-									@endfor
-									<div class="entry col-12">
-										<a href="{{ route("news.index", [app()->getLocale(), $menu->slug]) }}" class="btn btn-secondary">{{ \App\Models\Translation::getTranslation('home.news.more') }} >></a>
-									</div>
-								</div>
-							</div>
+					<div class="tab-pane fade show" id="nav-{{ $menu->id }}" role="tabpanel" aria-labelledby="nav-outdoor-tab">
+						<div class="row col-mb-30 mb-0">
+							@include('partials.news', ['category' => 'notall', 'foreignnews' => false])
 						</div>
 					</div>
 				@endforeach
@@ -118,7 +64,9 @@
 			<div class="row col-mb-30 mb-0 events-row">
 				
 				@php
-					$events = $menu->getArticles(3, 8);
+					$events = [];
+					if ( isset($menu) )
+						$events = $menu->getArticles(3, 8);
 				@endphp
 				@foreach ($events as $event)
 					<div class="col-lg-3 col-md-4 col-12 event-container" data-link="{{ route("events.show",[app()->getLocale(), $event->slug]) }}">
@@ -163,11 +111,13 @@
 
 					<div class="collapse navbar-collapse justify-content-between" id="foreignNewsCategories">
 						<div></div>
-						<ul class="nav nav-sm navbar-nav me-md-auto me-lg-0 mt-2 mt-lg-0 align-self-end"
-							role="tablist">
+						<ul class="nav nav-sm navbar-nav me-md-auto me-lg-0 mt-2 mt-lg-0 align-self-end" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link bg-color-fashion active" id="nav-foreignall-tab" data-bs-toggle="tab" href="#nav-foreignall" role="tab" aria-selected="true">Mind</a>
+							</li>
 							@foreach ($menus as $index => $menu)
 								<li class="nav-item">
-									<a class="nav-link bg-color-{{ $menu->category }} {{ $index==0 ? "active" : "" }}" id="nav-foreign{{$menu->id}}-tab" data-bs-toggle="tab" href="#nav-foreign{{$menu->id}}" role="tab" aria-selected="true">{{ $menu->name }}</a>
+									<a class="nav-link bg-color-{{ $menu->category }}" id="nav-foreign{{$menu->id}}-tab" data-bs-toggle="tab" href="#nav-foreign{{$menu->id}}" role="tab" aria-selected="true">{{ $menu->name }}</a>
 								</li>
 							@endforeach
 						</ul>
@@ -176,79 +126,23 @@
 				<div class="line line-xs line-home"></div>
 
 				<div class="tab-content" id="nav-tabContent">
+					@php
+						$articles = $allForeignNews;
+					@endphp
+					<div class="tab-pane fade show active" id="nav-foreignall" role="tabpanel" aria-labelledby="nav-outdoor-tab">
+						<div class="row col-mb-30 mb-0">
+							@include('partials.news', ['category' => 'all', 'foreignnews' => true])
+						</div>
+					</div>
+	
 					@foreach ($menus as $index => $menu)
 						@php
 							$articles = $menu->getArticles(2, 10);
 						@endphp
-						<div class="tab-pane fade show {{ $index==0 ? "active" : "" }}" id="nav-foreign{{ $menu->id }}" role="tabpanel" aria-labelledby="nav-outdoor-tab">
+	
+						<div class="tab-pane fade show" id="nav-foreign{{ $menu->id }}" role="tabpanel" aria-labelledby="nav-outdoor-tab">
 							<div class="row col-mb-30 mb-0">
-								<div class="col-lg-6">
-									<div class="posts-md row">
-										@for ($i = 0; $i < 2; $i++)
-											<div class="entry col-6">
-												<div class="entry-image">
-													<a href="{{ route("foreignnews.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
-														<img src="{{ $articles[$i]->cover_path."/".$articles[$i]->cover }}" alt="">
-													</a>
-												</div>
-												<div class="entry-title nott">
-													<h3 class="mb-2">
-														<a href="{{ route("foreignnews.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
-															{{ $articles[$i]->title }}
-														</a>
-													</h3>
-												</div>
-												<div class="entry-meta">
-													<ul>
-														<li><a href="javascript:void(0)">{{ $articles[$i]->createdUser->name }}</a></li>
-														<li><i class="icon-time"></i><a href="javascript:void(0)">{{ \Carbon\Carbon::parse($articles[$i]->created_at)->isoFormat('LLLL') }}</a></li>
-													</ul>
-												</div>
-												<div class="entry-content clearfix">
-													<p>
-														{{ $articles[$i]->lead }}
-													</p>
-												</div>
-											</div>
-										@endfor
-									</div>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="posts-sm row col-mb-30">
-										@for ($i = 2; $i < count($articles); $i++)
-											<div class="entry col-12">
-												<div class="grid-inner row align-items-center g-0">
-													<div class="col-auto">
-														<div class="entry-image">
-															<a href="{{ route("foreignnews.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
-																<img src="{{ $articles[$i]->cover_path."/".$articles[$i]->cover }}" alt="">
-															</a>
-														</div>
-													</div>
-													<div class="col ps-3">
-														<div class="entry-title">
-															<h4>
-																<a href="{{ route("foreignnews.show",[app()->getLocale(), $menu->slug, $articles[$i]->slug]) }}">
-																	{{ $articles[$i]->title }}
-																</a>
-															</h4>
-														</div>
-														<div class="entry-meta">
-															<ul>
-																<li><a href="javascript:void(0)">{{ $articles[$i]->createdUser->name }}</a></li>
-																<li><i class="icon-time"></i><a href="javascript:void(0)">{{ \Carbon\Carbon::parse($articles[$i]->created_at)->isoFormat('LLLL') }}</a></li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										@endfor
-										<div class="entry col-12">
-											<a href="{{ route("foreignnews.index", [app()->getLocale(), $menu->slug]) }}" class="btn btn-secondary">{{ \App\Models\Translation::getTranslation('home.foreignnews.more') }} >></a>
-										</div>
-									</div>
-								</div>
+								@include('partials.news', ['category' => 'notall', 'foreignnews' => true])
 							</div>
 						</div>
 					@endforeach

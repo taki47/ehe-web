@@ -35,7 +35,7 @@ class ImageHelper {
         
         //megfelelő kiterjesztés
         $ext = $image->getClientOriginalExtension();
-        if ( !($ext=="jpeg" || $ext=="png" || $ext=="jpg" || $ext=="gif" || $ext=="webp") )
+        if ( !($ext=="jpeg" || $ext=="png" || $ext=="jpg" || $ext=="gif" || $ext=="webp" || $ext=="JPEG" || $ext=="PNG" || $ext=="JPG" || $ext=="GIF" || $ext=="WEBP") )
             return "A feltöltött kép kiterjesztése csak a következőek lehetnek: jpeg, jpg, png, gif!";
 
         return "";
