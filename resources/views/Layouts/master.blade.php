@@ -37,7 +37,7 @@
 	<title>{{ \App\Models\Translation::getTranslation('site.name') }}</title>
 
 	<!-- header kódok -->
-	{{ $settings[9]->value }}
+	{{ isset($settings) ? $settings[9]->value : '' }}
 </head>
 
 <body class="stretched">

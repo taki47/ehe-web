@@ -9,6 +9,7 @@ use App\Models\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,16 +31,26 @@ class AppServiceProvider extends ServiceProvider
             return $user->hasRole('Superadmin') ? true : null;
         });
 
-        $languages = Language::where("status", 1)->get();
-        view()->share('languages', $languages);
+        $languages = null;
+        if (Schema::hasTable('languages')) {
+            $languages = Language::where("status", 1)->get();
+            view()->share('languages', $languages);
+        }
 
         // változók beállítása
         if (request()->is('login') || request()->is('admin') || request()->is('admin/*'))
             return;
 
-        $settings = Setting::all();
+        $settings = null;
+        if (Schema::hasTable('settings')) {
+            $settings = Setting::all();
+        }
         $locale = request()->segment(1) ?: env("APP_LOCALE");
-        $currentLanguage = Language::where("lang_code",$locale)->first();
+        
+        $currentLanguage = null;
+        if ( Schema::hasTable("languages") ) {
+            $currentLanguage = Language::where("lang_code",$locale)->first();
+        }
 
         $banners = null;
         $menus = null;

@@ -9,7 +9,7 @@ use App\Models\ArticleRevision;
 use App\Models\ArticleType;
 use Illuminate\Console\Command;
 
-class DBSeed extends Command
+class ArticleDelay extends Command
 {
     /**
      * The name and signature of the console command.
