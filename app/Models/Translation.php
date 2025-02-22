@@ -44,9 +44,9 @@ class Translation extends Model
 
         // Fordítás lekérdezése a translations táblából
         $translation = Translation::where('key', $key)->where('language', $locale)->first();
-
+        
         if (!$translation || !$translation->is_link || !$translation->url) {
-            return route($key, $params); // alapértelmezett route, ha nincs fordítás
+            return "N/A";
         }
 
         // Paraméterek helyettesítése az URL-ben

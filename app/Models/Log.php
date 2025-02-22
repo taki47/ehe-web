@@ -19,7 +19,7 @@ class Log extends Model
     }
 
     function getEntityName($entityType, $entityId) {
-        if ( $entityType=="news" || $entityType=="events" || $entityType=="foreignnews" || $entityType=="pages" ) {
+        if ( $entityType=="news" || $entityType=="events" || $entityType=="foreign_news" || $entityType=="pages" ) {
             $entityType = "Article";
         }
         
