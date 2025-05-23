@@ -53,17 +53,12 @@ class PublicController extends Controller
         $allNews = Article::where("article_type_id",1)
                             ->where("language_id", $currentLanguage->id)
                             ->orderBy("id","desc")
-                            ->take(10)
-                            ->get();
-                            $allNews = Article::where("article_type_id",1)
-                            ->where("language_id", $currentLanguage->id)
-                            ->orderBy("id","desc")
-                            ->take(10)
+                            ->take(8)
                             ->get();
         $allForeignNews = Article::where("article_type_id",2)
                             ->where("language_id", $currentLanguage->id)
                             ->orderBy("id","desc")
-                            ->take(10)
+                            ->take(8)
                             ->get();
 
         return view("index", compact("banners", "menus", "partners", "supporters", "allNews", "allForeignNews"));
